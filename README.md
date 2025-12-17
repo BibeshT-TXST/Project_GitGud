@@ -50,8 +50,8 @@ The application consists of three main components orchestrated with Docker Compo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/book-inventory-app.git
-cd book-inventory-app
+git clone https://github.com/BibeshT-TXST/Project_GitGud.git
+cd Project_GitGud
 ```
 
 ### 2. Environment Configuration
@@ -136,7 +136,7 @@ book-inventory-app/
 
 ## Acknowledgments
 
-- React documentation
-- Express.js guides
-- PostgreSQL documentation
-- Docker best practices
+- [React documentation](https://react.dev)
+- [Express.js guides](https://expressjs.com)
+- [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+- [Docker Compose Docs](https://docs.docker.com/compose/intro/compose-application-model/)

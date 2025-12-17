@@ -50,8 +50,8 @@ The application consists of three main components orchestrated with Docker Compo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/book-inventory-app.git
-cd book-inventory-app
+git clone https://github.com/BibeshT-TXST/Project_GitGud.git
+cd Project_GitGud
 ```
 
 ### 2. Environment Configuration

@@ -136,7 +136,7 @@ book-inventory-app/
 
 ## Acknowledgments
 
-- React documentation
-- Express.js guides
-- PostgreSQL documentation
-- Docker best practices
+- [React documentation](https://react.dev)
+- [Express.js guides](https://expressjs.com)
+- [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+- [Docker Compose Docs](https://docs.docker.com/compose/intro/compose-application-model/)

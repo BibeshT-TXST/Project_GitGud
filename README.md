@@ -134,9 +134,6 @@ book-inventory-app/
 - `PUT /api/books/:id` - Update book (protected)
 - `DELETE /api/books/:id` - Delete book (protected)
 
-## Database Schema
-
-
 ## Acknowledgments
 
 - React documentation

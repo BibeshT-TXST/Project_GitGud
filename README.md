@@ -22,7 +22,7 @@ The application consists of three main components orchestrated with Docker Compo
 ## Tech Stack
 
 ### Frontend
-- React
+- React / Vite
 - Modern CSS/Tailwind CSS
 
 ### Backend

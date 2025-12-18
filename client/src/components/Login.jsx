@@ -1,7 +1,7 @@
-import { AuthContainer } from './components/AuthContainer';
-import { BrandHeader } from './components/BrandHeader';
-import { Input } from './components/Input';
-import { PrimaryButton } from './components/PrimaryButton';
+import { AuthContainer } from './AuthContainer';
+import { BrandHeader } from './Header';
+import { Input } from './Input';
+import { PrimaryButton } from './Button';
 
 export default function LoginPage() {
   return (

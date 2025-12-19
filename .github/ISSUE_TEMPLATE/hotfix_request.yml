@@ -1,0 +1,57 @@
+name: 🚨 Hotfix request
+description: Request an urgent fix for a critical issue in production.
+title: "[Hotfix]: "
+labels: ["hotfix", "priority: high"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for critical, time-sensitive issues affecting production.
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact level
+      description: How severe is the impact?
+      options:
+        - Production down
+        - Major degradation
+        - Data loss or corruption
+        - Security concern
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the incident.
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-impact
+    attributes:
+      label: User impact
+      description: Who is affected and how many users?
+    validations:
+      required: true
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline
+      description: When did this start, and how often does it occur?
+      placeholder: |
+        - First noticed:
+        - Frequency:
+    validations:
+      required: true
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Workarounds or mitigations
+      description: Any temporary workarounds currently in place.
+    validations:
+      required: false

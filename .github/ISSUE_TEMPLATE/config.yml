@@ -1,0 +1,12 @@
+blank_issues_enabled: true
+
+# contact_links:
+#   - name: Documentation
+#     url: https://example.com/docs
+#     about: Check the docs first; many common questions are already answered here.
+#   - name: Security vulnerabilities
+#     url: https://bounty.github.com/
+#     about: Please report security issues through the official bounty program.
+#   - name: Community discussions
+#     url: https://github.com/orgs/community/discussions
+#     about: Ask general questions or start discussions here instead of opening an issue.

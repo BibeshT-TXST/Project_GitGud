@@ -140,3 +140,5 @@ book-inventory-app/
 - [Express.js guides](https://expressjs.com)
 - [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 - [Docker Compose Docs](https://docs.docker.com/compose/intro/compose-application-model/)
+
+## Test User details email: "txst@test.com", password: "Alkek"

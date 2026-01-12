@@ -34,8 +34,19 @@ export default function LoginPage() {
       <BrandHeader title="Welcome Back" subtitle="Please enter your details" />
       
       <form className="mt-8 space-y-6">
-        <Input label="Email Address" type="email" placeholder="name@company.com" />
-        <Input label="Password" type="password" />
+        <Input 
+          label="Email Address" 
+          type="email" 
+          placeholder="name@company.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input 
+          label="Password" 
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} 
+        />
         
         <div className="flex items-center justify-between">
           <label className="flex items-center text-sm text-gray-600">
@@ -44,7 +55,11 @@ export default function LoginPage() {
           <a href="#" className="text-sm font-medium text-blue-600 hover:underline">Forgot password?</a>
         </div>
 
-        <PrimaryButton label="Sign In" isLoading={false} />
+        <PrimaryButton 
+          label="Sign In" 
+          isLoading={false}
+          type ="submit" 
+        />
       </form>
     </AuthContainer>
   );

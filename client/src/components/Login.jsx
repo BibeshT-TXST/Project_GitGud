@@ -32,22 +32,22 @@ export default function LoginPage() {
   return (
     <AuthContainer>
       <BrandHeader title="Welcome Back" subtitle="Please enter your details" />
-      
-      <form className="mt-8 space-y-6">
-        <Input 
-          label="Email Address" 
-          type="email" 
+
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>                           //Added onSubmit handler
+        <Input
+          label="Email Address"
+          type="email"
           placeholder="name@company.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Input 
-          label="Password" 
+        <Input
+          label="Password"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)} 
+          onChange={(e) => setPassword(e.target.value)}
         />
-        
+
         <div className="flex items-center justify-between">
           <label className="flex items-center text-sm text-gray-600">
             <input type="checkbox" className="mr-2" /> Remember me
@@ -55,10 +55,10 @@ export default function LoginPage() {
           <a href="#" className="text-sm font-medium text-blue-600 hover:underline">Forgot password?</a>
         </div>
 
-        <PrimaryButton 
-          label="Sign In" 
+        <PrimaryButton
+          label="Sign In"
           isLoading={false}
-          type ="submit" 
+          type="submit"
         />
       </form>
     </AuthContainer>

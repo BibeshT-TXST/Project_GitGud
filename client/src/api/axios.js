@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:{BACKEND_PORT}',
+  baseURL: 'http://localhost:5000',
 });
 
 // Add a request interceptor

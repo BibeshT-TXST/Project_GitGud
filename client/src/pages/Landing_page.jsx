@@ -1,18 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Box, { boxClasses } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { DemoProvider, useDemoRouter } from '@toolpad/core/internal';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const NAVIGATION = [
     {
@@ -22,17 +18,17 @@ const NAVIGATION = [
     {
         segment: 'dashboard',
         title: 'Dashboard',
-        icon: DashboardIcon,
+        icon: <DashboardIcon />,
     },
     {
         segment: 'inventory',
-        title: 'Inventory List',
-        icon: InventoryIcon,
+        title: 'Inventory',
+        icon: <InventoryIcon />,
     },
     {
         segment: 'account',
         title: 'My Account',
-        icon: AccountCircleIcon,
+        icon: <AccountCircleIcon />,
     },
 ];
 
@@ -63,8 +59,6 @@ function LandingPageContent({ pathname }) {
                 textAlign: 'center',
             }}
         >
-            <Typography variant="h4">Welcome to {pathname}</Typography>
-            <Typography sx={{ mt: 2 }}>This is your Book Inventory area.</Typography>
         </Box>
     );
 }
@@ -73,9 +67,19 @@ LandingPageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
 };
 
-function DashboardLayoutbasic(props){
-    const { window } = props;
-    const router = useDemoRouter('/dashboard');
+function LandingPageInner(props) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Adapter for react-router-dom
+    const router = React.useMemo(() => {
+        return {
+            pathname: location.pathname,
+            searchParams: new URLSearchParams(location.search),
+            navigate: (path) => navigate(path),
+        };
+    }, [location, navigate]);
+
     return (
         <AppProvider
             navigation={NAVIGATION}
@@ -84,7 +88,6 @@ function DashboardLayoutbasic(props){
             }}
             router={router}
             theme={demoTheme}
-            window ={window}
         >
             <DashboardLayout>
                 <LandingPageContent pathname={router.pathname} />
@@ -93,10 +96,8 @@ function DashboardLayoutbasic(props){
     );
 }
 
-export default function LandingPage(props) {
+export default function LandingPage() {
     return (
-        <DemoProvider>
-            <DashboardLayoutbasic {...props} />
-        </DemoProvider>
+    <LandingPageInner />
     );
-}           
+}

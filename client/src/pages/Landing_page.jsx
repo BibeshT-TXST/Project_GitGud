@@ -67,3 +67,26 @@ function LandingPageContent({ pathname }) {
     );
 }
 
+DemoPageContent.propTypes = {
+    pathname: PropTypes.string.isRequired,
+};
+
+function DashboardLayoutbasic(props){
+    const { window } = props;
+    const router = useDemoRouter('/dashboard');
+    return (
+        <AppProvider
+            navigation={NAVIGATION}
+            branding={{
+                title: 'Book Inventory Application',
+            }}
+            router={router}
+            theme={demoTheme}
+            window ={window}
+        >
+            <DashboardLayout>
+                <LandingPageContent pathname={router.pathname} />
+            </DashboardLayout>
+        </AppProvider>
+    );
+}

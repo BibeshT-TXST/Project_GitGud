@@ -67,7 +67,7 @@ function LandingPageContent({ pathname }) {
     );
 }
 
-DemoPageContent.propTypes = {
+LandingPageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
 };
 

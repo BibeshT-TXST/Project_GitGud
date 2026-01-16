@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
+import Box, { boxClasses } from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -51,3 +51,19 @@ const demoTheme = createTheme({
         },
     },
 });
+
+function LandingPageContent({ pathname }) {
+    return (
+        <Box
+            sx={{
+                py: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+            }}
+        >
+        </Box>
+    );
+}
+

@@ -63,6 +63,8 @@ function LandingPageContent({ pathname }) {
                 textAlign: 'center',
             }}
         >
+            <Typography variant="h4">Welcome to {pathname}</Typography>
+            <Typography sx={{ mt: 2 }}>This is your Book Inventory area.</Typography>
         </Box>
     );
 }

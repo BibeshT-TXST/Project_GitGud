@@ -90,3 +90,11 @@ function DashboardLayoutbasic(props){
         </AppProvider>
     );
 }
+
+export default function LandingPage(props) {
+    return (
+        <DemoProvider>
+            <DashboardLayoutbasic {...props} />
+        </DemoProvider>
+    );
+}           

@@ -1,8 +1,9 @@
 import Login from './components/Login'
+import LandingPage from './pages/Landing_page'
 
 function App() {
   return (
-   <Login />
+   <LandingPage />
   )
 }
 

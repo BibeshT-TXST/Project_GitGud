@@ -2,8 +2,10 @@ import react from 'react';
 import { Autocomplete, TextFiled, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const Searchbar = ({ options, label = "Search..." }) => {
+export default function Searchbar(){
+    const options = [{title: 'TXST catalog'},{title: 'Tutoring services'}];
     return (
+        <Box sx={{ pr: 2 }}>   
         <Autocomplete
             /*Props*/
             //Prop that allows typing beyond the listed options
@@ -31,7 +33,6 @@ const Searchbar = ({ options, label = "Search..." }) => {
                 />
             )}
         />
+        </Box>
     );
 }
-
-export default Searchbar;

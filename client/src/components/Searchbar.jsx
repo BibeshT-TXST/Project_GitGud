@@ -3,9 +3,20 @@ import { Autocomplete, TextField, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function Searchbar(){
-    const options = [{title: 'TXST catalog'},{title: 'Tutoring services'}];
+
+    //Sample options for the autocomplete
+    const options = [
+        {title: 'The Great Gatsby'},
+        {title: 'Game of Thrones'},
+        {title: 'To Kill a Mockingbird'},
+        {title: '1984'},
+        {title: 'Pride and Prejudice'},
+        {title: 'The Catcher in the Rye'},
+        {title: 'The Hobbit'},
+    ];
+
     return (
-        <Box sx={{ pr: 2 }}>   
+        <Box sx={{ pr: 2,  width: '100%', maxWidth: 600 }}>   
         <Autocomplete
             /*Props*/
             //Prop that allows typing beyond the listed options
@@ -17,17 +28,19 @@ export default function Searchbar(){
 
             //The text field rendering
             renderInput = {(params) => (
-                <TextFiled
+                <TextField
                     {...params}
-                    label={label}
+                    label= "Search for Books"
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,
-                        type: 'search',
                         startAdornment: (
+                            <>
                             <InputAdornment position="start">
                                 <SearchIcon color="action" />
                             </InputAdornment>
+                            {params.InputProps.startAdornment}
+                            </>
                         ),
                     }}
                 />

@@ -1,5 +1,5 @@
-import react from 'react';
-import { Autocomplete, TextFiled, InputAdornment } from '@mui/material';
+import React from 'react';
+import { Autocomplete, TextField, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function Searchbar(){
@@ -9,11 +9,11 @@ export default function Searchbar(){
         <Autocomplete
             /*Props*/
             //Prop that allows typing beyond the listed options
-            freesolo
+            freeSolo
             disableClearable = {false}
             options = {options}
             //Will be adjusted later based on data type
-            getOptionLabel = {(option) => option.label || ""}
+            getOptionLabel = {(option) => option.title || ""}
 
             //The text field rendering
             renderInput = {(params) => (

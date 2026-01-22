@@ -22,7 +22,6 @@ export default function LoginPage() {
       const response = await api.post('/auth/login', { email, password });    // Send  Creditials to the backend
       const { token } = response.data;                                        // Extract JWT token from response
       login(token);                                                           // Store the token in context
-      console.log('Login successful');
       navigate('/landing');                                                   // Redirect to landing page
     } catch (error) {
       console.error('Invalid credentials, please try again:', error);

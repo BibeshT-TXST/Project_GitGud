@@ -35,7 +35,7 @@ export default function LoginPage() {
     <AuthContainer>
       <BrandHeader title="Welcome Back" subtitle="Please enter your details" />
 
-      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>                           //Added onSubmit handler
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>                           
         <Input
           label="Email Address"
           type="email"

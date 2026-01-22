@@ -9,7 +9,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Searchbar from '../components/Searchbar.jsx';
 
 const NAVIGATION = [
     {
@@ -60,7 +59,6 @@ function LandingPageContent({ pathname }) {
                 textAlign: 'center',
             }}
         >
-            <Searchbar />
         </Box>
     );
 }

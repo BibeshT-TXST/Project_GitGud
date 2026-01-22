@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //Prevents page refresh
@@ -22,6 +23,7 @@ export default function LoginPage() {
       const { token } = response.data;                                        // Extract JWT token from response
       login(token);                                                           // Store the token in context
       console.log('Login successful');
+      navigate('/landing');                                                   // Redirect to landing page
     } catch (error) {
       console.error('Invalid credentials, please try again:', error);
     } finally {

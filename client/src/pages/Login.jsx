@@ -20,4 +20,10 @@ const Login = () => {
             [name]: value 
         }));
     };
+
+    // Handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+    };
 }

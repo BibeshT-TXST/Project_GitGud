@@ -24,6 +24,7 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
   };
 
   const { email, password } = req.body; 
+  console.log(email, password);                                         // Log received credentials for testing
   // Validate Credentials
   if (email === testUser.email && password === testUser.password) {
     // Generate Token
@@ -33,7 +34,8 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
       { email: testUser.email },
       secret,
       { expiresIn: '1h' }
-    );                
+    );
+    console.log(`Generated Token: ${token}`);                           // Log generated token for testing                  
     return res.json({
       message: "Login successful",
       token: token

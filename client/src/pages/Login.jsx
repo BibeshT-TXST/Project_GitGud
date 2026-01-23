@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Topography from '@mui/material/Typography';
 import TokenIcon from '@mui/icons-material/Token';
 import myLogo from '../components/logo.png';
+import mybook from '../components/books.svg';
 
 const Login = () => {
     // State for form inputs
@@ -37,6 +38,18 @@ const Login = () => {
                     <img src={myLogo} alt="Inventory Logo" className="h-15 w-auto object-contain" />
                 </div>
             </header>
+            {/* --- Middle Row: Login Form Section --- */}
+            <div className="flex-grow grid grid-cols-1 md:grid-cols-2 bg-[#f5f1ee]">
+                {/* Left Column: Image*/}
+                <div className="hidden md:flex items-center justify-center bg-[#f5f1ee] p-10">
+                    <img 
+                    src={mybook}
+                    alt="Login Visual" 
+                    className="max-h-[500px]"
+                    />
+                </div>    
+            </div>
+
         </div>
     );
 };

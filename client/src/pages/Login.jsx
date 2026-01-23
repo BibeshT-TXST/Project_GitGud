@@ -26,4 +26,10 @@ const Login = () => {
         e.preventDefault();
         console.log('Form submitted:', formData);
     };
-}
+
+    return (
+        
+    );
+};
+
+export default Login;

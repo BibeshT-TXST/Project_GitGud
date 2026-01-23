@@ -12,7 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //Prevents page refresh
@@ -22,7 +21,7 @@ export default function LoginPage() {
       const response = await api.post('/auth/login', { email, password });    // Send  Creditials to the backend
       const { token } = response.data;                                        // Extract JWT token from response
       login(token);                                                           // Store the token in context
-      navigate('/landing');                                                   // Redirect to landing page
+      console.log('Login successful');
     } catch (error) {
       console.error('Invalid credentials, please try again:', error);
     } finally {
@@ -34,7 +33,7 @@ export default function LoginPage() {
     <AuthContainer>
       <BrandHeader title="Welcome Back" subtitle="Please enter your details" />
 
-      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>                           
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>                           //Added onSubmit handler
         <Input
           label="Email Address"
           type="email"

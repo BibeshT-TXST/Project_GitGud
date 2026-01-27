@@ -55,6 +55,32 @@ const Login = () => {
                         <div className="mb-8 text-center">
                             <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">Login</Typography>
                         </div>
+
+                        {/* Login Form */}
+                        <form onSubmit ={handleSubmit} className="flex flex-col gap-6">
+                            <TextField
+                                placeholder ="Net ID"
+                                variant="outlined"
+                                name="username"
+                                type ="text"
+                                fullWidth
+                                required
+                                value={formData.username}
+                                onChange={handleChange}
+                                className="bg-white"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderWidth: '2.5px',
+                                            borderColor: '#969696',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#363534',
+                                        },
+                                    },
+                                }}
+                            />
+                        </form>
                     </div>
                 </div>
             </div>

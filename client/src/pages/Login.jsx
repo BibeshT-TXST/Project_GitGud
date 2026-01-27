@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import TokenIcon from '@mui/icons-material/Token';
-import myLogo from '../components/logo.png';
-import mybook from '../components/books.svg';
+import myLogo from '../assets/logo.png';
+import mybook from '../assets/books.svg';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 

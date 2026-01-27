@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Topography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 import TokenIcon from '@mui/icons-material/Token';
 import myLogo from '../components/logo.png';
 import mybook from '../components/books.svg';
@@ -47,7 +47,16 @@ const Login = () => {
                     alt="Login Visual" 
                     className="max-h-[500px]"
                     />
-                </div>    
+                </div>
+
+                {/* Right Column: Login Form */}
+                <div className="flex flex-col justify-center items-center bg-[#f5f1ee] p-8">
+                    <div className="w-full max-w-sm">
+                        <div className="mb-8 text-center">
+                            <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">Login</Typography>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

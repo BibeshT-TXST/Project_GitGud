@@ -24,6 +24,7 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
   };
 
   const { username, password } = req.body;
+
   // Validate Credentials
   if (username === testUser.username && password === testUser.password) {
     // Generate Token

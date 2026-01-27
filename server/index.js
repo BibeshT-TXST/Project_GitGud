@@ -19,7 +19,7 @@ app.get('/test', (req, res) => {
 app.post('/auth/login', (req, res) => {                                 //Fixed route to match client request
   // Dummy User
   const testUser = {
-    email: "txst@test.com",
+    email: "OrcaO7",
     password: "Alkek"
   };
 

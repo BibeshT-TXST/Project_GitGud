@@ -103,6 +103,27 @@ const Login = () => {
                                     },
                                 }}
                             />
+
+                            <div className="flex justify-center">
+                            <Button
+                                variant ="contained"
+                                size ="large"
+                                type ="submit"
+                                sx ={{
+                                    backgroundColor: '#363534',
+                                    '&:hover': {
+                                        backgroundColor: '#5c5a59',
+                                    },
+                                    textTransform: 'none',
+                                    fontSize: '1.125rem',
+                                    borderRadius: '0.5rem',
+                                    fontWeight: 500,
+                                    width: '200px'
+                                }}
+                            >
+                                Submit
+                            </Button>
+                            </div>
                         </form>
                     </div>
                 </div>

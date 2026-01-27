@@ -19,21 +19,21 @@ app.get('/test', (req, res) => {
 app.post('/auth/login', (req, res) => {                                 //Fixed route to match client request
   // Dummy User
   const testUser = {
-    email: "OrcaO7",
+    username: "OrcaO7",
     password: "Alkek"
   };
 
-  const { email, password } = req.body; 
+  const { username, password } = req.body;
   // Validate Credentials
-  if (email === testUser.email && password === testUser.password) {
+  if (username === testUser.username && password === testUser.password) {
     // Generate Token
     // Use secret from env or default to 'TXST_UL' for dev
     const secret = process.env.JWT_SECRET || 'TXST_UL';
     const token = jwt.sign(
-      { email: testUser.email },
+      { username: testUser.username },
       secret,
       { expiresIn: '1h' }
-    );                
+    );
     return res.json({
       message: "Login successful",
       token: token

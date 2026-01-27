@@ -1,11 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import TokenIcon from '@mui/icons-material/Token';
 import myLogo from '../components/logo.png';
 import mybook from '../components/books.svg';
+import { useAuth } from '../context/AuthContext';
+import api from '../api/axios';
 
 const Login = () => {
     // State for form inputs
@@ -14,6 +17,12 @@ const Login = () => {
         password: ''
     });
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const { login } = useAuth();
+    const navigate = useNavigate();
+
     // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,12 +30,28 @@ const Login = () => {
             ...prev, 
             [name]: value 
         }));
+        if (error) setError('');
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        setLoading(true);
+        setError('');
+        try{
+            const response = await api.post('/auth/login', { 
+                username: formData.username, 
+                password: formData.password
+            });
+            const { token } = response.data;
+            login(token);
+            navigate('/landing');
+        } catch (error) {
+            console.error('Login failed:', error);
+            setError('Invalid username or password');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -67,6 +92,7 @@ const Login = () => {
                                 required
                                 value={formData.username}
                                 onChange={handleChange}
+                                disabled={loading}
                                 className="bg-white"
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
@@ -90,6 +116,7 @@ const Login = () => {
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
+                                disabled={loading}
                                 className="bg-white"
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
@@ -109,6 +136,7 @@ const Login = () => {
                                 variant ="contained"
                                 size ="large"
                                 type ="submit"
+                                disabled={loading}
                                 sx ={{
                                     backgroundColor: '#363534',
                                     '&:hover': {
@@ -121,7 +149,7 @@ const Login = () => {
                                     width: '200px'
                                 }}
                             >
-                                Submit
+                                {loading ? 'Signing in...' : 'Submit'}
                             </Button>
                             </div>
                         </form>

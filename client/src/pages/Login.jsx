@@ -80,6 +80,29 @@ const Login = () => {
                                     },
                                 }}
                             />
+
+                            <TextField
+                                placeholder ="Password"
+                                variant="outlined"
+                                name="password"
+                                type ="password"
+                                fullWidth
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="bg-white"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderWidth: '2.5px',
+                                            borderColor: '#969696',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#363534',
+                                        },
+                                    },
+                                }}
+                            />
                         </form>
                     </div>
                 </div>

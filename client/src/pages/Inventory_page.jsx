@@ -4,35 +4,25 @@ import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
 /* Inventory Page Component
-*  Curently a placeholder paper component with sample text
 */
-
 function InventoryPage() {
-    return(
+    return (
         <Box
             sx={{
                 width: '100%',
                 height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
                 padding: 3,
-            }}    
+            }}
         >
             <Paper
-                elevation={3}
+                elevation={0}
                 sx={{
-                    padding: 4,
-                    minWidth: 300,
-                    maxWidth: 800,  
-                    width: '100%',
+                    padding: 3,
+                    width: 'fit-content',
                 }}
             >
-                <Typography variant="h4" component="h1" gutterBottom>
-                    Inventory Page
-                </Typography>
-                <Typography variant="body1">
-                    This is a placeholder for the Inventory Page. Here you can manage your book inventory.
+                <Typography variant="h4" component="h1" fontWeight={600}>
+                    Inventory List
                 </Typography>
             </Paper>
         </Box>

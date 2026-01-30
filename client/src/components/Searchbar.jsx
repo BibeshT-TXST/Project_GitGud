@@ -30,7 +30,6 @@ export default function Searchbar(){
             renderInput = {(params) => (
                 <TextField
                     {...params}
-                    label= "Search for Books"
                     variant="outlined"
                     InputProps={{
                         ...params.InputProps,

@@ -2,7 +2,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 const columns = [
-  { field: 'isbn', headerName: 'ISBN', width: 100 },
+  { field: 'isbn', headerName: 'ISBN', width: 130 },
   { field: 'title', headerName: 'Title', width: 130 },
   { field: 'booktype', headerName: 'Book Type', width: 130 },
   { field: 'status', headerName: 'Status', width: 130 },
@@ -38,7 +38,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 export default function DataTable() {
   return (
-    <Paper elevation={0} sx={{ height: 400, width: '100%', maxWidth: 668 }}>
+    <Paper elevation={0} sx={{ height: 400, width: '100%', maxWidth: 675 }}>
       <DataGrid
         rows={rows}
         columns={columns}

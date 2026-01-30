@@ -28,6 +28,12 @@ function InventoryPage() {
                     width: '100%',
                 }}
             >
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Inventory Page
+                </Typography>
+                <Typography variant="body1">
+                    This is a placeholder for the Inventory Page. Here you can manage your book inventory.
+                </Typography>
             </Paper>
         </Box>
     );

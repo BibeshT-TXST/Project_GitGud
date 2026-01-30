@@ -78,12 +78,16 @@ function LandingPageInner(props) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Adapter for react-router-dom
+    // Adapter for react-router-dom with base path handling
     const router = React.useMemo(() => {
         return {
             pathname: location.pathname,
             searchParams: new URLSearchParams(location.search),
-            navigate: (path) => navigate(path),
+            navigate: (path) => {
+                // Prepending path that doesn't start with /landing
+                const fullPath = path.startsWith('/landing') ? path : `/landing${path}`;
+                navigate(fullPath);
+            },
         };
     }, [location, navigate]);
 

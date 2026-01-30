@@ -8,7 +8,22 @@ import Paper from '@mui/material/Paper';
 */
 
 function InventoryPage() {
-
+    return(
+        <Box
+            sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 3,
+            }}    
+        >
+            <Paper>
+                
+            </Paper>
+        </Box>
+    );
 }
 
 export default InventoryPage;

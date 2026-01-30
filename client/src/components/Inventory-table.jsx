@@ -2,11 +2,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 const columns = [
-  { field: 'isbn', headerName: 'ISBN', width: 130 },
-  { field: 'title', headerName: 'Title', width: 130 },
-  { field: 'booktype', headerName: 'Book Type', width: 130 },
-  { field: 'status', headerName: 'Status', width: 130 },
-  { field: 'purchasedate', headerName: 'Purchase Date', width: 130 },
+  { field: 'isbn', headerName: 'ISBN', width: 200 },
+  { field: 'title', headerName: 'Title', width: 200 },
+  { field: 'booktype', headerName: 'Book Type', width: 200 },
+  { field: 'status', headerName: 'Status', width: 200 },
+  { field: 'purchasedate', headerName: 'Purchase Date', width: 200 },
   // place holder for future expansion
 ];
 
@@ -38,7 +38,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 export default function DataTable() {
   return (
-    <Paper elevation={0} sx={{ height: 400, width: '100%', maxWidth: 675 }}>
+    <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

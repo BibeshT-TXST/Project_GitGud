@@ -28,6 +28,7 @@ function InventoryPage() {
                         Inventory List
                     </Typography>
                     <Searchbar />
+                    
                     <DataTable />
                 </Stack>
             </Paper>

@@ -12,4 +12,5 @@ const columns = [
     { field : 'booktype', headerName: 'Book Type', width: 130},
     { field : 'status', headerName: 'Status', width: 130},
     { field : 'purchasedate', headerName: 'Purchase Date', width: 130},
+    // place holder for future expansion
 ];

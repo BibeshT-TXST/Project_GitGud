@@ -17,3 +17,17 @@ const columns = [
 
 /*Adding pafination model, may or may not be removed drom inventory table in the future*/
 const paginationModel = { page: 0, pageSize: 5 };
+
+export default function DataTable() {
+  return (
+    <Paper sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
+      />
+    </Paper>
+  );
+}

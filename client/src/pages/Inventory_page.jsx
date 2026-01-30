@@ -2,6 +2,8 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { Stack } from '@mui/material';
+import Searchbar from '../components/Searchbar';
 
 /* Inventory Page Component
 */
@@ -18,12 +20,14 @@ function InventoryPage() {
                 elevation={0}
                 sx={{
                     padding: 3,
-                    width: 'fit-content',
                 }}
             >
-                <Typography variant="h4" component="h1" fontWeight={600}>
-                    Inventory List
-                </Typography>
+                <Stack spacing={4}>
+                    <Typography variant="h4" component="h1" fontWeight={600}>
+                        Inventory List
+                    </Typography>
+                    <Searchbar />
+                </Stack>
             </Paper>
         </Box>
     );

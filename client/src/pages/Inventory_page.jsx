@@ -19,8 +19,15 @@ function InventoryPage() {
                 padding: 3,
             }}    
         >
-            <Paper>
-                
+            <Paper
+                elevation={3}
+                sx={{
+                    padding: 4,
+                    minWidth: 300,
+                    maxWidth: 800,  
+                    width: '100%',
+                }}
+            >
             </Paper>
         </Box>
     );

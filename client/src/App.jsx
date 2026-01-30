@@ -5,8 +5,8 @@ import Login from './pages/Login.jsx';
 function App() {
   return (
     <Routes>
-    <Route path="/" element={<Login />} />
-      <Route path="/landing" element={<LandingPage />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/landing/*" element={<LandingPage />} />
     </Routes>
   );
 }

@@ -9,6 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useNavigate, useLocation } from 'react-router-dom';
+import InventoryPage from './Inventory_page.jsx';
 
 const NAVIGATION = [
     {
@@ -49,6 +50,12 @@ const demoTheme = createTheme({
 });
 
 function LandingPageContent({ pathname }) {
+    // Render InventoryPage when the inventory route is active
+    if (pathname.includes('/inventory')) {
+        return <InventoryPage />;
+    }
+
+    // Default content for other routes
     return (
         <Box
             sx={{
@@ -71,12 +78,16 @@ function LandingPageInner(props) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Adapter for react-router-dom
+    // Adapter for react-router-dom with base path handling
     const router = React.useMemo(() => {
         return {
             pathname: location.pathname,
             searchParams: new URLSearchParams(location.search),
-            navigate: (path) => navigate(path),
+            navigate: (path) => {
+                // Prepending path that doesn't start with /landing
+                const fullPath = path.startsWith('/landing') ? path : `/landing${path}`;
+                navigate(fullPath);
+            },
         };
     }, [location, navigate]);
 
@@ -98,6 +109,6 @@ function LandingPageInner(props) {
 
 export default function LandingPage() {
     return (
-    <LandingPageInner />
+        <LandingPageInner />
     );
 }

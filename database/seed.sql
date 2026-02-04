@@ -1,0 +1,22 @@
+INSERT INTO books (isbn, title, booktype, current_status, purchasedate) VALUES
+('978-0140449136', 'The Odyssey', 'Hardcover', 'Available', '2023-01-15'),
+('978-0451524935', '1984', 'Paperback', 'Out on Loan', '2023-02-10'),
+('978-0060850524', 'Brave New World', 'Paperback', 'Available', '2023-03-05'),
+('978-0316769174', 'The Catcher in the Rye', 'Hardcover', 'Reserved', '2023-03-22'),
+('978-0743273565', 'The Great Gatsby', 'Hardcover', 'Available', '2023-04-12'),
+('978-0486280615', 'Adventures of Huckleberry Finn', 'Paperback', 'In Repair', '2023-05-01'),
+('978-0141439518', 'Pride and Prejudice', 'E-Book', 'Available', '2023-05-18'),
+('978-0345339683', 'The Hobbit', 'Hardcover', 'Available', '2023-06-10'),
+('978-0061120084', 'To Kill a Mockingbird', 'Paperback', 'Out on Loan', '2023-07-04'),
+('978-0451526342', 'Animal Farm', 'Paperback', 'Available', '2023-07-25'),
+('978-0142437230', 'Don Quixote', 'Hardcover', 'Archived', '2023-08-14'),
+('978-0743477116', 'Romeo and Juliet', 'E-Book', 'Available', '2023-09-02'),
+('978-0140283334', 'The Pillars of the Earth', 'Paperback', 'Out on Loan', '2023-09-28'),
+('978-0307474278', 'The Da Vinci Code', 'Paperback', 'Available', '2023-10-12'),
+('978-0316015844', 'Twilight', 'Hardcover', 'Lost', '2023-11-05'),
+('978-0544003415', 'The Lord of the Rings', 'Hardcover', 'Available', '2023-11-20'),
+('978-1400032716', 'The Curious Incident', 'Paperback', 'Available', '2023-12-01'),
+('978-0375842207', 'The Book Thief', 'Hardcover', 'Reserved', '2023-12-15'),
+('978-0618260300', 'The Fellowship of the Ring', 'Paperback', 'Available', '2024-01-08'),
+('978-0143039433', 'The Grapes of Wrath', 'Paperback', 'Available', '2024-01-22')
+ON CONFLICT (isbn) DO NOTHING;

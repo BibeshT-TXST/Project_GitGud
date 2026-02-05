@@ -17,6 +17,10 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 5 };
 
 export default function DataTable() {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
       <DataGrid

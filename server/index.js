@@ -46,7 +46,7 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
 });
 
 //Inventory Route
-app.get('api/inventory',async (req,res) => {
+app.get('/api/inventory',async (req,res) => {
   try{
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
     res.json(allBooks.rows);

@@ -42,7 +42,7 @@ useEffect (()=>{
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
       <DataGrid
-        //rows={rows}
+        rows={rows}
         columns={columns}
         getRowId={(row) => row.isbn}
         initialState={{ pagination: { paginationModel } }}

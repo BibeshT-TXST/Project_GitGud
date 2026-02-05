@@ -22,7 +22,11 @@ export default function DataTable() {
   const [error, setError] = useState(null);
 
 useEffect (()=>{
+  const fetchBooks = async () => {
 
+  };
+
+  fetchBooks();
 }, []);  
 
   return (

@@ -23,7 +23,14 @@ export default function DataTable() {
 
 useEffect (()=>{
   const fetchBooks = async () => {
-
+    try{
+      setLoading(true);
+    } catch (err){
+      console.error("Failed to fetch books:", err);
+      setError("Failed to load inventory.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   fetchBooks();

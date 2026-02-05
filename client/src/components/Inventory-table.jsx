@@ -21,6 +21,10 @@ export default function DataTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+useEffect (()=>{
+
+}, []);  
+
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
       <DataGrid

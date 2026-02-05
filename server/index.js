@@ -47,7 +47,12 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
 
 //Inventory Route
 app.get('api/inventory',async (req,res) => {
+  try{
 
+  } catch(err){
+    console.error(err.message);
+    res.status(500).json({ error: "Server error"});
+  }
 });
 
 app.listen(PORT, () => {

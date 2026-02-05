@@ -49,6 +49,7 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
 app.get('api/inventory',async (req,res) => {
   try{
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
+    res.json(allBooks.rows);
   } catch(err){
     console.error(err.message);
     res.status(500).json({ error: "Server error"});

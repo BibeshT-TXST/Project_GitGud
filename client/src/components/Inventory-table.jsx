@@ -26,6 +26,8 @@ useEffect (()=>{
     try{
       setLoading(true);
       const response = await api.get('/api/inventory');
+      setRows(response.data);
+      setError(null);
     } catch (err){
       console.error("Failed to fetch books:", err);
       setError("Failed to load inventory.");

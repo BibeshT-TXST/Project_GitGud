@@ -45,6 +45,11 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
   return res.status(401).json({ message: "Invalid credentials" });
 });
 
+//Inventory Route
+app.get('api/inventory',async (req,res) => {
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

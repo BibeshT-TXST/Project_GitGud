@@ -13,6 +13,7 @@ function InventoryPage() {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows

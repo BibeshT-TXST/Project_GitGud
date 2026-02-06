@@ -33,6 +33,10 @@ function InventoryPage() {
 
         fetchBooks();
     }, []);
+    const filteredRows = rows.filter((row) =>
+        row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <Box
             sx={{
@@ -52,7 +56,7 @@ function InventoryPage() {
                         Inventory List
                     </Typography>
                     <Searchbar />
-                    <DataTable rows={rows} />
+                    <DataTable rows={filteredRows} />
                 </Stack>
             </Paper>
         </Box>

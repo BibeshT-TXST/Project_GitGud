@@ -10,7 +10,6 @@ const columns = [
   // place holder for future expansion
 ];
 
-
 /*Adding pafination model, may or may not be removed drom inventory table in the future*/
 const paginationModel = { page: 0, pageSize: 5 };
 

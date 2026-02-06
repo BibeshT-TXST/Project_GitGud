@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../api/axios';
 import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -9,6 +10,28 @@ import DataTable from  '../components/Inventory-table'
 /* Inventory Page Component
 */
 function InventoryPage() {
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
+        const fetchBooks = async () => {
+            try {
+                setLoading(true);
+                const response = await api.get('/api/inventory');
+                setRows(response.data);
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch books:", err);
+                setError("Failed to load inventory.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, []);
     return (
         <Box
             sx={{
@@ -28,8 +51,7 @@ function InventoryPage() {
                         Inventory List
                     </Typography>
                     <Searchbar />
-                    
-                    <DataTable />
+                    <DataTable rows={rows} />
                 </Stack>
             </Paper>
         </Box>

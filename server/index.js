@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const pool = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,6 +43,18 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
   }
 
   return res.status(401).json({ message: "Invalid credentials" });
+});
+
+//Inventory Route
+//This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
+app.get('/api/inventory',async (req,res) => {
+  try{
+    const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
+    res.json(allBooks.rows);
+  } catch(err){
+    console.error(err.message);
+    res.status(500).json({ error: "Server error"});
+  }
 });
 
 app.listen(PORT, () => {

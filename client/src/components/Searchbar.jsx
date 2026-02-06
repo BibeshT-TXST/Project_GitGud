@@ -10,13 +10,18 @@ export default function Searchbar({ onSearchChange, options = [] }) {
                 /*Props*/
                 //Prop that allows typing beyond the listed options
                 freeSolo
-            disableClearable = {false}
-            options = {options}
+                disableClearable={false}
+                options={options}
+                onInputChange={(event, newInputValue) => {
+                    if (onSearchChange) {
+                        onSearchChange(newInputValue);
+                    }
+                }}
                 //Will be adjusted later based on data type
-            getOptionLabel = {(option) => option.title || ""}
+                getOptionLabel={(option) => option.title || ""}
 
                 //The text field rendering
-            renderInput = {(params) => (
+                renderInput={(params) => (
                     <TextField
                         {...params}
                         variant="outlined"

@@ -36,6 +36,7 @@ function InventoryPage() {
     const filteredRows = rows.filter((row) =>
         row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 
     return (
         <Box
@@ -55,7 +56,7 @@ function InventoryPage() {
                     <Typography variant="h4" component="h1" fontWeight={600}>
                         Inventory List
                     </Typography>
-                    <Searchbar onSearchChange={setSearchQuery} />
+                    <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />
                 </Stack>
             </Paper>

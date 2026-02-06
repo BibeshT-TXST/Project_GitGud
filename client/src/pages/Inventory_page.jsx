@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { Stack } from '@mui/material';
 import Searchbar from '../components/Searchbar';
-import DataTable from  '../components/Inventory-table'
+import DataTable from '../components/Inventory-table'
 
 /* Inventory Page Component
 */
@@ -55,7 +55,7 @@ function InventoryPage() {
                     <Typography variant="h4" component="h1" fontWeight={600}>
                         Inventory List
                     </Typography>
-                    <Searchbar />
+                    <Searchbar onSearchChange={setSearchQuery} />
                     <DataTable rows={filteredRows} />
                 </Stack>
             </Paper>

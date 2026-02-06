@@ -11,7 +11,9 @@ export default function Searchbar({ onSearchChange, options = [] }) {
                 //Prop that allows typing beyond the listed options
                 freeSolo
                 disableClearable={false}
+                //options are passsed via Inventory_page visa ptops
                 options={options}
+                //when text in the search bar changes the change is passed to Inventory_page where it is used to filter rows
                 onInputChange={(event, newInputValue) => {
                     if (onSearchChange) {
                         onSearchChange(newInputValue);

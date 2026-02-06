@@ -13,11 +13,13 @@ const columns = [
 /*Adding pafination model, may or may not be removed drom inventory table in the future*/
 const paginationModel = { page: 0, pageSize: 5 };
 
+//This is a fully UI component that updates based on th text in the search box of search bar
 export default function DataTable({ rows = [] }) {
 
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
       <DataGrid
+        //The filtered rows are recieved via props from Inventory_table
         rows={rows}
         columns={columns}
         getRowId={(row) => row.isbn}

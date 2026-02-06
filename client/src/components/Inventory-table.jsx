@@ -22,6 +22,7 @@ export default function DataTable() {
   const [error, setError] = useState(null);
 
 useEffect (()=>{
+  //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
   const fetchBooks = async () => {
     try{
       setLoading(true);

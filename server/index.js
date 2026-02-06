@@ -46,6 +46,7 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
 });
 
 //Inventory Route
+//This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
 app.get('/api/inventory',async (req,res) => {
   try{
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');

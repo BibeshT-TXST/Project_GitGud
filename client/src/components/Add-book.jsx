@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -17,7 +17,7 @@ import {
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#4A1D1F' }, 
+    primary: { main: '#4A1D1F' },
   },
 });
 
@@ -33,14 +33,13 @@ const modalStyle = {
   outline: 'none',
 };
 
-export default function AddBookModal() {
-  const [open, setOpen] = useState(false);
+export default function AddBookModal({ open, onClose }) {
 
   return (
     <ThemeProvider theme={theme}>
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={onClose}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -87,15 +86,15 @@ export default function AddBookModal() {
 
                   {/* Footer Buttons */}
                   <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ mt: 2 }}>
-                    <Button 
-                      variant="outlined" 
-                      onClick={() => setOpen(false)}
+                    <Button
+                      variant="outlined"
+                      onClick={onClose}
                       sx={{ textTransform: 'none', color: 'grey.700', borderColor: 'grey.400' }}
                     >
                       Cancel
                     </Button>
-                    <Button 
-                      variant="contained" 
+                    <Button
+                      variant="contained"
                       sx={{ textTransform: 'none', px: 4 }}
                     >
                       Add

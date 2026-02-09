@@ -63,7 +63,7 @@ app.post('/api/inventory/add', async (req, res) => {
   try {
     const { isbn, title, booktype, status, date } = req.body;
     const newBook = await pool.query(
-      "INSERT INTO books (isbn, title, booktype, current_status, purchasedate) VALUES($1, $2, $3, $4, $5) RETURNING *",
+      'INSERT INTO books (isbn, title, booktype, current_status, purchasedate) VALUES($1, $2, $3, $4, $5) RETURNING *',
       [isbn, title, booktype, status, date]
     );
     res.json(newBook.rows[0]);

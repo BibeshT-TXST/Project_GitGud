@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import Searchbar from '../components/Searchbar';
 import DataTable from '../components/Inventory-table'
 import Button from '@mui/material/Button';
+import AddBookModal from '../components/Add-book'
 
 /* Inventory Page Component
 */

@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import { Stack } from '@mui/material';
 import Searchbar from '../components/Searchbar';
 import DataTable from '../components/Inventory-table'
+import Button from '@mui/material/Button';
 
 /* Inventory Page Component
 */
@@ -59,6 +60,9 @@ function InventoryPage() {
                     <Typography variant="h4" component="h1" fontWeight={600}>
                         Inventory List
                     </Typography>
+                    <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
+                        Add Book
+                    </Button>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />
                 </Stack>

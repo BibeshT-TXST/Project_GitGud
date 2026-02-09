@@ -18,22 +18,22 @@ function InventoryPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
-        const fetchBooks = async () => {
-            try {
-                setLoading(true);
-                const response = await api.get('/api/inventory');
-                setRows(response.data);
-                setError(null);
-            } catch (err) {
-                console.error("Failed to fetch books:", err);
-                setError("Failed to load inventory.");
-            } finally {
-                setLoading(false);
-            }
-        };
+    //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
+    const fetchBooks = async () => {
+        try {
+            setLoading(true);
+            const response = await api.get('/api/inventory');
+            setRows(response.data);
+            setError(null);
+        } catch (err) {
+            console.error("Failed to fetch books:", err);
+            setError("Failed to load inventory.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchBooks();
     }, []);
 
@@ -67,7 +67,11 @@ function InventoryPage() {
                     </Button>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />
-                    <AddBookModal open={open} onClose={() => setOpen(false)} />
+                    <AddBookModal
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        onBookAdded={fetchBooks}
+                    />
                 </Stack>
             </Paper>
         </Box>

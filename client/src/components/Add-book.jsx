@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import api from '../api/axios';
 import {
   Box,
   Button,
@@ -33,7 +34,44 @@ const modalStyle = {
   outline: 'none',
 };
 
-export default function AddBookModal({ open, onClose }) {
+export default function AddBookModal({ open, onClose, onBookAdded }) {
+  const [isbn, setIsbn] = useState('');
+  const [title, setTitle] = useState('');
+  const [bookType, setBookType] = useState('');
+  const [status, setStatus] = useState('');
+  const [date, setDate] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async () => {
+    try {
+      if (!isbn || !title || !bookType || !status || !date) {
+        setError('Please fill in all fields.');
+        return;
+      }
+
+      await api.post('/api/inventory/add', {
+        isbn,
+        title,
+        booktype: bookType, // Match backend expectation
+        status,
+        date
+      });
+
+      // Clear form
+      setIsbn('');
+      setTitle('');
+      setBookType('');
+      setStatus('');
+      setDate('');
+      setError('');
+
+      if (onBookAdded) onBookAdded();
+      onClose();
+    } catch (err) {
+      console.error("Failed to add book:", err);
+      setError('Failed to add book. Please try again.');
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,23 +91,48 @@ export default function AddBookModal({ open, onClose }) {
                 <Typography variant="h6" fontWeight="bold">
                   Add a Book
                 </Typography>
+                {error && <Typography color="error" variant="body2">{error}</Typography>}
               </Box>
 
               <CardContent sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   {/* Text Fields */}
-                  <TextField fullWidth label="ISBN" variant="outlined" />
-                  <TextField fullWidth label="Title" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    label="ISBN"
+                    variant="outlined"
+                    value={isbn}
+                    onChange={(e) => setIsbn(e.target.value)}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Title"
+                    variant="outlined"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
 
                   {/* Book Type Dropdown */}
-                  <TextField select fullWidth label="Book Type" defaultValue="">
+                  <TextField
+                    select
+                    fullWidth
+                    label="Book Type"
+                    value={bookType}
+                    onChange={(e) => setBookType(e.target.value)}
+                  >
                     <MenuItem value="Paperback">Paperback</MenuItem>
                     <MenuItem value="HardCover">HardCover</MenuItem>
                     <MenuItem value="E-Book">E-Book</MenuItem>
                   </TextField>
 
                   {/* Book Status Dropdown */}
-                  <TextField select fullWidth label="Book Status" defaultValue="">
+                  <TextField
+                    select
+                    fullWidth
+                    label="Book Status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
                     <MenuItem value="Out on Loan">Out on Loan</MenuItem>
                     <MenuItem value="Reserved">Reserved</MenuItem>
                     <MenuItem value="in-Repair">In-Repair</MenuItem>
@@ -82,6 +145,8 @@ export default function AddBookModal({ open, onClose }) {
                     label="Acquisition Date"
                     type="date"
                     InputLabelProps={{ shrink: true }} // Required for date types
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                   />
 
                   {/* Footer Buttons */}
@@ -95,6 +160,7 @@ export default function AddBookModal({ open, onClose }) {
                     </Button>
                     <Button
                       variant="contained"
+                      onClick={handleSubmit}
                       sx={{ textTransform: 'none', px: 4 }}
                     >
                       Add

@@ -6,6 +6,8 @@ import Paper from '@mui/material/Paper';
 import { Stack } from '@mui/material';
 import Searchbar from '../components/Searchbar';
 import DataTable from '../components/Inventory-table'
+import Button from '@mui/material/Button';
+import AddBookModal from '../components/Add-book';
 
 /* Inventory Page Component
 */
@@ -14,23 +16,24 @@ function InventoryPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [open, setOpen] = useState(false);
+
+    //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
+    const fetchBooks = async () => {
+        try {
+            setLoading(true);
+            const response = await api.get('/api/inventory');
+            setRows(response.data);
+            setError(null);
+        } catch (err) {
+            console.error("Failed to fetch books:", err);
+            setError("Failed to load inventory.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
-        const fetchBooks = async () => {
-            try {
-                setLoading(true);
-                const response = await api.get('/api/inventory');
-                setRows(response.data);
-                setError(null);
-            } catch (err) {
-                console.error("Failed to fetch books:", err);
-                setError("Failed to load inventory.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchBooks();
     }, []);
 
@@ -59,8 +62,16 @@ function InventoryPage() {
                     <Typography variant="h4" component="h1" fontWeight={600}>
                         Inventory List
                     </Typography>
+                    <Button variant="contained" onClick={() => setOpen(true)} sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
+                        Add Book
+                    </Button>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />
+                    <AddBookModal
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        onBookAdded={fetchBooks}
+                    />
                 </Stack>
             </Paper>
         </Box>

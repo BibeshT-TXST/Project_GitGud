@@ -47,11 +47,27 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
 
 //Inventory Route
 //This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
-app.get('/api/inventory',async (req,res) => {
-  try{
+app.get('/api/inventory',async (req, res) => {
+  try {
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
     res.json(allBooks.rows);
-  } catch(err){
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//Add Book Route
+//This block awaits ping from frontend and via custom SQL query using pool inserts data from the dbs container and sends it back to frontend
+app.post('/api/inventory/add', async (req, res) => {
+  try {
+    const { isbn, title, booktype, status, date } = req.body;
+    const newBook = await pool.query(
+      'INSERT INTO books (isbn, title, booktype, current_status, purchasedate) VALUES($1, $2, $3, $4, $5) RETURNING *',
+      [isbn, title, booktype, status, date]
+    );
+    res.json(newBook.rows[0]);
+  } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Server error"});
   }

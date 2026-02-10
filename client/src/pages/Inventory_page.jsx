@@ -62,9 +62,11 @@ function InventoryPage() {
                     <Typography variant="h4" component="h1" fontWeight={600}>
                         Inventory List
                     </Typography>
-                    <Button variant="contained" onClick={() => setOpen(true)} sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
-                        Add Book
-                    </Button>
+                    <Stack spacing={2} direction="row">
+                        <Button variant="contained" onClick={() => setOpen(true)} sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
+                            Add Book
+                        </Button>
+                    </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />
                     <AddBookModal

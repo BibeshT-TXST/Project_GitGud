@@ -61,6 +61,22 @@ function InventoryPage() {
         }
     };
 
+    // Reverts changes and exits edit mode
+    const handleCancelClick = () => {
+        if (originalRowData) {
+            // Restore the original data by updating the rows state
+            setRows(prevRows =>
+                prevRows.map(row =>
+                    row.id === originalRowData.id ? originalRowData : row
+                )
+            );
+        }
+        // Exit edit, clear selection
+        setIsEditMode(false);
+        setSelectedRowId(null);
+        setOriginalRowData(null);
+    };
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows.filter((row) =>
         row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())

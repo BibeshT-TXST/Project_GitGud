@@ -27,6 +27,10 @@ export default function DataTable({ rows = [], isEditMode = false, onRowSelectio
         pageSizeOptions={[5, 10]}
         checkboxSelection
         sx={{ border: 0 }}
+        editMode="row"
+        processRowUpdate={onProcessRowUpdate}
+        onRowSelectionModelChange={onRowSelection}
+        isCellEditable={(params) => isEditMode}
       />
     </Paper>
   );

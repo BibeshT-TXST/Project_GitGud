@@ -52,7 +52,7 @@ function InventoryPage() {
             // If not in edit mode, check if a row is selected
             if (selectedRowId) {
                 // Find the selected row data and store it as original
-                const rowToEdit = rows.find(row => row.id === selectedRowId);
+                const rowToEdit = rows.find(row => row.isbn === selectedRowId);
                 setOriginalRowData(rowToEdit);
                 setIsEditMode(true);
             } else {
@@ -67,7 +67,7 @@ function InventoryPage() {
             // Restore the original data by updating the rows state
             setRows(prevRows =>
                 prevRows.map(row =>
-                    row.id === originalRowData.id ? originalRowData : row
+                    row.isbn === originalRowData.isbn ? originalRowData : row
                 )
             );
         }
@@ -93,7 +93,8 @@ function InventoryPage() {
         try {
             // Send the updated row to the backend
             // Use newRow.isbn because DataGrid uses isbn as the row ID (see getRowId in Inventory-table.jsx)
-            await api.put(`/api/inventory/${newRow.isbn}`, newRow);
+            const response = await api.put(`/api/inventory/${newRow.isbn}`, newRow);
+            console.log("Update successful:", response.data);
 
             // Update the local state with the new row data
             setRows(prevRows =>

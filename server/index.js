@@ -69,7 +69,27 @@ app.post('/api/inventory/add', async (req, res) => {
     res.json(newBook.rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: "Server error"});
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//Update Book Route
+//This block awaits ping from frontend and via custom SQL query using pool updates data in the database and sends updated record back to frontend
+app.put('/api/inventory/:isbn', async (req, res) => {
+  try {
+    const { isbn } = req.params; // Get ISBN from URL parameter
+    const { title, booktype, status, purchasedate } = req.body; // Get updated data from request body
+
+    // Execute SQL UPDATE query
+    const updatedBook = await pool.query(
+      'UPDATE books SET title = $1, booktype = $2, current_status = $3, purchasedate = $4 WHERE isbn = $5 RETURNING *',
+      [title, booktype, status, purchasedate, isbn]
+    );
+    // Return the updated book data
+    res.json(updatedBook.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

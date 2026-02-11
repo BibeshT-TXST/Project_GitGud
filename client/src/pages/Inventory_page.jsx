@@ -146,7 +146,7 @@ function InventoryPage() {
                         )}
                     </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
-                    <DataTable rows={filteredRows} />
+                    <DataTable rows={filteredRows} isEditMode={isEditMode} onRowSelection={handleRowSelection} onProcessRowUpdate={handleProcessRowUpdate} />
                     <AddBookModal
                         open={open}
                         onClose={() => setOpen(false)}

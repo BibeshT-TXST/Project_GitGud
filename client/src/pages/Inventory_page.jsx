@@ -88,6 +88,25 @@ function InventoryPage() {
         }
     };
 
+    // Processes row updates and sends to backend
+    const handleProcessRowUpdate = async (newRow, oldRow) => {
+        try {
+            // Send the updated row to the backend
+            await api.put(`/api/inventory/${newRow.id}`, newRow);
+
+            // Update the local state with the new row data
+            setRows(prevRows =>
+                prevRows.map(row => (row.id === newRow.id ? newRow : row))
+            );
+
+            return newRow; // Return the new row to confirm the update
+        } catch (error) {
+            console.error("Failed to update book:", error);
+            // Return the old row to revert the change in the UI
+            return oldRow;
+        }
+    };
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows.filter((row) =>
         row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())

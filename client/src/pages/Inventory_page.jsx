@@ -41,6 +41,26 @@ function InventoryPage() {
         fetchBooks();
     }, []);
 
+    // Toggles edit mode on/off, handles save logic when in edit mode
+    const handleUpdateClick = () => {
+        if (isEditMode) {
+            // If already in edit mode
+            setIsEditMode(false);
+            setSelectedRowId(null);
+            setOriginalRowData(null);
+        } else {
+            // If not in edit mode, check if a row is selected
+            if (selectedRowId) {
+                // Find the selected row data and store it as original
+                const rowToEdit = rows.find(row => row.id === selectedRowId);
+                setOriginalRowData(rowToEdit);
+                setIsEditMode(true);
+            } else {
+                console.log("Please select a row to edit");
+            }
+        }
+    };
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows.filter((row) =>
         row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())

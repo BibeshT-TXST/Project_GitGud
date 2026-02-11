@@ -136,8 +136,8 @@ function InventoryPage() {
                         <Button variant="contained" onClick={() => setOpen(true)} sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
                             Add Book
                         </Button>
-                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
-                            Update Book
+                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }} onClick={handleUpdateClick}>
+                            {isEditMode ? 'Save Changes' : 'Update Book'}
                         </Button>
                     </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />

@@ -77,6 +77,17 @@ function InventoryPage() {
         setOriginalRowData(null);
     };
 
+    // Captures selected row from DataGrid
+    const handleRowSelection = (selectionModel) => {
+        // selectionModel is an array of selected row IDs
+        // For single selection, only takes the first element
+        if (selectionModel.length > 0) {
+            setSelectedRowId(selectionModel[0]);
+        } else {
+            setSelectedRowId(null);
+        }
+    };
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows.filter((row) =>
         row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())

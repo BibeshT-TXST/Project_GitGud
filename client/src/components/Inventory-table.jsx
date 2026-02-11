@@ -2,11 +2,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 const columns = [
-  { field: 'isbn', headerName: 'ISBN', minWidth: 200 },
-  { field: 'title', headerName: 'Title', minWidth: 200, flex: 1 },
-  { field: 'booktype', headerName: 'Book Type', minWidth: 200 },
-  { field: 'status', headerName: 'Status', minWidth: 200 },
-  { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200 },
+  { field: 'isbn', headerName: 'ISBN', minWidth: 200, editable: false },
+  { field: 'title', headerName: 'Title', minWidth: 200, flex: 1, editable: true },
+  { field: 'booktype', headerName: 'Book Type', minWidth: 200, editable: true },
+  { field: 'status', headerName: 'Status', minWidth: 200, editable: true },
+  { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: true },
   // place holder for future expansion
 ];
 

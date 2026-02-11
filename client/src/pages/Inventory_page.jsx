@@ -92,11 +92,12 @@ function InventoryPage() {
     const handleProcessRowUpdate = async (newRow, oldRow) => {
         try {
             // Send the updated row to the backend
-            await api.put(`/api/inventory/${newRow.id}`, newRow);
+            // Use newRow.isbn because DataGrid uses isbn as the row ID (see getRowId in Inventory-table.jsx)
+            await api.put(`/api/inventory/${newRow.isbn}`, newRow);
 
             // Update the local state with the new row data
             setRows(prevRows =>
-                prevRows.map(row => (row.id === newRow.id ? newRow : row))
+                prevRows.map(row => (row.isbn === newRow.isbn ? newRow : row))
             );
 
             return newRow; // Return the new row to confirm the update

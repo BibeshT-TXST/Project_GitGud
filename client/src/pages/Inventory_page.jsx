@@ -139,6 +139,11 @@ function InventoryPage() {
                         <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }} onClick={handleUpdateClick}>
                             {isEditMode ? 'Save Changes' : 'Update Book'}
                         </Button>
+                        {isEditMode && (
+                            <Button variant="outlined" sx={{ pr: 2, width: '100%', maxWidth: 150 }} onClick={handleCancelClick}>
+                                Cancel
+                            </Button>
+                        )}
                     </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable rows={filteredRows} />

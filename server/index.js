@@ -85,6 +85,12 @@ app.put('/api/inventory/:isbn', async (req, res) => {
       'UPDATE books SET title = $1, booktype = $2, current_status = $3, purchasedate = $4 WHERE isbn = $5 RETURNING *',
       [title, booktype, status, purchasedate, isbn]
     );
+
+     // Check if book was found and updated
+    if (updatedBook.rows.length === 0) {
+      return res.status(404).json({ error: "Book not found with the provided ISBN" });
+    }
+
     // Return the updated book data
     res.json(updatedBook.rows[0]);
   } catch (err) {

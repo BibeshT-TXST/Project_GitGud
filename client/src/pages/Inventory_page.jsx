@@ -21,6 +21,7 @@ function InventoryPage() {
     const [selectedRowId, setSelectedRowId] = useState(null); // Tracks which row is currently selected 
     const [isEditMode, setIsEditMode] = useState(false); // Boolean flag indicating if edit mode is active
     const [originalRowData, setOriginalRowData] = useState(null); // Stores the original data before editing 
+    const [editedRows, setEditedRows] = useState({}); // Track all edited rows
 
     //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
     const fetchBooks = async () => {

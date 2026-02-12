@@ -52,7 +52,7 @@ function InventoryPage() {
             // If not in edit mode, check if a row is selected
             if (selectedRowId) {
                 // Find the selected row data and store it as original
-                const rowToEdit = rows.find(row => row.isbn === selectedRowId);
+                const rowToEdit = rows.find(row => String(row.isbn) === String(selectedRowId));
                 setOriginalRowData(rowToEdit);
                 setIsEditMode(true);
             } else {

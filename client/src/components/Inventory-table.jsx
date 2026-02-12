@@ -14,7 +14,7 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 5 };
 
 //This is a fully UI component that updates based on th text in the search box of search bar
-export default function DataTable({ rows = [], isEditMode = false, onRowSelection, onProcessRowUpdate }) {
+export default function DataTable({ rows = [], isEditMode = false, onRowSelection, onProcessRowUpdate, onProcessRowUpdateError }) {
 
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
@@ -29,6 +29,7 @@ export default function DataTable({ rows = [], isEditMode = false, onRowSelectio
         sx={{ border: 0 }}
         editMode="row"
         processRowUpdate={onProcessRowUpdate}
+        onProcessRowUpdateError={onProcessRowUpdateError}
         onRowSelectionModelChange={onRowSelection}
         isCellEditable={(params) => isEditMode}
       />

@@ -43,7 +43,7 @@ function InventoryPage() {
     }, []);
 
     // Toggles edit mode on/off, handles save logic when in edit mode
-    const handleUpdateClick = () => {
+    const handleUpdateClick = async () => {
         if (isEditMode) {
             // If already in edit mode
             setIsEditMode(false);

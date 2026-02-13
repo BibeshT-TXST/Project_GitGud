@@ -87,13 +87,24 @@ function InventoryPage() {
 
     // Captures selected row from DataGrid
     const handleRowSelection = (selectionModel) => {
-        // selectionModel is an array of selected row IDs
-        // For single selection, only takes the first element
-        if (selectionModel.length > 0) {
-            setSelectedRowId(selectionModel[0]);
-        } else {
-            setSelectedRowId(null);
+        console.log("handleRowSelection called. Model:", selectionModel);
+        let selectedId = null;
+
+        // selectionModel can be an array [id] (standard) or an object { ids: Set } (some versions/configs)
+        if (Array.isArray(selectionModel)) {
+            if (selectionModel.length > 0) selectedId = selectionModel[0];
+        } else if (selectionModel && selectionModel.ids && selectionModel.ids instanceof Set) {
+            // Handle Set case
+            if (selectionModel.ids.size > 0) {
+                selectedId = Array.from(selectionModel.ids)[0];
+            }
+        } else if (selectionModel && typeof selectionModel === 'object' && selectionModel.ids) {
+            // Fallback for object with ids array/iterable
+            const ids = Array.from(selectionModel.ids);
+            if (ids.length > 0) selectedId = ids[0];
         }
+
+        setSelectedRowId(selectedId);
     };
 
     // Processes row updates and sends to backend

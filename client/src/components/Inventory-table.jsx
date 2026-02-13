@@ -4,9 +4,9 @@ import Paper from '@mui/material/Paper';
 const columns = [
   { field: 'isbn', headerName: 'ISBN', minWidth: 200, editable: false },
   { field: 'title', headerName: 'Title', minWidth: 200, flex: 1, editable: true },
-  { field: 'booktype', headerName: 'Book Type', minWidth: 200, editable: true },
+  { field: 'booktype', headerName: 'Book Type', minWidth: 200, editable: false },
   { field: 'status', headerName: 'Status', minWidth: 200, editable: true },
-  { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: true },
+  { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: false },
   // place holder for future expansion
 ];
 
@@ -14,7 +14,15 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 5 };
 
 //This is a fully UI component that updates based on th text in the search box of search bar
-export default function DataTable({ rows = [], isEditMode = false, onRowSelection, onProcessRowUpdate, onProcessRowUpdateError }) {
+export default function DataTable({
+  rows = [],
+  isEditMode = false,
+  onRowSelection,
+  onProcessRowUpdate,
+  onProcessRowUpdateError,
+  rowModesModel,
+  setRowModesModel
+}) {
 
   return (
     <Paper elevation={0} sx={{ height: 400, width: '100%' }}>
@@ -28,10 +36,11 @@ export default function DataTable({ rows = [], isEditMode = false, onRowSelectio
         checkboxSelection
         sx={{ border: 0 }}
         editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={setRowModesModel}
         processRowUpdate={onProcessRowUpdate}
         onProcessRowUpdateError={onProcessRowUpdateError}
         onRowSelectionModelChange={onRowSelection}
-        isCellEditable={(params) => isEditMode}
       />
     </Paper>
   );

@@ -14,8 +14,8 @@ CREATE TABLE books (
 );
 
 CREATE TABLE users (
-    -- 'net-ID' is the primary key
-    net-ID VARCHAR(10) PRIMARY KEY,
+    -- 'net_id' is the primary key
+    net_id VARCHAR(10) PRIMARY KEY,
 
     -- 'password' is a text
     passwords VARCHAR(255) NOT NULL

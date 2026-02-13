@@ -8,6 +8,7 @@ import Searchbar from '../components/Searchbar';
 import DataTable from '../components/Inventory-table'
 import Button from '@mui/material/Button';
 import AddBookModal from '../components/Add-book';
+import { GridRowModes } from '@mui/x-data-grid';
 
 /* Inventory Page Component
 */
@@ -21,7 +22,7 @@ function InventoryPage() {
     const [selectedRowId, setSelectedRowId] = useState(null); // Tracks which row is currently selected 
     const [isEditMode, setIsEditMode] = useState(false); // Boolean flag indicating if edit mode is active
     const [originalRowData, setOriginalRowData] = useState(null); // Stores the original data before editing 
-    const [editedRows, setEditedRows] = useState({}); // Track all edited rows
+    const [rowModesModel, setRowModesModel] = useState({});
 
     //This function pings with the backend via API to extract row data before setting it into the rows variable via setRows
     const fetchBooks = async () => {
@@ -45,17 +46,19 @@ function InventoryPage() {
     // Toggles edit mode on/off, handles save logic when in edit mode
     const handleUpdateClick = async () => {
         if (isEditMode) {
-            // If already in edit mode
+            // If already in edit mode -> SAVE
             setIsEditMode(false);
+            setRowModesModel({ ...rowModesModel, [selectedRowId]: { mode: GridRowModes.View } });
             setSelectedRowId(null);
             setOriginalRowData(null);
         } else {
-            // If not in edit mode, check if a row is selected
+            // If not in edit mode, check if a row is selected -> EDIT
             if (selectedRowId) {
                 // Find the selected row data and store it as original
                 const rowToEdit = rows.find(row => String(row.isbn) === String(selectedRowId));
                 setOriginalRowData(rowToEdit);
                 setIsEditMode(true);
+                setRowModesModel({ ...rowModesModel, [selectedRowId]: { mode: GridRowModes.Edit } });
             } else {
                 console.log("Please select a row to edit");
             }
@@ -74,6 +77,10 @@ function InventoryPage() {
         }
         // Exit edit, clear selection
         setIsEditMode(false);
+        setRowModesModel({
+            ...rowModesModel,
+            [selectedRowId]: { mode: GridRowModes.View, ignoreModifications: true },
+        });
         setSelectedRowId(null);
         setOriginalRowData(null);
     };
@@ -149,7 +156,14 @@ function InventoryPage() {
                         )}
                     </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
-                    <DataTable rows={filteredRows} isEditMode={isEditMode} onRowSelection={handleRowSelection} onProcessRowUpdate={handleProcessRowUpdate} />
+                    <DataTable
+                        rows={filteredRows}
+                        isEditMode={isEditMode}
+                        onRowSelection={handleRowSelection}
+                        onProcessRowUpdate={handleProcessRowUpdate}
+                        rowModesModel={rowModesModel}
+                        setRowModesModel={setRowModesModel}
+                    />
                     <AddBookModal
                         open={open}
                         onClose={() => setOpen(false)}

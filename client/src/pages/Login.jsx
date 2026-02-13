@@ -39,6 +39,13 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setError('');
+
+        if (!isLogin){
+             setError("Sign up is not yet implemented backend-side.");
+            setLoading(false);
+            return;
+        }
+
         try{
             const response = await api.post('/auth/login', { 
                 username: formData.username, 

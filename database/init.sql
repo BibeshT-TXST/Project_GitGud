@@ -12,3 +12,11 @@ CREATE TABLE books (
     -- 'purchasedate' is a DATE type for proper sorting
     purchasedate DATE
 );
+
+CREATE TABLE users (
+    -- 'net_id' is the primary key
+    net_id VARCHAR(10) PRIMARY KEY,
+
+    -- 'password' is a text
+    passwords VARCHAR(255) NOT NULL
+);

@@ -3,6 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const pool = require('./db');
+const argon2 = require('argon2');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,9 +47,43 @@ app.post('/auth/login', (req, res) => {                                 //Fixed 
   return res.status(401).json({ message: "Invalid credentials" });
 });
 
+// Signup Route
+app.post('/auth/signup', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if user exists
+    const userExist = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
+    if (userExist.rows.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    // Create User
+    const salt = crypto.randomBytes(16).toString('hex');
+    const pepper = process.env.PEPPER_SECRET;
+
+    if (!pepper) {
+      console.error("PEPPER_SECRET is missing in .env");
+      return res.status(500).json({ error: "Server configuration error" });
+    }
+
+    const hashedPassword = await argon2.hash(password + salt + pepper);
+
+    await pool.query(
+      'INSERT INTO users (net_id, passwords, salt) VALUES ($1, $2, $3)',
+      [username, hashedPassword, salt]
+    );
+
+    res.status(201).json({ message: "Signup success" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 //Inventory Route
 //This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
-app.get('/api/inventory',async (req, res) => {
+app.get('/api/inventory', async (req, res) => {
   try {
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
     res.json(allBooks.rows);
@@ -86,7 +122,7 @@ app.put('/api/inventory/:isbn', async (req, res) => {
       [title, booktype, status, purchasedate, isbn]
     );
 
-     // Check if book was found and updated
+    // Check if book was found and updated
     if (updatedBook.rows.length === 0) {
       return res.status(404).json({ error: "Book not found with the provided ISBN" });
     }

@@ -18,7 +18,7 @@ CREATE TABLE users (
     net_id VARCHAR(10) PRIMARY KEY,
 
     -- 'password' is a text
-    passwords VARCHAR(255) NOT NULL
+    passwords VARCHAR(255) NOT NULL,
 
     -- 'salt' is a text
     salt VARCHAR(50)

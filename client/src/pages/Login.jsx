@@ -175,6 +175,16 @@ const Login = () => {
                                 >
                                    {loading ? (isLogin ? 'Signing in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
                                 </Button>
+                                <Button
+                                    onClick={() => {
+                                        setIsLogin(!isLogin);
+                                        setError('');
+                                        setSuccessMessage('');
+                                    }}
+                                    sx={{ textTransform: 'none' }}
+                                >
+                                    {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}
+                                </Button>
                             </div>
                         </form>
                     </div>

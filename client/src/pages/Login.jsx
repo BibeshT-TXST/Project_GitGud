@@ -173,9 +173,10 @@ const Login = () => {
                                         width: '200px'
                                     }}
                                 >
-                                   {loading ? (isLogin ? 'Signing in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
+                                    {loading ? (isLogin ? 'Signing in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
                                 </Button>
                                 <Button
+                                    type="button"
                                     onClick={() => {
                                         setIsLogin(!isLogin);
                                         setError('');

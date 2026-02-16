@@ -19,32 +19,52 @@ app.get('/test', (req, res) => {
 });
 
 // Login Route
-app.post('/auth/login', (req, res) => {                                 //Fixed route to match client request
-  // Dummy User
-  const testUser = {
-    username: "OrcaO7",
-    password: "Alkek"
-  };
+// Login Route
+app.post('/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
 
-  const { username, password } = req.body;
+    // Check if user exists
+    const userResult = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
 
-  // Validate Credentials
-  if (username === testUser.username && password === testUser.password) {
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    const startUser = userResult.rows[0];
+    const storedHash = startUser.passwords;
+    const salt = startUser.salt;
+    const pepper = process.env.PEPPER_SECRET;
+
+    if (!pepper) {
+      console.error("PEPPER_SECRET is missing in .env");
+      return res.status(500).json({ error: "Server configuration error" });
+    }
+
+    // Verify Password
+    const validPassword = await argon2.verify(storedHash, password + salt + pepper);
+
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
     // Generate Token
-    // Use secret from env or default to 'TXST_UL' for dev
     const secret = process.env.JWT_SECRET || 'TXST_UL';
     const token = jwt.sign(
-      { username: testUser.username },
+      { username: startUser.net_id },
       secret,
       { expiresIn: '1h' }
     );
+
     return res.json({
       message: "Login successful",
       token: token
     });
-  }
 
-  return res.status(401).json({ message: "Invalid credentials" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 // Signup Route

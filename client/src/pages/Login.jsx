@@ -42,8 +42,23 @@ const Login = () => {
         setError('');
 
         if (!isLogin) {
-            setError("Sign up is not yet implemented backend-side.");
-            setLoading(false);
+            try {
+                await api.post('/auth/signup', {
+                    username: formData.username,
+                    password: formData.password
+                });
+                setSuccessMessage("Signup successful! Please login.");
+                setIsLogin(true);
+            } catch (err) {
+                if (err.response && err.response.status === 409) {
+                    setError("User already exists. Please login.");
+                    setIsLogin(true);
+                } else {
+                    setError("Signup failed. Please try again.");
+                }
+            } finally {
+                setLoading(false);
+            }
             return;
         }
 

@@ -173,7 +173,7 @@ const Login = () => {
                                         width: '200px'
                                     }}
                                 >
-                                    {loading ? 'Signing in...' : 'Submit'}
+                                   {loading ? (isLogin ? 'Signing in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
                                 </Button>
                             </div>
                         </form>

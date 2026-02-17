@@ -20,6 +20,4 @@ CREATE TABLE users (
     -- 'password' is a text
     passwords VARCHAR(255) NOT NULL,
 
-    -- 'salt' is a text
-    salt VARCHAR(50) NOT NULL
-);
+)

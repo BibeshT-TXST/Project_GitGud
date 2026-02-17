@@ -19,6 +19,8 @@ const Login = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [isLogin, setIsLogin] = useState(true);
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -26,9 +28,9 @@ const Login = () => {
     // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ 
-            ...prev, 
-            [name]: value 
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
         }));
         if (error) setError('');
     };
@@ -38,9 +40,31 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setError('');
-        try{
-            const response = await api.post('/auth/login', { 
-                username: formData.username, 
+
+        if (!isLogin) {
+            try {
+                await api.post('/auth/signup', {
+                    username: formData.username,
+                    password: formData.password
+                });
+                setSuccessMessage("Signup successful! Please login.");
+                setIsLogin(true);
+            } catch (err) {
+                if (err.response && err.response.status === 409) {
+                    setError("User already exists. Please login.");
+                    setIsLogin(true);
+                } else {
+                    setError("Signup failed. Please try again.");
+                }
+            } finally {
+                setLoading(false);
+            }
+            return;
+        }
+
+        try {
+            const response = await api.post('/auth/login', {
+                username: formData.username,
                 password: formData.password
             });
             const { token } = response.data;
@@ -56,7 +80,7 @@ const Login = () => {
 
     return (
         // Main container
-        <div className = "min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
             {/* --- Top Row: Logo Section --- */}
             <header className="w-full p-6 flex items-center shadow-md bg-[#363534] z-20">
                 <div className="flex items-center gap-3">
@@ -67,10 +91,10 @@ const Login = () => {
             <div className="flex-grow grid grid-cols-1 md:grid-cols-2 bg-[#f5f1ee]">
                 {/* Left Column: Image*/}
                 <div className="hidden md:flex items-center justify-center bg-[#f5f1ee] p-10">
-                    <img 
-                    src={mybook}
-                    alt="Login Visual" 
-                    className="max-h-[500px]"
+                    <img
+                        src={mybook}
+                        alt="Login Visual"
+                        className="max-h-[500px]"
                     />
                 </div>
 
@@ -82,12 +106,12 @@ const Login = () => {
                         </div>
 
                         {/* Login Form */}
-                        <form onSubmit ={handleSubmit} className="flex flex-col gap-6">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                             <TextField
-                                placeholder ="Net ID"
+                                placeholder="Net ID"
                                 variant="outlined"
                                 name="username"
-                                type ="text"
+                                type="text"
                                 fullWidth
                                 required
                                 value={formData.username}
@@ -108,10 +132,10 @@ const Login = () => {
                             />
 
                             <TextField
-                                placeholder ="Password"
+                                placeholder="Password"
                                 variant="outlined"
                                 name="password"
-                                type ="password"
+                                type="password"
                                 fullWidth
                                 required
                                 value={formData.password}
@@ -132,25 +156,36 @@ const Login = () => {
                             />
 
                             <div className="flex justify-center">
-                            <Button
-                                variant ="contained"
-                                size ="large"
-                                type ="submit"
-                                disabled={loading}
-                                sx ={{
-                                    backgroundColor: '#363534',
-                                    '&:hover': {
-                                        backgroundColor: '#5c5a59',
-                                    },
-                                    textTransform: 'none',
-                                    fontSize: '1.125rem',
-                                    borderRadius: '0.5rem',
-                                    fontWeight: 500,
-                                    width: '200px'
-                                }}
-                            >
-                                {loading ? 'Signing in...' : 'Submit'}
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    type="submit"
+                                    disabled={loading}
+                                    sx={{
+                                        backgroundColor: '#363534',
+                                        '&:hover': {
+                                            backgroundColor: '#5c5a59',
+                                        },
+                                        textTransform: 'none',
+                                        fontSize: '1.125rem',
+                                        borderRadius: '0.5rem',
+                                        fontWeight: 500,
+                                        width: '200px'
+                                    }}
+                                >
+                                    {loading ? (isLogin ? 'Signing in...' : 'Signing up...') : (isLogin ? 'Login' : 'Sign Up')}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsLogin(!isLogin);
+                                        setError('');
+                                        setSuccessMessage('');
+                                    }}
+                                    sx={{ textTransform: 'none' }}
+                                >
+                                    {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}
+                                </Button>
                             </div>
                         </form>
                     </div>

@@ -3,6 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const pool = require('./db');
+const argon2 = require('argon2');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,37 +19,82 @@ app.get('/test', (req, res) => {
 });
 
 // Login Route
-app.post('/auth/login', (req, res) => {                                 //Fixed route to match client request
-  // Dummy User
-  const testUser = {
-    username: "OrcaO7",
-    password: "Alkek"
-  };
+app.post('/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const pepper = process.env.PEPPER_SECRET;
 
-  const { username, password } = req.body;
+    // Check if user exists
+    const userResult = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
 
-  // Validate Credentials
-  if (username === testUser.username && password === testUser.password) {
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    const startUser = userResult.rows[0];
+    const storedHash = startUser.passwords;
+
+    // Verify Password
+    const validPassword = await argon2.verify(storedHash, password + pepper);
+
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
     // Generate Token
-    // Use secret from env or default to 'TXST_UL' for dev
     const secret = process.env.JWT_SECRET || 'TXST_UL';
     const token = jwt.sign(
-      { username: testUser.username },
+      { username: startUser.net_id },
       secret,
       { expiresIn: '1h' }
     );
+
     return res.json({
       message: "Login successful",
       token: token
     });
-  }
 
-  return res.status(401).json({ message: "Invalid credentials" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Signup Route
+app.post('/auth/signup', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const pepper = process.env.PEPPER_SECRET;
+
+    if (!pepper) {
+      console.error("PEPPER_SECRET is missing in .env");
+      return res.status(500).json({ error: "Server configuration error" });
+    }
+
+    // Check if user exists
+    const userExist = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
+    if (userExist.rows.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    // Argon2 generates its own internal salt automatically
+    const hashedPassword = await argon2.hash(password + pepper);
+
+    await pool.query(
+      'INSERT INTO users (net_id, passwords) VALUES ($1, $2)',
+      [username, hashedPassword]
+    );
+
+    res.status(201).json({ message: "Signup success" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 //Inventory Route
 //This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
-app.get('/api/inventory',async (req, res) => {
+app.get('/api/inventory', async (req, res) => {
   try {
     const allBooks = await pool.query('SELECT isbn, title, booktype, current_status as status, purchasedate FROM books');
     res.json(allBooks.rows);
@@ -86,7 +133,7 @@ app.put('/api/inventory/:isbn', async (req, res) => {
       [title, booktype, status, purchasedate, isbn]
     );
 
-     // Check if book was found and updated
+    // Check if book was found and updated
     if (updatedBook.rows.length === 0) {
       return res.status(404).json({ error: "Book not found with the provided ISBN" });
     }

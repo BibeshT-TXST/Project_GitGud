@@ -19,7 +19,6 @@ app.get('/test', (req, res) => {
 });
 
 // Login Route
-// Login Route
 app.post('/auth/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -71,15 +70,6 @@ app.post('/auth/login', async (req, res) => {
 app.post('/auth/signup', async (req, res) => {
   try {
     const { username, password } = req.body;
-
-    // Check if user exists
-    const userExist = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
-    if (userExist.rows.length > 0) {
-      return res.status(409).json({ message: "User already exists" });
-    }
-
-    // Create User
-    const salt = crypto.randomBytes(16).toString('hex');
     const pepper = process.env.PEPPER_SECRET;
 
     if (!pepper) {
@@ -87,11 +77,18 @@ app.post('/auth/signup', async (req, res) => {
       return res.status(500).json({ error: "Server configuration error" });
     }
 
-    const hashedPassword = await argon2.hash(password + salt + pepper);
+    // Check if user exists
+    const userExist = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
+    if (userExist.rows.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    // Argon2 generates its own internal salt automatically
+    const hashedPassword = await argon2.hash(password + pepper);
 
     await pool.query(
-      'INSERT INTO users (net_id, passwords, salt) VALUES ($1, $2, $3)',
-      [username, hashedPassword, salt]
+      'INSERT INTO users (net_id, passwords) VALUES ($1, $2)',
+      [username, hashedPassword]
     );
 
     res.status(201).json({ message: "Signup success" });

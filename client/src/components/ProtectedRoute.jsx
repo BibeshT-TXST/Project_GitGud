@@ -1,8 +1,8 @@
-import { Naviage, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 const ProtectedRoute = () => {
-    const { token } = AuthProvider();
+    const { token } = useAuth();
 
     //If token doesnt exist, boot back to login page
     if(!token){

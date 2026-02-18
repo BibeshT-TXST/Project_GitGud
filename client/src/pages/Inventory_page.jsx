@@ -21,6 +21,7 @@ function InventoryPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = useState(false);
     const [statusFilter, setStatusFilter] = useState("");
+    const [booktypeFilter, setBooktypeFilter] = useState("");
 
 
     const [selectedRowId, setSelectedRowId] = useState(null); // Tracks which row is currently selected 

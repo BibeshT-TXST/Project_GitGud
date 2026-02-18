@@ -13,7 +13,7 @@ const isTokenExpired = (token) => {
 
 export const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem("site-token");
-    const [token, setToken] = useState(localStorage.getItem("site-token") || null);
+    const [token, setToken] = useState(storedToken && !isTokenExpired(storedToken) ? storedToken : null);
 
     // Sync token with localStorage
     useEffect(() => {

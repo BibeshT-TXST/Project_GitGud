@@ -136,7 +136,8 @@ function InventoryPage() {
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows
         .filter((row) => row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase()))
-        .filter((row) => statusFilter === "" || row.status === statusFilter);
+        .filter((row) => statusFilter === "" || row.status === statusFilter)
+        .filter((row) => booktypeFilter === "" || row.status === booktypeFilter);
     //By defauly search options has all the materials in a scroll menu
     const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 

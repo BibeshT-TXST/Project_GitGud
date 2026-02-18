@@ -170,7 +170,9 @@ function InventoryPage() {
                             Download
                         </Button>
                     </Stack>
-                    <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
+                    <Stack spacing={2} direction="row">
+                        <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
+                    </Stack>
                     <DataTable
                         rows={filteredRows}
                         isEditMode={isEditMode}

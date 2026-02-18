@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
 
     //If token doesnt exist, boot back to login page
     if (!token) {
-        return <Navigate to="/login" replace />
+        return <Navigate to="/" replace />
     }
 
     //If token exists, render the landing page

@@ -20,6 +20,8 @@ function InventoryPage() {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = useState(false);
+    const [statusFilter, setStatusFilter] = useState("");
+
 
     const [selectedRowId, setSelectedRowId] = useState(null); // Tracks which row is currently selected 
     const [isEditMode, setIsEditMode] = useState(false); // Boolean flag indicating if edit mode is active

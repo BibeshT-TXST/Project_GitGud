@@ -175,7 +175,7 @@ function InventoryPage() {
                     </Stack>
                     <Stack spacing={2} direction="row">
                         <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
-                        <BookStatus />
+                        <BookStatus  value={statusFilter} onStatusChange={setStatusFilter} />
                         <Booktype />
                     </Stack>
                     <DataTable

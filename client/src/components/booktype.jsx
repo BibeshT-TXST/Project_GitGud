@@ -20,13 +20,13 @@ export default function Booktype() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={BookType}
+          value={booktype}
           label="BookType"
           onChange={handleChange}
         >
-            <MenuItem value="Paperback">Paperback</MenuItem>
-            <MenuItem value="HardCover">HardCover</MenuItem>
-            <MenuItem value="E-Book">E-Book</MenuItem>
+           <MenuItem value="Paperback">Paperback</MenuItem>
+           <MenuItem value="HardCover">HardCover</MenuItem>
+           <MenuItem value="E-Book">E-Book</MenuItem>
         </Select>
       </FormControl>
     </Box>

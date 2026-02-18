@@ -16,18 +16,18 @@ export default function BookStatus() {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Status</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={Status}
+          value={bookstatus}
           label="Status"
           onChange={handleChange}
         >
-            <MenuItem value="Out on Loan">Out on Loan</MenuItem>
-            <MenuItem value="Reserved">Reserved</MenuItem>
-            <MenuItem value="in-Repair">In-Repair</MenuItem>
-            <MenuItem value="Archived">Archived</MenuItem>
+          <MenuItem value="Out on Loan">Out on Loan</MenuItem>
+          <MenuItem value="Reserved">Reserved</MenuItem>
+          <MenuItem value="in-Repair">In-Repair</MenuItem>
+          <MenuItem value="Archived">Archived</MenuItem>
         </Select>
       </FormControl>
     </Box>

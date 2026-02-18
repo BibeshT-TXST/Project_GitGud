@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import AddBookModal from '../components/Add-book';
 import { GridRowModes } from '@mui/x-data-grid';
 import BookStatus from '../components/status';
+import Booktype from '../components/booktype';
 
 /* Inventory Page Component
 */

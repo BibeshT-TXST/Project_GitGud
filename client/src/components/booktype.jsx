@@ -9,7 +9,7 @@ import api from '../api/axios';
 export default function Booktype({ value, onStatusChange }) {
 
   const handleChange = (event) => {
-    setBooktype(event.target.value);
+    onStatusChange(event.target.value);
   };
 
   return (
@@ -23,9 +23,9 @@ export default function Booktype({ value, onStatusChange }) {
           label="BookType"
           onChange={handleChange}
         >
-           <MenuItem value="Paperback">Paperback</MenuItem>
-           <MenuItem value="HardCover">HardCover</MenuItem>
-           <MenuItem value="E-Book">E-Book</MenuItem>
+          <MenuItem value="Paperback">Paperback</MenuItem>
+          <MenuItem value="HardCover">HardCover</MenuItem>
+          <MenuItem value="E-Book">E-Book</MenuItem>
         </Select>
       </FormControl>
     </Box>

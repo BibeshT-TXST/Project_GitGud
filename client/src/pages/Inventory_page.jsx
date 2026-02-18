@@ -137,7 +137,7 @@ function InventoryPage() {
     const filteredRows = rows
         .filter((row) => row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase()))
         .filter((row) => statusFilter === "" || row.status === statusFilter)
-        .filter((row) => booktypeFilter === "" || row.status === booktypeFilter);
+        .filter((row) => booktypeFilter === "" || row.booktype === booktypeFilter);
     //By defauly search options has all the materials in a scroll menu
     const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 
@@ -177,8 +177,8 @@ function InventoryPage() {
                     </Stack>
                     <Stack spacing={2} direction="row">
                         <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
-                        <BookStatus  value={statusFilter} onStatusChange={setStatusFilter} />
-                        <Booktype  value={booktypeFilter} onStatusChange={setBooktypeFilter} />
+                        <BookStatus value={statusFilter} onStatusChange={setStatusFilter} />
+                        <Booktype value={booktypeFilter} onStatusChange={setBooktypeFilter} />
                     </Stack>
                     <DataTable
                         rows={filteredRows}

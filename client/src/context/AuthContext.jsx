@@ -1,6 +1,15 @@
 import { createContext, useContext, useState, useEffect, use } from "react";
 
 const AuthContext = createContext();
+const isTokenExpired = (token) => {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp * 1000 < Date.now();
+    } catch {
+        return true; // malformed token = treat as expired
+    }
+};
+
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("site-token") || null);
@@ -20,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setToken(null);
-    };  
+    };
 
     return (
         <AuthContext.Provider value={{ token, login, logout }}>

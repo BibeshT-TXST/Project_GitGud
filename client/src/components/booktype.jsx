@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,8 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import api from '../api/axios';
 
-export default function Booktype() {
-  const [booktype, setBooktype] = React.useState('');
+export default function Booktype({ value, onStatusChange }) {
 
   const handleChange = (event) => {
     setBooktype(event.target.value);
@@ -20,7 +19,7 @@ export default function Booktype() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={booktype}
+          value={value}
           label="BookType"
           onChange={handleChange}
         >

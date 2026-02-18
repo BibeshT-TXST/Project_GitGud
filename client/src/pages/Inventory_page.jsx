@@ -165,6 +165,9 @@ function InventoryPage() {
                                 Cancel
                             </Button>
                         )}
+                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }}>
+                            Download
+                        </Button>
                     </Stack>
                     <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
                     <DataTable

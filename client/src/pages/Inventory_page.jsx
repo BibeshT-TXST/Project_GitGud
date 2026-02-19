@@ -140,6 +140,11 @@ function InventoryPage() {
 
         const csvRows = [
             headerLabels.join(','), //Top row: The top row will have header labels
+            ...filteredRows.map( row =>
+                headers.map( field =>{
+
+                }).join(',')
+            )
         ];
 
     }

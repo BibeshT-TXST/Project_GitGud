@@ -11,6 +11,7 @@ import AddBookModal from '../components/Add-book';
 import { GridRowModes } from '@mui/x-data-grid';
 import BookStatus from '../components/status';
 import Booktype from '../components/booktype';
+import DownloadIcon from '@mui/icons-material/Download';
 
 /* Inventory Page Component
 */

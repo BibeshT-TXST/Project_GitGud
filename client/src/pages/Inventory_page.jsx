@@ -142,7 +142,8 @@ function InventoryPage() {
             headerLabels.join(','), //Top row: The top row will have header labels
             ...filteredRows.map( row =>
                 headers.map( field =>{
-
+                    const val = row[filed] ?? '';
+                    return `"${String(val).replace(/"/g, '""')}"`;
                 }).join(',')
             )
         ];

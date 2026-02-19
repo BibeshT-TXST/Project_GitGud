@@ -134,6 +134,12 @@ function InventoryPage() {
         }
     };
 
+    const handleDownlaodCSV = () => {
+        const headers = ['isbn', 'title', 'booktype', 'status', 'purchasedate'];
+        const headerLabels = ['ISBN', 'Title', 'Book Type', 'Status', 'Purchase Date'];   
+
+    }
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = rows
         .filter((row) => row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase()))

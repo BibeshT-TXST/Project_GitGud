@@ -138,6 +138,10 @@ function InventoryPage() {
         const headers = ['isbn', 'title', 'booktype', 'status', 'purchasedate'];
         const headerLabels = ['ISBN', 'Title', 'Book Type', 'Status', 'Purchase Date'];   
 
+        const csvRows = [
+            headerLabels.join(','), //Top row: The top row will have header labels
+        ];
+
     }
 
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar

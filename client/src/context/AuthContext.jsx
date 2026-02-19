@@ -12,15 +12,15 @@ const isTokenExpired = (token) => {
 
 
 export const AuthProvider = ({ children }) => {
-    const storedToken = localStorage.getItem("site-token");
+    const storedToken = sessionStorage.getItem("site-token");
     const [token, setToken] = useState(storedToken && !isTokenExpired(storedToken) ? storedToken : null);
 
-    // Sync token with localStorage
+    // Sync token with sessionStorage (cleared automatically when tab/window closes)
     useEffect(() => {
         if (token) {
-            localStorage.setItem("site-token", token);
+            sessionStorage.setItem("site-token", token);
         } else {
-            localStorage.removeItem("site-token");
+            sessionStorage.removeItem("site-token");
         }
     }, [token]);
 

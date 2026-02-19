@@ -200,7 +200,7 @@ function InventoryPage() {
                                 Cancel
                             </Button>
                         )}
-                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }} endIcon={<DownloadIcon />}>
+                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }} endIcon={<DownloadIcon />} onClick ={handleDownloadCSV}>
                             Download
                         </Button>
                     </Stack>

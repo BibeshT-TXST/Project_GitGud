@@ -148,6 +148,8 @@ function InventoryPage() {
             )
         ];
 
+        const csvString = csvRows.join('\n');
+
     }
 
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar

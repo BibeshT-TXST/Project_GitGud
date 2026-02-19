@@ -134,7 +134,7 @@ function InventoryPage() {
         }
     };
 
-    const handleDownlaodCSV = () => {
+    const handleDownloadCSV = () => {
         const headers = ['isbn', 'title', 'booktype', 'status', 'purchasedate'];
         const headerLabels = ['ISBN', 'Title', 'Book Type', 'Status', 'Purchase Date'];   
 
@@ -142,7 +142,7 @@ function InventoryPage() {
             headerLabels.join(','), //Top row: The top row will have header labels
             ...filteredRows.map( row =>
                 headers.map( field =>{
-                    const val = row[filed] ?? '';
+                    const val = row[field] ?? '';
                     return `"${String(val).replace(/"/g, '""')}"`;
                 }).join(',')
             )

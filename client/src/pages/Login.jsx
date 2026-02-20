@@ -49,8 +49,8 @@ const Login = () => {
                     username: formData.username,
                     password: formData.password
                 });
-                setSuccessMessage("Signup successful! Please login.");
-                setIsLogin(true);
+                // Show Thank-you panel rather than immediately switching back
+                setSignupSuccess(true);
             } catch (err) {
                 if (err.response && err.response.status === 409) {
                     setUsernameError("This Net-ID already has an account, try another");

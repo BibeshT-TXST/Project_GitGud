@@ -74,9 +74,9 @@ const Login = () => {
             const { token } = response.data;
             login(token);
             navigate('/landing');
-        } catch (error) {
-            console.error('Login failed:', error);
-            setError('Invalid username or password');
+        } catch (err) {
+            console.error('Login failed:', err);
+            const status = err.response?.status;
         } finally {
             setLoading(false);
         }

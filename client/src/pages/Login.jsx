@@ -109,7 +109,7 @@ const Login = () => {
                                 Thank you for signing up!
                         </Typography>
                         <Typography variant="body1" sx={{ color: '#5c5a59' }}>
-                                Head back to the login page:
+                                Head back to login
                         </Typography>
                         <Button
                                 variant="contained"

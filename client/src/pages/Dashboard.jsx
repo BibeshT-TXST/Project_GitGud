@@ -5,3 +5,10 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth } from '../context/AuthContext';
+
+/*Dashboard Page Component */
+function DashboardPage(){
+
+}
+
+export default DashboardPage;

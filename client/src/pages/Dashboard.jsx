@@ -24,6 +24,19 @@ function DashboardPage(){
                     borderRadius: 3,
                 }}
             >
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        py: 5,
+                        px: 4,
+                    }}
+                >
+                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
+                        Books
+                    </Typography>
+                </CardContent>
 
             </Card>
         </Box>    

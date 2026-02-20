@@ -103,7 +103,15 @@ const Login = () => {
                 {/* Right Column: Login/Signup Form and thank you pannel conditional*/}
                 <div className="flex flex-col justify-center items-center bg-[#f5f1ee] p-8">
                 {signupSuccess ? (
-
+                    /*Thank you panel, activated after successful signup*/
+                    <div className="w-full max-w-sm flex flex-col items-center gap-4 text-center">
+                        <Typography variant="h4" component="h2" sx={{ fontWeight: 700, color: '#363534' }}>
+                                Thank you for signing up!
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#5c5a59' }}>
+                                Head back to the login page:
+                        </Typography>
+                    </div>
                 ) : (
                     /* Login/Signup form*/
                     <div className="w-full max-w-sm">

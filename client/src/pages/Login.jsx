@@ -19,7 +19,6 @@ const Login = () => {
 
     const [loading, setLoading] = useState(false);
     const [usernameError, setUsernameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isLogin, setIsLogin] = useState(true);
 
@@ -33,9 +32,8 @@ const Login = () => {
             ...prev,
             [name]: value
         }));
-        //Ckear field errors as user edits
+        // Clear field error as user edits
         if (usernameError) setUsernameError('');
-        if (passwordError) setPasswordError('');
     };
 
     // Handle form submission
@@ -43,7 +41,6 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setUsernameError('');
-        setPasswordError('');
 
         if (!isLogin) {
             try {
@@ -55,10 +52,10 @@ const Login = () => {
                 setIsLogin(true);
             } catch (err) {
                 if (err.response && err.response.status === 409) {
-                    setError("User already exists. Please login.");
+                    setUsernameError("User already exists. Please login.");
                     setIsLogin(true);
                 } else {
-                    setError("Signup failed. Please try again.");
+                    setUsernameError("Signup failed. Please try again.");
                 }
             } finally {
                 setLoading(false);
@@ -76,7 +73,7 @@ const Login = () => {
             navigate('/landing');
         } catch (err) {
             console.error('Login failed:', err);
-            const status = err.response?.status;
+            setUsernameError('Incorrect username or password');
         } finally {
             setLoading(false);
         }
@@ -122,6 +119,8 @@ const Login = () => {
                                 onChange={handleChange}
                                 disabled={loading}
                                 className="bg-white"
+                                error={!!usernameError}
+                                helperText={usernameError}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
@@ -183,7 +182,7 @@ const Login = () => {
                                     type="button"
                                     onClick={() => {
                                         setIsLogin(!isLogin);
-                                        setError('');
+                                        setUsernameError('');
                                         setSuccessMessage('');
                                     }}
                                     sx={{ textTransform: 'none' }}

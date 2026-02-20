@@ -12,6 +12,36 @@ function AccountsPage() {
     /* Pull the users NetID from auth context */
     const { user } = useAuth();
 
+    return(
+        <Box
+            sx={{
+                width: '100%',
+                height: '100%',
+                padding: 3,
+            }}
+        >
+            <Card
+                sx={{
+                    maxWidth: 450,
+                    mx: 'auto',
+                    mt: 4,
+                    borderRadius: 3,
+                }}
+            >
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        py: 5,
+                        px: 4,
+                    }}
+                >
+                </CardContent>
+            </Card>
+        </Box>
+    )
+
 }
 
 export default AccountsPage;

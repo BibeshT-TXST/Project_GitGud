@@ -18,7 +18,8 @@ const Login = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isLogin, setIsLogin] = useState(true);
 

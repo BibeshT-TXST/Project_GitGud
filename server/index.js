@@ -28,7 +28,7 @@ app.post('/auth/login', async (req, res) => {
     const userResult = await pool.query("SELECT * FROM users WHERE net_id = $1", [username]);
 
     if (userResult.rows.length === 0) {
-      return res.status(401).json({ message: "User does not exist" });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     const startUser = userResult.rows[0];
@@ -38,7 +38,7 @@ app.post('/auth/login', async (req, res) => {
     const validPassword = await argon2.verify(storedHash, password + pepper);
 
     if (!validPassword) {
-      return res.status(401).json({ message: "Incorrect password" });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     // Generate Token

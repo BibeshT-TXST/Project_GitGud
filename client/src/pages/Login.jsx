@@ -21,6 +21,7 @@ const Login = () => {
     const [usernameError, setUsernameError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isLogin, setIsLogin] = useState(true);
+    const [signupSuccess, setSignupSuccess] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();

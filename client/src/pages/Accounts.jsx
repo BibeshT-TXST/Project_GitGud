@@ -37,6 +37,20 @@ function AccountsPage() {
                         px: 4,
                     }}
                 >
+                    {/* Account avatar icon */}
+                    <AccountCircleIcon
+                        sx={{ fontSize: 80, color: 'action.active', mb: 2 }}
+                    />
+
+                    {/* Page heading */}
+                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
+                        My Account
+                    </Typography>
+
+                    {/* NetID detail row */}
+                    <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
+                        <strong>Net ID:</strong> {user ?? 'N/A'}
+                    </Typography>
                 </CardContent>
             </Card>
         </Box>

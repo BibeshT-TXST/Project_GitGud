@@ -33,7 +33,9 @@ const Login = () => {
             ...prev,
             [name]: value
         }));
-        if (error) setError('');
+        //Ckear field errors as user edits
+        if (usernameError) setUsernameError('');
+        if (passwordError) setPasswordError('');
     };
 
     // Handle form submission

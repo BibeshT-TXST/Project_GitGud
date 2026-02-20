@@ -52,7 +52,7 @@ const Login = () => {
                 setIsLogin(true);
             } catch (err) {
                 if (err.response && err.response.status === 409) {
-                    setUsernameError("User already exists. Please login.");
+                    setUsernameError("This Net-ID already has an account, try another");
                     setIsLogin(true);
                 } else {
                     setUsernameError("Signup failed. Please try again.");
@@ -73,7 +73,7 @@ const Login = () => {
             navigate('/landing');
         } catch (err) {
             console.error('Login failed:', err);
-            setUsernameError('Incorrect username or password');
+            setUsernameError('Incorrect Net-ID or password');
         } finally {
             setLoading(false);
         }

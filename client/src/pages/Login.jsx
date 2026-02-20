@@ -103,7 +103,7 @@ const Login = () => {
                 <div className="flex flex-col justify-center items-center bg-[#f5f1ee] p-8">
                     <div className="w-full max-w-sm">
                         <div className="mb-8 text-center">
-                            <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">Login</Typography>
+                            <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">{isLogin ? 'Login' : 'Sign Up'}</Typography>
                         </div>
 
                         {/* Login Form */}

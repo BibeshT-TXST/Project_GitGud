@@ -9,6 +9,9 @@ import DataTable from '../components/Inventory-table'
 import Button from '@mui/material/Button';
 import AddBookModal from '../components/Add-book';
 import { GridRowModes } from '@mui/x-data-grid';
+import BookStatus from '../components/status';
+import Booktype from '../components/booktype';
+import DownloadIcon from '@mui/icons-material/Download';
 
 /* Inventory Page Component
 */
@@ -18,6 +21,9 @@ function InventoryPage() {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = useState(false);
+    const [statusFilter, setStatusFilter] = useState("");
+    const [booktypeFilter, setBooktypeFilter] = useState("");
+
 
     const [selectedRowId, setSelectedRowId] = useState(null); // Tracks which row is currently selected 
     const [isEditMode, setIsEditMode] = useState(false); // Boolean flag indicating if edit mode is active
@@ -128,10 +134,39 @@ function InventoryPage() {
         }
     };
 
+    const handleDownloadCSV = () => {
+        const headers = ['isbn', 'title', 'booktype', 'status', 'purchasedate'];
+        const headerLabels = ['ISBN', 'Title', 'Book Type', 'Status', 'Purchase Date'];   
+
+        const csvRows = [
+            headerLabels.join(','), //Top row: The top row will have header labels
+            ...filteredRows.map( row =>
+                headers.map( field =>{
+                    const val = row[field] ?? '';
+                    return `"${String(val).replace(/"/g, '""')}"`;
+                }).join(',')
+            )
+        ];
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'inventory.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+    }
+
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
-    const filteredRows = rows.filter((row) =>
-        row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredRows = rows
+        .filter((row) => row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase()))
+        .filter((row) => statusFilter === "" || row.status === statusFilter)
+        .filter((row) => booktypeFilter === "" || row.booktype === booktypeFilter);
     //By defauly search options has all the materials in a scroll menu
     const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 
@@ -165,8 +200,15 @@ function InventoryPage() {
                                 Cancel
                             </Button>
                         )}
+                        <Button variant="contained" sx={{ pr: 2, width: '100%', maxWidth: 150 }} endIcon={<DownloadIcon />} onClick ={handleDownloadCSV}>
+                            Download
+                        </Button>
                     </Stack>
-                    <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
+                    <Stack spacing={2} direction="row">
+                        <Searchbar onSearchChange={setSearchQuery} options={searchOptions} />
+                        <BookStatus value={statusFilter} onStatusChange={setStatusFilter} />
+                        <Booktype value={booktypeFilter} onStatusChange={setBooktypeFilter} />
+                    </Stack>
                     <DataTable
                         rows={filteredRows}
                         isEditMode={isEditMode}

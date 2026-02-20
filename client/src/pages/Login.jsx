@@ -131,6 +131,11 @@ const Login = () => {
                                             borderColor: '#363534',
                                         },
                                     },
+                                    '& .MuiFormHelperText-root': {
+                                        backgroundColor: '#F5F1EE ',
+                                        margin: 0,
+                                        padding: '2px 14px',
+                                    },
                                 }}
                             />
 

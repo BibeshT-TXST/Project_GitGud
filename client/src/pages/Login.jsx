@@ -111,6 +111,29 @@ const Login = () => {
                         <Typography variant="body1" sx={{ color: '#5c5a59' }}>
                                 Head back to the login page:
                         </Typography>
+                        <Button
+                                variant="contained"
+                                size="large"
+                                onClick={() => {
+                                    // Reset to login form — no page reload
+                                    setSignupSuccess(false);
+                                    setIsLogin(true);
+                                    setFormData({ username: '', password: '' });
+                                    setUsernameError('');
+                                }}
+                                sx={{
+                                    backgroundColor: '#363534',
+                                    '&:hover': { backgroundColor: '#5c5a59' },
+                                    textTransform: 'none',
+                                    fontSize: '1rem',
+                                    borderRadius: '0.5rem',
+                                    fontWeight: 500,
+                                    width: '160px',
+                                    mt: 1,
+                                }}
+                            >
+                                Go back
+                            </Button>
                     </div>
                 ) : (
                     /* Login/Signup form*/

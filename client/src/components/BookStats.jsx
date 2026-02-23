@@ -61,6 +61,25 @@ export default function BookStats({ total, byStatus, byType }) {
                 </Paper>
             ))}
 
+            {/* Book Type Count Cards */}
+            {byType.map((item) => (
+                <Paper
+                    key={item.booktype}
+                    elevation={3}
+                    sx={{
+                        p: 3,
+                        minWidth: 140,
+                        textAlign: 'center',
+                    }}
+                >
+                    <Typography variant="subtitle2" color="text.secondary">
+                        {item.booktype}
+                    </Typography>
+                    <Typography variant="h4" fontWeight={700}>
+                        {item.count}
+                    </Typography>
+                </Paper>
+            ))}
     
         </Box>
     );

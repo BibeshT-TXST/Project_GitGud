@@ -40,7 +40,7 @@ function DashboardPage(){
         >
             <Card
                 sx={{
-                    maxWidth: 450,
+                    maxWidth: 900,
                     mx: 'auto',
                     mt: 4,
                     borderRadius: 3,
@@ -58,6 +58,17 @@ function DashboardPage(){
                     <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
                         Books
                     </Typography>
+
+                    {loading && <Typography>Loading...</Typography>}
+                    {error && <Typography color="error">{error}</Typography>}
+                    {!loading && !error && (
+                        <BookStats
+                            total={stats.total}
+                            byStatus={stats.byStatus}
+                            byType={stats.byType}
+                        />
+                    )}
+
                 </CardContent>
 
             </Card>

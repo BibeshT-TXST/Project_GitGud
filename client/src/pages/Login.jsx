@@ -53,8 +53,7 @@ const Login = () => {
                 setSignupSuccess(true);
             } catch (err) {
                 if (err.response && err.response.status === 409) {
-                    setUsernameError("This Net-ID already has an account, try another");
-                    setIsLogin(true);
+                    setUsernameError("This Net-ID already has an account, Please try a different one.");
                 } else {
                     setUsernameError("Signup failed. Please try again.");
                 }

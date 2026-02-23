@@ -12,6 +12,24 @@ function DashboardPage(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Fetches book stats from backend
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                setLoading(true);
+                const response = await api.get('/api/inventory/stats');
+                setStats(response.data);
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch book stats:", err);
+                setError("Failed to load book stats.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
     return (
          <Box
             sx={{

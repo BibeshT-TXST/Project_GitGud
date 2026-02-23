@@ -132,7 +132,7 @@ const Login = () => {
                                     mt: 1,
                                 }}
                             >
-                                Go back
+                                Log In
                             </Button>
                     </div>
                 ) : (

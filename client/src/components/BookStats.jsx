@@ -24,6 +24,22 @@ export default function BookStats({ total, byStatus, byType }) {
                 justifyContent: 'center',
             }}
         >
+            {/* Total Books Card */}
+            <Paper
+                elevation={3}
+                sx={{
+                    p: 3,
+                    minWidth: 140,
+                    textAlign: 'center',
+                }}
+            >
+                <Typography variant="subtitle2" color="text.secondary">
+                    Total Books
+                </Typography>
+                <Typography variant="h4" fontWeight={700}>
+                    {total}
+                </Typography>
+            </Paper>
     
         </Box>
     );

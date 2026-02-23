@@ -92,6 +92,47 @@ app.post('/auth/signup', async (req, res) => {
   }
 });
 
+// Book Stats Route — returns counts by status and book type
+app.get('/api/inventory/stats', async (req, res) => {
+  try {
+    const statusCounts = await pool.query(
+      'SELECT current_status AS status, COUNT(*)::int AS count FROM books GROUP BY current_status'
+    );
+    const typeCounts = await pool.query(
+      'SELECT booktype, COUNT(*)::int AS count FROM books GROUP BY booktype'
+    );
+    const totalCount = await pool.query(
+      'SELECT COUNT(*)::int AS count FROM books'
+    );
+    res.json({
+      total: totalCount.rows[0].count,
+      byStatus: statusCounts.rows,
+      byType: typeCounts.rows,
+    });
+    // This a sample of the Json object created by res.json({})
+    /*--------sample of Json object-----*///For reference
+    /*---------------------------------------------------------
+
+      {
+        "total": 15,
+        "byStatus": [
+          { "status": "Available", "count": 12 },
+          { "status": "Checked Out", "count": 3 }
+        ],
+        "byType": [
+          { "booktype": "paperback", "count": 8 },
+          { "booktype": "Hardcover", "count": 7 }
+        ]
+      }
+
+    -----------------------------------------------------------*/
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 //Inventory Route
 //This block awaits ping from frontend and via custom SQL query using pool extracts data from the dbs container and sends it back to frontend
 app.get('/api/inventory', async (req, res) => {

@@ -8,6 +8,10 @@ import BookStats from '../components/BookStats';
 
 /*Dashboard Page Component */
 function DashboardPage(){
+    const [stats, setStats] = useState({ total: 0, byStatus: [], byType: [] });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     return (
          <Box
             sx={{

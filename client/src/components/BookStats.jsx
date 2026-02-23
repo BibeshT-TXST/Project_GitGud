@@ -40,6 +40,27 @@ export default function BookStats({ total, byStatus, byType }) {
                     {total}
                 </Typography>
             </Paper>
+
+            {/* Status Count Cards */}
+            {byStatus.map((item) => (
+                <Paper
+                    key={item.status}
+                    elevation={3}
+                    sx={{
+                        p: 3,
+                        minWidth: 140,
+                        textAlign: 'center',
+                    }}
+                >
+                    <Typography variant="subtitle2" color="text.secondary">
+                        {item.status}
+                    </Typography>
+                    <Typography variant="h4" fontWeight={700}>
+                        {item.count}
+                    </Typography>
+                </Paper>
+            ))}
+
     
         </Box>
     );

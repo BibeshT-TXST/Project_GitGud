@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import TokenIcon from '@mui/icons-material/Token';
 import myLogo from '../assets/logo.png';
-import mybook from '../assets/books.svg';
+import mybook from '../assets/asset19.svg';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 
@@ -18,9 +18,10 @@ const Login = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isLogin, setIsLogin] = useState(true);
+    const [signupSuccess, setSignupSuccess] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -32,14 +33,15 @@ const Login = () => {
             ...prev,
             [name]: value
         }));
-        if (error) setError('');
+        // Clear field error as user edits
+        if (usernameError) setUsernameError('');
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+        setUsernameError('');
 
         if (!isLogin) {
             try {
@@ -47,14 +49,13 @@ const Login = () => {
                     username: formData.username,
                     password: formData.password
                 });
-                setSuccessMessage("Signup successful! Please login.");
-                setIsLogin(true);
+                // Show Thank-you panel rather than immediately switching back
+                setSignupSuccess(true);
             } catch (err) {
                 if (err.response && err.response.status === 409) {
-                    setError("User already exists. Please login.");
-                    setIsLogin(true);
+                    setUsernameError("This Net-ID already has an account, Please try a different one.");
                 } else {
-                    setError("Signup failed. Please try again.");
+                    setUsernameError("Signup failed. Please try again.");
                 }
             } finally {
                 setLoading(false);
@@ -70,9 +71,9 @@ const Login = () => {
             const { token } = response.data;
             login(token);
             navigate('/landing');
-        } catch (error) {
-            console.error('Login failed:', error);
-            setError('Invalid username or password');
+        } catch (err) {
+            console.error('Login failed:', err);
+            setUsernameError('Incorrect Net-ID or password');
         } finally {
             setLoading(false);
         }
@@ -98,11 +99,46 @@ const Login = () => {
                     />
                 </div>
 
-                {/* Right Column: Login Form */}
+                {/* Right Column: Login/Signup Form and thank you pannel conditional*/}
                 <div className="flex flex-col justify-center items-center bg-[#f5f1ee] p-8">
+                {signupSuccess ? (
+                    /*Thank you panel, activated after successful signup*/
+                    <div className="w-full max-w-sm flex flex-col items-center gap-4 text-center">
+                        <Typography variant="h4" component="h2" sx={{ fontWeight: 700, color: '#363534' }}>
+                                Thank you for signing up!
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#5c5a59' }}>
+                                Head back to login
+                        </Typography>
+                        <Button
+                                variant="contained"
+                                size="large"
+                                onClick={() => {
+                                    // Reset to login form — no page reload
+                                    setSignupSuccess(false);
+                                    setIsLogin(true);
+                                    setFormData({ username: '', password: '' });
+                                    setUsernameError('');
+                                }}
+                                sx={{
+                                    backgroundColor: '#363534',
+                                    '&:hover': { backgroundColor: '#5c5a59' },
+                                    textTransform: 'none',
+                                    fontSize: '1rem',
+                                    borderRadius: '0.5rem',
+                                    fontWeight: 500,
+                                    width: '160px',
+                                    mt: 1,
+                                }}
+                            >
+                                Log In
+                            </Button>
+                    </div>
+                ) : (
+                    /* Login/Signup form*/
                     <div className="w-full max-w-sm">
                         <div className="mb-8 text-center">
-                            <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">Login</Typography>
+                            <Typography variant="h4" component="h1" className="font-bold text-[#363534]-800">{isLogin ? 'Login' : 'Sign Up'}</Typography>
                         </div>
 
                         {/* Login Form */}
@@ -118,6 +154,8 @@ const Login = () => {
                                 onChange={handleChange}
                                 disabled={loading}
                                 className="bg-white"
+                                error={!!usernameError}
+                                helperText={usernameError}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
@@ -127,6 +165,11 @@ const Login = () => {
                                         '&:hover fieldset': {
                                             borderColor: '#363534',
                                         },
+                                    },
+                                    '& .MuiFormHelperText-root': {
+                                        backgroundColor: '#F5F1EE ',
+                                        margin: 0,
+                                        padding: '2px 14px',
                                     },
                                 }}
                             />
@@ -179,7 +222,7 @@ const Login = () => {
                                     type="button"
                                     onClick={() => {
                                         setIsLogin(!isLogin);
-                                        setError('');
+                                        setUsernameError('');
                                         setSuccessMessage('');
                                     }}
                                     sx={{ textTransform: 'none' }}
@@ -189,7 +232,8 @@ const Login = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                )}    
+                </div>                
             </div>
 
         </div>

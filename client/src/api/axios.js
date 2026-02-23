@@ -8,7 +8,7 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         // You can add authorization headers or other custom settings here
-        const token = localStorage.getItem('site-token');
+        const token = sessionStorage.getItem('site-token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -23,10 +23,18 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
-        // Handle 401 (Unauthorized) or 403 (Forbidden) errors
-        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        const url = error.config?.url || '';
+        const isAuthRoute = url.includes('/auth/login') || url.includes('/auth/signup');
+
+        // Handle 401/403 errors — but NOT on auth routes where
+        // we expect these statuses for wrong credentials / duplicate users.
+        if (
+            !isAuthRoute &&
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+        ) {
             // Token is invalid or expired - clear it and redirect to login
-            localStorage.removeItem('site-token');
+            sessionStorage.removeItem('site-token');
             window.location.href = '/';
         }
         return Promise.reject(error);

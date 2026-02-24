@@ -10,6 +10,8 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InventoryPage from './Inventory_page.jsx';
+import AccountsPage from './Accounts.jsx';
+import DashboardPage from './Dashboard.jsx';
 
 const NAVIGATION = [
     {
@@ -53,6 +55,14 @@ function LandingPageContent({ pathname }) {
     // Render InventoryPage when the inventory route is active
     if (pathname.includes('/inventory')) {
         return <InventoryPage />;
+    }
+
+    if (pathname.includes('/account')){
+        return <AccountsPage />
+    }
+
+    if (pathname.includes('/dashboard')){
+        return <DashboardPage />
     }
 
     // Default content for other routes

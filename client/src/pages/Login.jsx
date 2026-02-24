@@ -69,7 +69,7 @@ const Login = () => {
                 password: formData.password
             });
             const { token } = response.data;
-            login(token);
+            login(token, formData.username);
             navigate('/landing');
         } catch (err) {
             console.error('Login failed:', err);

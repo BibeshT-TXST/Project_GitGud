@@ -83,19 +83,8 @@ function LandingPageContent({ pathname }) {
         return <DashboardPage />
     }
 
-    // Default content for other routes
-    return (
-        <Box
-            sx={{
-                py: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-            }}
-        >
-        </Box>
-    );
+    // Default content: show Dashboard for bare /landing or unknown routes
+    return <DashboardPage />;
 }
 
 LandingPageContent.propTypes = {

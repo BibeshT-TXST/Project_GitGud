@@ -46,6 +46,18 @@ const demoTheme = createTheme({
         colorSchemeSelector: 'data-toolpad-color-scheme',
     },
     colorSchemes: { light: true },
+    components: {
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#363534',
+                    color: '#F5F1EE',
+                    '& .MuiIconButton-root': { color: '#F5F1EE' },
+                    '& .MuiSvgIcon-root': { color: '#F5F1EE' },
+                },
+            },
+        },
+    },
     breakpoints: {
         values: {
             xs: 0,

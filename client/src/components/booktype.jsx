@@ -15,13 +15,14 @@ export default function Booktype({ value, onStatusChange }) {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">BookType</InputLabel>
+        <InputLabel id="demo-simple-select-label" sx={{ color: '#363524' }}>BookType</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
           label="BookType"
           onChange={handleChange}
+          sx={{ color: '#363524' }}
         >
           <MenuItem value="Paperback">Paperback</MenuItem>
           <MenuItem value="HardCover">HardCover</MenuItem>

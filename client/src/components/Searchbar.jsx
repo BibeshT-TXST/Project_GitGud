@@ -32,7 +32,7 @@ export default function Searchbar({ onSearchChange, options = [] }) {
                             startAdornment: (
                                 <>
                                     <InputAdornment position="start">
-                                        <SearchIcon color="action" />
+                                        <SearchIcon sx={{ color: '#363524' }} />
                                     </InputAdornment>
                                     {params.InputProps.startAdornment}
                                 </>

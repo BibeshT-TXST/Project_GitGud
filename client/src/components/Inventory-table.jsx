@@ -34,7 +34,11 @@ export default function DataTable({
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
         checkboxSelection
-        sx={{ border: 0 }}
+        sx={{
+          border: 0,
+          '& .MuiDataGrid-columnHeaderTitle': { color: '#363524' },
+          '& .MuiDataGrid-cell': { color: '#363524' },
+        }}
         editMode="row"
         rowModesModel={rowModesModel}
         onRowModesModelChange={setRowModesModel}

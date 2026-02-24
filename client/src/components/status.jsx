@@ -15,13 +15,14 @@ export default function BookStatus({ value, onStatusChange }) {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Status</InputLabel>
+        <InputLabel id="demo-simple-select-label" sx={{ color: '#363524' }}>Status</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
           label="Status"
           onChange={handleChange}
+          sx={{ color: '#363524' }}
         >
           <MenuItem value="Out on Loan">Out on Loan</MenuItem>
           <MenuItem value="Reserved">Reserved</MenuItem>

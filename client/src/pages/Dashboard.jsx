@@ -45,7 +45,7 @@ function DashboardPage(){
                     mx: 'auto',
                     mt: 4,
                     borderRadius: 3,
-                     backgroundColor: '#AC9155',
+                    backgroundColor: '#966F33',
                 }}
             >
                 <CardContent
@@ -57,12 +57,12 @@ function DashboardPage(){
                         px: 4,
                     }}
                 >
-                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom sx={{ color: '#363524' }}>
+                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom sx={{ color: '#F5F1EE' }}>
                         Books
                     </Typography>
 
-                    {loading && <Typography sx={{ color: '#363524' }}>Loading...</Typography>}
-                    {error && <Typography color="error" sx={{ color: '#d32f2f' }}>{error}</Typography>}
+                    {loading && <Typography sx={{ color: '#F5F1EE' }}>Loading...</Typography>}
+                    {error && <Typography color="error" sx={{ color: '#F5F1EE' }}>{error}</Typography>}
                     {!loading && !error && (
                         <BookStats
                             total={stats.total}

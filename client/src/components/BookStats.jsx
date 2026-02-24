@@ -31,12 +31,13 @@ export default function BookStats({ total, byStatus, byType }) {
                     p: 3,
                     minWidth: 140,
                     textAlign: 'center',
+                    backgroundColor: '#363534',  
                 }}
             >
-                <Typography variant="subtitle2" color="text.secondary">
+                <Typography variant="subtitle2" color='#F5F1EE'>
                     Total Books
                 </Typography>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography variant="h4" fontWeight={700} color='#F5F1EE'>
                     {total}
                 </Typography>
             </Paper>
@@ -50,12 +51,13 @@ export default function BookStats({ total, byStatus, byType }) {
                         p: 3,
                         minWidth: 140,
                         textAlign: 'center',
+                        backgroundColor: '#363534',
                     }}
                 >
-                    <Typography variant="subtitle2" color="text.secondary">
+                    <Typography variant="subtitle2" color='#F5F1EE'>
                         {item.status}
                     </Typography>
-                    <Typography variant="h4" fontWeight={700}>
+                    <Typography variant="h4" fontWeight={700} color='#F5F1EE'>
                         {item.count}
                     </Typography>
                 </Paper>
@@ -70,12 +72,13 @@ export default function BookStats({ total, byStatus, byType }) {
                         p: 3,
                         minWidth: 140,
                         textAlign: 'center',
+                        backgroundColor: '#363534',
                     }}
                 >
-                    <Typography variant="subtitle2" color="text.secondary">
+                    <Typography variant="subtitle2" color='#F5F1EE'>
                         {item.booktype}
                     </Typography>
-                    <Typography variant="h4" fontWeight={700}>
+                    <Typography variant="h4" fontWeight={700} color='#F5F1EE'>
                         {item.count}
                     </Typography>
                 </Paper>

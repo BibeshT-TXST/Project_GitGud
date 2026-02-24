@@ -21,25 +21,30 @@ const NAVIGATION = [
     {
         segment: 'dashboard',
         title: 'Dashboard',
-        icon: <DashboardIcon />,
+        icon: <DashboardIcon sx={{ color: '#363524' }} />,
     },
     {
         segment: 'inventory',
         title: 'Inventory',
-        icon: <InventoryIcon />,
+        icon: <InventoryIcon sx={{ color: '#363524' }} />,
     },
     {
         segment: 'account',
         title: 'My Account',
-        icon: <AccountCircleIcon />,
+        icon: <AccountCircleIcon sx={{ color: '#363524' }} />,
     },
 ];
 
 const demoTheme = createTheme({
+    palette: {
+        primary: { main: '#363524' },
+        background: { default: '#F5F1EE' },
+        text: { primary: '#363524' },
+    },
     cssVariables: {
         colorSchemeSelector: 'data-toolpad-color-scheme',
     },
-    colorSchemes: { light: true, dark: true },
+    colorSchemes: { light: true },
     breakpoints: {
         values: {
             xs: 0,

@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import InventoryPage from './Inventory_page.jsx';
 import AccountsPage from './Accounts.jsx';
 import DashboardPage from './Dashboard.jsx';
+import myLogo from '../assets/logo.png';
 
 const NAVIGATION = [
     {
@@ -110,7 +111,8 @@ function LandingPageInner(props) {
         <AppProvider
             navigation={NAVIGATION}
             branding={{
-                title: 'Book Inventory Application',
+                logo: <img src={myLogo} alt="Book Inventory logo" />,
+                title: '',
             }}
             router={router}
             theme={demoTheme}

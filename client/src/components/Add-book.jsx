@@ -18,7 +18,7 @@ import {
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#4A1D1F' },
+    primary: { main: '#363534' },
   },
 });
 
@@ -88,7 +88,7 @@ export default function AddBookModal({ open, onClose, onBookAdded }) {
           <Box sx={modalStyle}>
             <Card sx={{ borderRadius: '12px' }}>
               <Box sx={{ p: 3, borderBottom: '1px solid #eee' }}>
-                <Typography variant="h6" fontWeight="bold">
+                <Typography variant="h6" fontWeight="bold" color='#363534'>
                   Add a Book
                 </Typography>
                 {error && <Typography color="error" variant="body2">{error}</Typography>}

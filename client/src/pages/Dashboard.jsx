@@ -31,11 +31,12 @@ function DashboardPage(){
     }, []);
 
     return (
-         <Box
+        <Box
             sx={{
                 width: '100%',
                 height: '100%',
                 padding: 3,
+                backgroundColor: '#F5F1EE',
             }}
         >
             <Card
@@ -44,6 +45,7 @@ function DashboardPage(){
                     mx: 'auto',
                     mt: 4,
                     borderRadius: 3,
+                    backgroundColor: '#966F33',
                 }}
             >
                 <CardContent
@@ -55,12 +57,12 @@ function DashboardPage(){
                         px: 4,
                     }}
                 >
-                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
+                    <Typography variant="h4" component="h1" fontWeight={600} gutterBottom sx={{ color: '#F5F1EE' }}>
                         Books
                     </Typography>
 
-                    {loading && <Typography>Loading...</Typography>}
-                    {error && <Typography color="error">{error}</Typography>}
+                    {loading && <Typography sx={{ color: '#F5F1EE' }}>Loading...</Typography>}
+                    {error && <Typography color="error" sx={{ color: '#F5F1EE' }}>{error}</Typography>}
                     {!loading && !error && (
                         <BookStats
                             total={stats.total}
@@ -72,7 +74,7 @@ function DashboardPage(){
                 </CardContent>
 
             </Card>
-        </Box>    
+        </Box>
     )
 
 }

@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 
 //----- Token Blacklist---------
 // In-memory set of revoked JWT tokens
-const tokenBlackList = new Set();
+const tokenBlacklist = new Set();
 
 // Middleware
 app.use(cors());

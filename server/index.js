@@ -17,6 +17,20 @@ const tokenBlackList = new Set();
 app.use(cors());
 app.use(express.json()); // Allows us to handle JSON in req.body
 
+// Middleware: reject requests that carry a blacklisted token
+const rejectBlacklistedToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader) {
+        const token = authHeader.split(' ')[1]; // "Bearer <token>"
+        if (tokenBlacklist.has(token)) {
+            return res.status(401).json({ message: 'Token has been revoked' });
+        }
+    }
+    next();
+};
+app.use(rejectBlacklistedToken);
+
+
 // Simple Test Route
 app.get('/test', (req, res) => {
   res.json({ message: "Systems Team" });

@@ -159,7 +159,7 @@ function LandingPageInner(props) {
             router={router}
             theme={demoTheme}
         >
-            <DashboardLayout>
+            <DashboardLayout slots={{toolbarActions: ToolbarActionsLogout}}>
                 <LandingPageContent pathname={router.pathname} />
             </DashboardLayout>
         </AppProvider>

@@ -116,6 +116,13 @@ app.post('/auth/signup', async (req, res) => {
    natural expiry.
 */
 app.post('/auth/logout', (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(400).json({ message: 'No token provided' });
+    }
+    
+    const token = authHeader.split(' ')[1];
 
 });
 

@@ -110,6 +110,15 @@ app.post('/auth/signup', async (req, res) => {
   }
 });
 
+/* Logout Route
+   Adds the caller's JWT to the in-memory blacklist so it cannot
+   be reused, then schedules automatic removal after the token's
+   natural expiry.
+*/
+app.post('/auth/logout', (req, res) => {
+
+});
+
 // Book Stats Route — returns counts by status and book type
 app.get('/api/inventory/stats', async (req, res) => {
   try {

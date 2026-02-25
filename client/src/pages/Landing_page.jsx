@@ -58,7 +58,23 @@ function ToolbarActionsLogout() {
         logout();          // clears token + user from AuthContext & sessionStorage
         navigate('/');     // redirect to the login page
     };
-   
+    return (
+        <Button
+            variant="contained"
+            onClick={handleLogout}
+            sx={{
+                backgroundColor: '#F5F1EE',
+                color: '#363534',
+                textTransform: 'none',
+                fontWeight: 500,
+                '&:hover': {
+                    backgroundColor: '#e8e4e1',   // slightly darker on hover
+                },
+            }}
+        >
+            Log out
+        </Button>
+    );
 }
 
 const demoTheme = createTheme({

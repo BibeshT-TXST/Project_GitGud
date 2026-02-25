@@ -15,6 +15,7 @@ import DashboardPage from './Dashboard.jsx';
 import myLogo from '../assets/logo.png';
 import Button from '@mui/material/Button';
 import { useAuth } from '../context/AuthContext';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
 const NAVIGATION = [
@@ -61,18 +62,19 @@ function ToolbarActionsLogout() {
     return (
         <Button
             variant="contained"
+            startIcon = {<LogoutIcon style={{ color: '#363534' }} />}
             onClick={handleLogout}
             sx={{
                 backgroundColor: '#F5F1EE',
                 color: '#363534',
                 textTransform: 'none',
-                fontWeight: 500,
+                fontWeight: 600,
                 '&:hover': {
                     backgroundColor: '#e8e4e1',   // slightly darker on hover
                 },
             }}
         >
-            Log out
+            Logout
         </Button>
     );
 }

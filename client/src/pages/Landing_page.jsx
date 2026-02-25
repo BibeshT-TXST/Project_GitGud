@@ -50,6 +50,16 @@ const NAVIGATION = [
  *   Slots → toolbarActions
  *   https://mui.com/toolpad/core/react-dashboard-layout/#slots
  */
+function ToolbarActionsLogout() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    
+    const handleLogout = () => {
+        logout();          // clears token + user from AuthContext & sessionStorage
+        navigate('/');     // redirect to the login page
+    };
+   
+}
 
 const demoTheme = createTheme({
     palette: {

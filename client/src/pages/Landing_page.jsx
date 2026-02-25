@@ -13,6 +13,9 @@ import InventoryPage from './Inventory_page.jsx';
 import AccountsPage from './Accounts.jsx';
 import DashboardPage from './Dashboard.jsx';
 import myLogo from '../assets/logo.png';
+import Button from '@mui/material/Button';
+import { useAuth } from '../context/AuthContext';
+
 
 const NAVIGATION = [
     {

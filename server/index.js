@@ -121,8 +121,26 @@ app.post('/auth/logout', (req, res) => {
     if (!authHeader) {
         return res.status(400).json({ message: 'No token provided' });
     }
-    
+
     const token = authHeader.split(' ')[1];
+
+    // Add to blacklist
+    tokenBlacklist.add(token);
+
+    // Auto-remove after the token's natural expiry (saves memory)
+    try {
+        const payload = jwt.decode(token);
+        if (payload && payload.exp) {
+            const msUntilExpiry = payload.exp * 1000 - Date.now();
+            if (msUntilExpiry > 0) {
+                setTimeout(() => tokenBlacklist.delete(token), msUntilExpiry);
+            }
+        }
+    } catch {
+        // If decode fails, token stays in Set until server restart — acceptable.
+    }
+
+    return res.json({ message: 'Logged out successfully' });
 
 });
 

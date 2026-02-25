@@ -39,6 +39,18 @@ const NAVIGATION = [
     },
 ];
 
+/**
+ * Custom toolbar-actions component injected into the
+ * Toolpad DashboardLayout AppBar via the `toolbarActions` slot.
+ *
+ * Renders a "Log out" button pinned to the right edge of the
+ * AppBar header row.
+ *
+ * MUI docs reference:
+ *   Slots → toolbarActions
+ *   https://mui.com/toolpad/core/react-dashboard-layout/#slots
+ */
+
 const demoTheme = createTheme({
     palette: {
         primary: { main: '#363524' },

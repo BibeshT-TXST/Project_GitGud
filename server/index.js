@@ -9,6 +9,10 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+//----- Token Blacklist---------
+// In-memory set of revoked JWT tokens
+const tokenBlackList = new Set();
+
 // Middleware
 app.use(cors());
 app.use(express.json()); // Allows us to handle JSON in req.body

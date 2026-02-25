@@ -16,6 +16,7 @@ import myLogo from '../assets/logo.png';
 import Button from '@mui/material/Button';
 import { useAuth } from '../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
+import api from '../api/axios';
 
 
 const NAVIGATION = [
@@ -56,6 +57,13 @@ function ToolbarActionsLogout() {
     const navigate = useNavigate();
     
     const handleLogout = () => {
+        try {
+            api.post('/auth/logout');  // blacklist the token server-side
+        } catch (err) {
+            console.error('Logout API call failed:', err);
+            // Even if the server call fails, still clear client state
+        }
+        
         logout();          // clears token + user from AuthContext & sessionStorage
         navigate('/');     // redirect to the login page
     };

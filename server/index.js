@@ -190,6 +190,12 @@ app.put('/api/inventory/:isbn', async (req, res) => {
 //Delete Book Route
 //This block awaits ping from frontend and via custom SQL query using pool deletes a book from the database by ISBN
 app.delete('/api/inventory/:isbn', async (req, res) => {
+  try {
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
 
 });
 

@@ -198,6 +198,14 @@ app.delete('/api/inventory/:isbn', async (req, res) => {
       'DELETE FROM books WHERE isbn = $1 RETURNING *',
       [isbn]
     );
+    
+    // Check if book was found and deleted
+    if (deletedBook.rows.length === 0) {
+      return res.status(404).json({ error: "Book not found with the provided ISBN" });
+    }
+
+    // Return the deleted book data as confirmation
+    res.json({ message: "Book deleted successfully", book: deletedBook.rows[0] }); 
 
   } catch (err) {
     console.error(err.message);

@@ -191,6 +191,13 @@ app.put('/api/inventory/:isbn', async (req, res) => {
 //This block awaits ping from frontend and via custom SQL query using pool deletes a book from the database by ISBN
 app.delete('/api/inventory/:isbn', async (req, res) => {
   try {
+    const { isbn } = req.params; // Get ISBN from URL parameter
+    
+    // Execute SQL DELETE query
+    const deletedBook = await pool.query(
+      'DELETE FROM books WHERE isbn = $1 RETURNING *',
+      [isbn]
+    );
 
   } catch (err) {
     console.error(err.message);

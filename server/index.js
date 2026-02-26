@@ -187,6 +187,12 @@ app.put('/api/inventory/:isbn', async (req, res) => {
   }
 });
 
+//Delete Book Route
+//This block awaits ping from frontend and via custom SQL query using pool deletes a book from the database by ISBN
+app.delete('/api/inventory/:isbn', async (req, res) => {
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

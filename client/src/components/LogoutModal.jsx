@@ -40,7 +40,14 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
         slotProps={{ backdrop: { timeout: 500, style: { backgroundColor: 'rgba(0,0,0,0.6)' } } }}>
         <Fade in={open}>
             <Box sx={modalStyle}>
-            
+                <Card sx={{ borderRadius: '12px' }}>
+                    {/* ── Header ── */}
+                    <Box sx={{ p: 3, borderBottom: '1px solid #eee' }}>
+                        <Typography variant="h6" fontWeight="bold" color="#363534">
+                            Are you sure you want to log out?
+                        </Typography>
+                    </Box>
+                </Card>
             </Box>
         </Fade>
     </Modal>

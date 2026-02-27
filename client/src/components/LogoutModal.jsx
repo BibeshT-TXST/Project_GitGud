@@ -15,6 +15,25 @@ import {
   ThemeProvider
 } from '@mui/material';
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '450px',
+  bgcolor: 'background.paper',
+  borderRadius: '12px',
+  boxShadow: 24,
+  outline: 'none',
+};
+
+const theme = createTheme({
+  palette: {
+    primary: { main: '#363534' },
+  },
+});
+
+
 export default function LogoutModal({ open, onConfirm, onCancel }) {
 
     // Core timer logic
@@ -31,6 +50,7 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
     }, [open]);
 
     return (
+    <ThemeProvider theme={theme}>
     <Modal 
         open={open} 
         onClose={onCancel} 
@@ -78,5 +98,6 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
             </Box>
         </Fade>
     </Modal>
+    </ThemeProvider>
     );
 }

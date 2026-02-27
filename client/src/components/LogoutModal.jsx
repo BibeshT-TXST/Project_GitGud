@@ -49,10 +49,13 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
                     <CardContent sx ={{ p:3 }}>
                         <Stack spacing={3} alignItems="center">
                             {/* ── Countdown placeholder ── */}
-                            <Typography variant="body1" color="text.secondary">
-                                You will be logged out automatically…
+                            <Typography variant="h3" fontWeight="bold" color="#363534">
+                                {seconds}
                             </Typography>
-                             {/* ── Footer Buttons ── */}
+                            <Typography variant="body1" color="text.secondary">
+                                Logging out in {seconds} second{seconds !== 1 ? 's' : ''}…
+                            </Typography>
+                            {/* ── Footer Buttons ── */}
                             <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ width: '100%', mt: 2 }}>
                                 <Button
                                     variant="outlined"

@@ -271,6 +271,8 @@ app.delete('/api/inventory/:isbn', async (req, res) => {
 // Warning Destructive Route, Only to be used in special cases under supervision
 app.delete('/api/inventory', async (req, res) => {
 
+   const client = await pool.connect(); 
+
 });
 
 app.listen(PORT, () => {

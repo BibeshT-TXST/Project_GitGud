@@ -9,6 +9,26 @@ export default function SuccessfulLogout() {
     const navigate = useNavigate();
     const { logout } = useAuth(); // Needed to clear context
 
+    useEffect(() => {
+        // 1. Blacklist token server-side upon loading this page
+        api.post('/auth/logout').catch(err => console.error('Logout error:', err));
+        
+        // 2. Begin 12 second countdown
+        const timerId = setInterval(() => {
+            setSeconds((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerId);
+                    // 3. Complete client wipe + redirect once timer completes
+                    logout();  
+                    navigate('/'); 
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(timerId);
+    }, [logout, navigate]);
+
     return (
         <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant="h3" gutterBottom>Successfully Logged out</Typography>

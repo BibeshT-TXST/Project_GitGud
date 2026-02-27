@@ -9,9 +9,27 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+//----- Token Blacklist---------
+// In-memory set of revoked JWT tokens
+const tokenBlacklist = new Set();
+
 // Middleware
 app.use(cors());
 app.use(express.json()); // Allows us to handle JSON in req.body
+
+// Middleware: reject requests that carry a blacklisted token
+const rejectBlacklistedToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader) {
+        const token = authHeader.split(' ')[1]; // "Bearer <token>"
+        if (tokenBlacklist.has(token)) {
+            return res.status(401).json({ message: 'Token has been revoked' });
+        }
+    }
+    next();
+};
+app.use(rejectBlacklistedToken);
+
 
 // Simple Test Route
 app.get('/test', (req, res) => {
@@ -90,6 +108,40 @@ app.post('/auth/signup', async (req, res) => {
     console.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
+});
+
+/* Logout Route
+   Adds the caller's JWT to the in-memory blacklist so it cannot
+   be reused, then schedules automatic removal after the token's
+   natural expiry.
+*/
+app.post('/auth/logout', (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(400).json({ message: 'No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    // Add to blacklist
+    tokenBlacklist.add(token);
+
+    // Auto-remove after the token's natural expiry (saves memory)
+    try {
+        const payload = jwt.decode(token);
+        if (payload && payload.exp) {
+            const msUntilExpiry = payload.exp * 1000 - Date.now();
+            if (msUntilExpiry > 0) {
+                setTimeout(() => tokenBlacklist.delete(token), msUntilExpiry);
+            }
+        }
+    } catch {
+        // If decode fails, token stays in Set until server restart — acceptable.
+    }
+
+    return res.json({ message: 'Logged out successfully' });
+
 });
 
 // Book Stats Route — returns counts by status and book type

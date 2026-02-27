@@ -13,6 +13,12 @@ import InventoryPage from './Inventory_page.jsx';
 import AccountsPage from './Accounts.jsx';
 import DashboardPage from './Dashboard.jsx';
 import myLogo from '../assets/logo.png';
+import Button from '@mui/material/Button';
+import { useAuth } from '../context/AuthContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+import api from '../api/axios';
+import LogoutModal from '../components/LogoutModal.jsx';
+
 
 const NAVIGATION = [
     {
@@ -35,6 +41,52 @@ const NAVIGATION = [
         icon: <AccountCircleIcon sx={{ color: '#363524' }} />,
     },
 ];
+
+/**
+ * Custom toolbar-actions component injected into the
+ * Toolpad DashboardLayout AppBar via the `toolbarActions` slot.
+ *
+ * Renders a "Log out" button pinned to the right edge of the
+ * AppBar header row.
+ *
+ * MUI docs reference:
+ *   Slots → toolbarActions
+ *   https://mui.com/toolpad/core/react-dashboard-layout/#slots
+ */
+function ToolbarActionsLogout() {
+    const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = React.useState(false);
+    
+    const handleLogout = () => {
+        setModalOpen(false);
+        navigate('/successful-logout');
+    };
+    return (
+        <>
+        <Button
+            variant="contained"
+            startIcon = {<LogoutIcon style={{ color: '#363534' }} />}
+            onClick={() => setModalOpen(true)}
+            sx={{
+                backgroundColor: '#F5F1EE',
+                color: '#363534',
+                textTransform: 'none',
+                fontWeight: 600,
+                '&:hover': {
+                    backgroundColor: '#e8e4e1',   // slightly darker on hover
+                },
+            }}
+        >
+            Logout
+        </Button>
+        <LogoutModal
+                open={modalOpen}
+                onConfirm={handleLogout}
+                onCancel={() => setModalOpen(false)}
+            />
+        </>
+    );
+}
 
 const demoTheme = createTheme({
     palette: {
@@ -118,7 +170,7 @@ function LandingPageInner(props) {
             router={router}
             theme={demoTheme}
         >
-            <DashboardLayout>
+            <DashboardLayout slots={{toolbarActions: ToolbarActionsLogout}}>
                 <LandingPageContent pathname={router.pathname} />
             </DashboardLayout>
         </AppProvider>

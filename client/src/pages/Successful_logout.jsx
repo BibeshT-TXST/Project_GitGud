@@ -1,0 +1,1 @@
+/* This page will only be displayed when successfully logging out */

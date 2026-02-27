@@ -291,6 +291,10 @@ app.delete('/api/inventory', async (req, res) => {
 
    } catch (err) {
      
+    await client.query('ROLLBACK');
+    console.error("Transaction failed, rolled back.", err.message);
+    res.status(500).json({ error: "Server error during wholesale deletion" });
+
    } finally {
 
    }

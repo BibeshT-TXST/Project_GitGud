@@ -67,15 +67,6 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
                         </Typography>
                     </Box>
                     <CardContent sx ={{ p:3 }}>
-                        <Stack spacing={3} alignItems="center">
-                            {/* ── Countdown placeholder ── */}
-                            <Typography variant="h6" fontWeight="bold" color="#363534">
-                                Logging out in
-                            </Typography>
-                            <Typography variant="h3" fontWeight="bold" color="#363534">
-                                {seconds}s
-                            </Typography>
-                            {/* ── Footer Buttons ── */}
                             <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ width: '100%', mt: 2 }}>
                                 <Button
                                     variant="outlined"
@@ -92,7 +83,6 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
                                     Yes
                                 </Button>
                             </Stack>
-                        </Stack>
                     </CardContent>
                 </Card>
             </Box>

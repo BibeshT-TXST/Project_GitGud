@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import { useAuth } from '../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import api from '../api/axios';
+import LogoutModal from '../components/LogoutModal.jsx';
 
 
 const NAVIGATION = [
@@ -55,6 +56,7 @@ const NAVIGATION = [
 function ToolbarActionsLogout() {
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = React.useState(false);
     
     const handleLogout = () => {
         try {
@@ -68,10 +70,11 @@ function ToolbarActionsLogout() {
         navigate('/');     // redirect to the login page
     };
     return (
+        <>
         <Button
             variant="contained"
             startIcon = {<LogoutIcon style={{ color: '#363534' }} />}
-            onClick={handleLogout}
+            onClick={() => setModalOpen(true)}
             sx={{
                 backgroundColor: '#F5F1EE',
                 color: '#363534',
@@ -84,6 +87,12 @@ function ToolbarActionsLogout() {
         >
             Logout
         </Button>
+        <LogoutModal
+                open={modalOpen}
+                onConfirm={handleLogout}
+                onCancel={() => setModalOpen(false)}
+            />
+        </>
     );
 }
 

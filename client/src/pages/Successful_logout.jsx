@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
@@ -8,19 +8,23 @@ export default function SuccessfulLogout() {
     const [seconds, setSeconds] = useState(12);
     const navigate = useNavigate();
     const { logout } = useAuth(); // Needed to clear context
+    const hasSentLogout = useRef(false);
 
     useEffect(() => {
-        // 1. Blacklist token server-side upon loading this page
-        api.post('/auth/logout').catch(err => console.error('Logout error:', err));
-        
+        // 1. Blacklist token server-side upon loading this page (guarded against strict-mode double-tap)
+        if (!hasSentLogout.current) {
+            api.post('/auth/logout').catch(err => console.error('Logout error:', err));
+            hasSentLogout.current = true;
+        }
+
         // 2. Begin 12 second countdown
         const timerId = setInterval(() => {
             setSeconds((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerId);
                     // 3. Complete client wipe + redirect once timer completes
-                    logout();  
-                    navigate('/'); 
+                    logout();
+                    navigate('/');
                     return 0;
                 }
                 return prev - 1;

@@ -24,7 +24,7 @@ api.interceptors.response.use(
     },
     (error) => {
         const url = error.config?.url || '';
-        const isAuthRoute = url.includes('/auth/login') || url.includes('/auth/signup');
+        const isAuthRoute = url.includes('/auth/login') || url.includes('/auth/signup') || url.includes('/auth/logout');
 
         // Handle 401/403 errors — but NOT on auth routes where
         // we expect these statuses for wrong credentials / duplicate users.

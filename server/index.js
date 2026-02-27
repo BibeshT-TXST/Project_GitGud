@@ -282,6 +282,12 @@ app.delete('/api/inventory', async (req, res) => {
    
     // Commit the transaction to apply the changes permanently
     await client.query('COMMIT');
+    
+    res.json({ 
+      message: "All books deleted successfully", 
+      deletedCount: deletedBooks.rowCount 
+    });
+
 
    } catch (err) {
      

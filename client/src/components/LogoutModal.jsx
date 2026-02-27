@@ -28,3 +28,21 @@ useEffect(() => {
   }, 1000);
   return () => clearInterval(id);
 }, [open]);
+
+
+export default function LogoutModal({ open, onConfirm, onCancel }) {
+  return (
+    <Modal 
+        open={open} 
+        onClose={onCancel} 
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{ backdrop: { timeout: 500, style: { backgroundColor: 'rgba(0,0,0,0.6)' } } }}>
+        <Fade in={open}>
+            <Box sx={modalStyle}>
+            
+            </Box>
+        </Fade>
+    </Modal>
+  );
+}

@@ -62,18 +62,18 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
                 <Card sx={{ borderRadius: '12px' }}>
                     {/* ── Header ── */}
                     <Box sx={{ p: 3, borderBottom: '1px solid #eee' }}>
-                        <Typography variant="h6" fontWeight="bold" color="#363534">
+                        <Typography variant="h5" fontWeight="bold" color="#363534">
                             Are you sure you want to log out?
                         </Typography>
                     </Box>
                     <CardContent sx ={{ p:3 }}>
                         <Stack spacing={3} alignItems="center">
                             {/* ── Countdown placeholder ── */}
-                            <Typography variant="h3" fontWeight="bold" color="#363534">
-                                {seconds}
+                            <Typography variant="h6" fontWeight="bold" color="#363534">
+                                Logging out in
                             </Typography>
-                            <Typography variant="body1" color="text.secondary">
-                                Logging out in {seconds} second{seconds !== 1 ? 's' : ''}…
+                            <Typography variant="h3" fontWeight="bold" color="#363534">
+                                {seconds}s
                             </Typography>
                             {/* ── Footer Buttons ── */}
                             <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ width: '100%', mt: 2 }}>

@@ -266,6 +266,13 @@ app.delete('/api/inventory/:isbn', async (req, res) => {
 
 });
 
+// Delete All Books Route 
+// This block awaits ping from frontend and via an atomic transaction deletes all books from the database
+// Warning Destructive Route, Only to be used in special cases under supervision
+app.delete('/api/inventory', async (req, res) => {
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

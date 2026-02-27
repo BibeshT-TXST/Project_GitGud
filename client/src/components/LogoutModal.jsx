@@ -47,6 +47,31 @@ export default function LogoutModal({ open, onConfirm, onCancel }) {
                             Are you sure you want to log out?
                         </Typography>
                     </Box>
+                    <CardContent sx ={{ p:3 }}>
+                        <Stack spacing={3} alignItems="center">
+                            {/* ── Countdown placeholder ── */}
+                            <Typography variant="body1" color="text.secondary">
+                                You will be logged out automatically…
+                            </Typography>
+                             {/* ── Footer Buttons ── */}
+                            <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ width: '100%', mt: 2 }}>
+                                <Button
+                                    variant="outlined"
+                                    onClick={onCancel}
+                                    sx={{ textTransform: 'none', color: 'grey.700', borderColor: 'grey.400' }}
+                                >
+                                    No
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    onClick={onConfirm}
+                                    sx={{ textTransform: 'none', px: 4 }}
+                                >
+                                    Yes
+                                </Button>
+                            </Stack>
+                        </Stack>
+                    </CardContent>
                 </Card>
             </Box>
         </Fade>

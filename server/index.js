@@ -273,6 +273,22 @@ app.delete('/api/inventory', async (req, res) => {
 
    const client = await pool.connect(); 
 
+   try{
+
+    await client.query('BEGIN');
+    
+    // Execute SQL DELETE query for all books
+    const deletedBooks = await client.query('DELETE FROM books RETURNING *');
+   
+    // Commit the transaction to apply the changes permanently
+    await client.query('COMMIT');
+
+   } catch (err) {
+     
+   } finally {
+
+   }
+
 });
 
 app.listen(PORT, () => {

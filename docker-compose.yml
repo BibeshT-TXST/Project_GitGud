@@ -1,0 +1,26 @@
+services:
+  # -------- PostgreSQL Database --------
+  inventory-db:
+    build: ./database           # Uses database/Dockerfile
+    image: db-inventory
+    container_name: db-container
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+
+  # -------- Express.js Backend API --------
+  backend-server:
+    build: ./server             # Uses server/Dockerfile
+    image: backend-server
+    container_name: server-container
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env           # Loads all env vars from the .env file
+    depends_on:
+      - inventory-db            # Ensures DB starts before the server
+    restart: on-failure         # Auto-restart if the server crashes
+
+volumes:
+  db-volume:

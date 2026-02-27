@@ -187,6 +187,33 @@ app.put('/api/inventory/:isbn', async (req, res) => {
   }
 });
 
+//Delete Book Route
+//This block awaits ping from frontend and via custom SQL query using pool deletes a book from the database by ISBN
+app.delete('/api/inventory/:isbn', async (req, res) => {
+  try {
+    const { isbn } = req.params; // Get ISBN from URL parameter
+    
+    // Execute SQL DELETE query
+    const deletedBook = await pool.query(
+      'DELETE FROM books WHERE isbn = $1 RETURNING *',
+      [isbn]
+    );
+    
+    // Check if book was found and deleted
+    if (deletedBook.rows.length === 0) {
+      return res.status(404).json({ error: "Book not found with the provided ISBN" });
+    }
+
+    // Return the deleted book data as confirmation
+    res.json({ message: "Book deleted successfully", book: deletedBook.rows[0] }); 
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

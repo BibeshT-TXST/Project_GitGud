@@ -297,6 +297,8 @@ app.delete('/api/inventory', async (req, res) => {
 
    } finally {
 
+    client.release();
+
    }
 
 });

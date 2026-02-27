@@ -54,20 +54,12 @@ const NAVIGATION = [
  *   https://mui.com/toolpad/core/react-dashboard-layout/#slots
  */
 function ToolbarActionsLogout() {
-    const { logout } = useAuth();
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = React.useState(false);
     
     const handleLogout = () => {
-        try {
-            api.post('/auth/logout');  // blacklist the token server-side
-        } catch (err) {
-            console.error('Logout API call failed:', err);
-            // Even if the server call fails, still clear client state
-        }
-        
-        logout();          // clears token + user from AuthContext & sessionStorage
-        navigate('/');     // redirect to the login page
+        setModalOpen(false);
+        navigate('/successful-logout');
     };
     return (
         <>

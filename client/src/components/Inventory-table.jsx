@@ -5,12 +5,12 @@ import MenuItem from '@mui/material/MenuItem';
 
 const columns = [
   { field: 'isbn', headerName: 'ISBN', minWidth: 200, editable: false },
-  { field: 'title', 
-    headerName: 'Title', 
+  { field: 'title', headerName: 'Title', minWidth: 200, flex: 1, editable: true},
+  { field: 'booktype', 
+    headerName: 'Book Type', 
     minWidth: 200, 
-    flex: 1, 
-    editable: true, 
-    renderEditCell: (params) => (
+    editable: true,
+     renderEditCell: (params) => (
       <Select
         value={params.value || ''}
         //params.api.setEditCellValue(...) is the MUI DataGrid API 
@@ -22,11 +22,10 @@ const columns = [
       >
         <MenuItem value="Paperback">Paperback</MenuItem>
         <MenuItem value="HardCover">HardCover</MenuItem>
-        <MenuItem value="E-Book">E-Book</MenuItem> 
+        <MenuItem value="E-Book">E-Book</MenuItem>
       </Select>
     ),
   },
-  { field: 'booktype', headerName: 'Book Type', minWidth: 200, editable: true },
   { field: 'status', headerName: 'Status', minWidth: 200, editable: true },
   { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: false },
   // place holder for future expansion

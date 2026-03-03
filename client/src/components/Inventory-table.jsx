@@ -13,7 +13,7 @@ const columns = [
      renderEditCell: (params) => (
       <Select
         value={params.value || ''}
-        //params.api.setEditCellValue(...) is the MUI DataGrid API 
+        // params.api.setEditCellValue(...) is the MUI DataGrid API 
         // method for programmatically updating a cell value while 
         // in row-edit mode
         onChange={(e) => params.api.setEditCellValue({ id: params.id, field: params.field, value: e.target.value })}
@@ -26,7 +26,27 @@ const columns = [
       </Select>
     ),
   },
-  { field: 'status', headerName: 'Status', minWidth: 200, editable: true },
+  { field: 'status', 
+    headerName: 'Status', 
+    minWidth: 200, 
+    editable: true,
+    renderEditCell: (params) => (
+      <Select
+        value={params.value || ''}
+        // params.api.setEditCellValue(...) is the MUI DataGrid API 
+        // method for programmatically updating a cell value while 
+        // in row-edit mode
+        onChange={(e) => params.api.setEditCellValue({ id: params.id, field: params.field, value: e.target.value })}
+        fullWidth
+        sx={{ height: '100%' }}
+      >
+        <MenuItem value="Out on Loan">Out on Loan</MenuItem>
+        <MenuItem value="Reserved">Reserved</MenuItem>
+        <MenuItem value="in-Repair">In-Repair</MenuItem>
+        <MenuItem value="Archived">Archived</MenuItem>
+      </Select>
+    ),
+   },
   { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: false },
   // place holder for future expansion
 ];

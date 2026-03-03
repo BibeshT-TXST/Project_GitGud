@@ -266,6 +266,43 @@ app.delete('/api/inventory/:isbn', async (req, res) => {
 
 });
 
+// Delete All Books Route 
+// This block awaits ping from frontend and via an atomic transaction deletes all books from the database
+// Warning Destructive Route, Only to be used in special cases under supervision
+app.delete('/api/inventory', async (req, res) => {
+
+   const client = await pool.connect(); 
+
+   try{
+
+    await client.query('BEGIN');
+    
+    // Execute SQL DELETE query for all books
+    const deletedBooks = await client.query('DELETE FROM books RETURNING *');
+   
+    // Commit the transaction to apply the changes permanently
+    await client.query('COMMIT');
+    
+    res.json({ 
+      message: "All books deleted successfully", 
+      deletedCount: deletedBooks.rowCount 
+    });
+
+
+   } catch (err) {
+     
+    await client.query('ROLLBACK');
+    console.error("Transaction failed, rolled back.", err.message);
+    res.status(500).json({ error: "Server error during wholesale deletion" });
+
+   } finally {
+
+    client.release();
+
+   }
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

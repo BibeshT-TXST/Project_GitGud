@@ -5,7 +5,27 @@ import MenuItem from '@mui/material/MenuItem';
 
 const columns = [
   { field: 'isbn', headerName: 'ISBN', minWidth: 200, editable: false },
-  { field: 'title', headerName: 'Title', minWidth: 200, flex: 1, editable: true },
+  { field: 'title', 
+    headerName: 'Title', 
+    minWidth: 200, 
+    flex: 1, 
+    editable: true, 
+    renderEditCell: (params) => (
+      <Select
+        value={params.value || ''}
+        //params.api.setEditCellValue(...) is the MUI DataGrid API 
+        // method for programmatically updating a cell value while 
+        // in row-edit mode
+        onChange={(e) => params.api.setEditCellValue({ id: params.id, field: params.field, value: e.target.value })}
+        fullWidth
+        sx={{ height: '100%' }}
+      >
+        <MenuItem value="Paperback">Paperback</MenuItem>
+        <MenuItem value="HardCover">HardCover</MenuItem>
+        <MenuItem value="E-Book">E-Book</MenuItem> 
+      </Select>
+    ),
+  },
   { field: 'booktype', headerName: 'Book Type', minWidth: 200, editable: true },
   { field: 'status', headerName: 'Status', minWidth: 200, editable: true },
   { field: 'purchasedate', headerName: 'Purchase Date', minWidth: 200, editable: false },

@@ -22,5 +22,16 @@ services:
       - inventory-db            # Ensures DB starts before the server
     restart: on-failure         # Auto-restart if the server crashes
 
+  # -------- React Frontend (Nginx) --------
+  frontend-client:
+    build: ./client              # Uses client/Dockerfile
+    image: frontend-client
+    container_name: client-container
+    ports:
+      - "3000:80"                # Maps host port 3000 → Nginx port 80
+    depends_on:
+      - backend-server           # Ensures backend starts before the frontend
+    restart: on-failure
+    
 volumes:
   db-volume:

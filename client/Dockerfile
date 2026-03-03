@@ -17,3 +17,21 @@ COPY . .
 # Build the production bundle → outputs to /app/dist
 RUN npm run build
 
+# ============================================
+# Serve with Nginx
+# ============================================
+FROM nginx:1.27-alpine
+
+# Remove the default Nginx welcome page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy the built static files from the builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy custom Nginx config (created in Commit 3)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose the port Nginx listens on
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -14,3 +14,10 @@ const request = require('supertest');
 const app = require('../../app');
 const pool = require('../../db');
 const argon2 = require('argon2');
+
+// Replace the real pg Pool with a Jest mock.
+// Every call to pool.query() inside app.js now hits this mock instead of PostgreSQL.
+jest.mock('../../db', () => ({
+  query: jest.fn(),
+  connect: jest.fn(),
+}));

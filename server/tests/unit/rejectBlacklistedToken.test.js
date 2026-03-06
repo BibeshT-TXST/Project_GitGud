@@ -35,10 +35,25 @@ describe('rejectBlacklistedToken middleware', () => {
     const response = await request(app)
       .get('/test')
       .set('Authorization', `Bearer ${fakeToken}`);
-      
+
     // The middleware should block this request before it reaches the /test handler.
     expect(response.status).toBe(401);
     expect(response.body.message).toBe('Token has been revoked');
+  });
+
+  // --- TEST 2: Valid (non-blacklisted) token passes through ---
+  // A token that has not been added to the blacklist should not be blocked.
+  it('should allow requests with a non-blacklisted token', async () => {
+
+    const cleanToken = 'valid.clean.token';
+    const response = await request(app)
+
+      .get('/test')
+      .set('Authorization', `Bearer ${cleanToken}`);
+      
+    // The request reaches the /test route handler and returns 200.
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Systems Team');
   });
 
 });

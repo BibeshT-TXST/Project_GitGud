@@ -21,3 +21,8 @@ jest.mock('../../db', () => ({
   query: jest.fn(),
   connect: jest.fn(),
 }));
+
+// Store the original environment variables so we can restore them after each test.
+// Some tests modify process.env to simulate missing config — this prevents leaking
+// that state into other tests.
+const originalEnv = { ...process.env };

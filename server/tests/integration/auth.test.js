@@ -106,4 +106,73 @@ describe('POST /auth/signup', () => {
     expect(response.status).toBe(500);
     expect(response.body.error).toBe('Server configuration error');
   });
+
+// ===================================================================
+// POST /auth/login
+// ===================================================================
+describe('POST /auth/login', () => {
+
+  // --- Happy path: valid credentials ---
+  // The route should verify the password, generate a JWT, and return it.
+  it('should return 200 and a token for valid credentials', async () => {
+
+    // Create a real Argon2 hash so that argon2.verify() inside the route
+    // returns true. Using a real hash (instead of mocking argon2) tests
+    // the actual hashing integration.
+    const pepper = process.env.PEPPER_SECRET;
+    const hashedPassword = await argon2.hash('correctpassword' + pepper);
+
+    // Mock: user found with the hashed password
+    pool.query.mockResolvedValueOnce({
+      rows: [{ net_id: 'testuser', passwords: hashedPassword }]
+    });
+
+    const response = await request(app)
+      .post('/auth/login')
+      .send({ username: 'testuser', password: 'correctpassword' });
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Login successful');
+
+    // The response must contain a JWT string (three dot-separated segments).
+    expect(response.body.token).toBeDefined();
+    expect(response.body.token.split('.').length).toBe(3);
+  });
+
+  // --- Wrong password ---
+  // The route should return 401 with a generic message.
+  // The message must NOT reveal whether the username or password was wrong.
+  it('should return 401 for an incorrect password', async () => {
+
+    const pepper = process.env.PEPPER_SECRET;
+    const hashedPassword = await argon2.hash('correctpassword' + pepper);
+
+    pool.query.mockResolvedValueOnce({
+      rows: [{ net_id: 'testuser', passwords: hashedPassword }]
+    });
+
+    const response = await request(app)
+      .post('/auth/login')
+      .send({ username: 'testuser', password: 'wrongpassword' });
+
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe('Invalid username or password');
+  });
+
+  // --- Non-existent user ---
+  // The route should return 401 with the same generic message.
+  it('should return 401 when the user does not exist', async () => {
+
+    // Mock: empty result set — no user found
+    pool.query.mockResolvedValueOnce({ rows: [] });
+
+    const response = await request(app)
+      .post('/auth/login')
+      .send({ username: 'ghost', password: 'anypassword' });
+      
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe('Invalid username or password');
+  });
+});
+
 });

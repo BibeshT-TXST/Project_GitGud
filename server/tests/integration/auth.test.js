@@ -26,3 +26,19 @@ jest.mock('../../db', () => ({
 // Some tests modify process.env to simulate missing config — this prevents leaking
 // that state into other tests.
 const originalEnv = { ...process.env };
+
+// ===================================================================
+// SETUP & TEARDOWN
+// ===================================================================
+beforeEach(() => {
+  // Reset all mock call history before each test.
+  // This ensures that a mock return value set in Test A does not bleed into Test B.
+  jest.clearAllMocks();
+  // Restore environment variables to their original state.
+  process.env = { ...originalEnv };
+});
+
+afterAll(() => {
+  // Final cleanup — restore env in case any test modified it.
+  process.env = originalEnv;
+});

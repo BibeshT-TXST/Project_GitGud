@@ -56,4 +56,17 @@ describe('rejectBlacklistedToken middleware', () => {
     expect(response.body.message).toBe('Systems Team');
   });
 
+  // --- TEST 3: Public routes all passes through ---
+  // Public routes (or routes that handle their own auth) should not be blocked.
+  it('should allow requests with no Authorization header', async () => {
+
+    const response = await request(app)
+    
+      .get('/test');
+
+    // No header means the middleware has nothing to check — it calls next().
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Systems Team');
+  });
+
 });

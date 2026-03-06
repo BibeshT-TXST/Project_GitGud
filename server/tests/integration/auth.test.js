@@ -169,9 +169,60 @@ describe('POST /auth/login', () => {
     const response = await request(app)
       .post('/auth/login')
       .send({ username: 'ghost', password: 'anypassword' });
-      
+
     expect(response.status).toBe(401);
     expect(response.body.message).toBe('Invalid username or password');
+  });
+});
+
+// ===================================================================
+// POST /auth/logout
+// ===================================================================
+describe('POST /auth/logout', () => {
+
+  // --- Happy path: token provided ---
+  // The route should add the token to the blacklist and return 200.
+  it('should return 200 and "Logged out successfully" when a token is provided', async () => {
+
+    const response = await request(app)
+      .post('/auth/logout')
+      .set('Authorization', 'Bearer some.valid.token');
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Logged out successfully');
+  });
+
+  // --- No token provided ---
+  // The route should return 400 because there is nothing to blacklist.
+  it('should return 400 when no Authorization header is sent', async () => {
+
+    const response = await request(app)
+      .post('/auth/logout');
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('No token provided');
+  });
+
+  // --- Blacklist verification ---
+  // After logout, subsequent requests with the same token should be rejected.
+  // This tests the full chain: logout → blacklist → middleware rejection.
+  it('should blacklist the token so subsequent requests are rejected', async () => {
+
+    const token = 'token.to.blacklist';
+
+    // Step 1: Logout with this token.
+    await request(app)
+      .post('/auth/logout')
+      .set('Authorization', `Bearer ${token}`);
+
+    // Step 2: Try to access a route with the same token.
+    const response = await request(app)
+      .get('/test')
+      .set('Authorization', `Bearer ${token}`);
+      
+    // The middleware should block this with 401.
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe('Token has been revoked');
   });
 });
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --forceExit --detectOpenHandles"
+    "test": "DOTENV_CONFIG_PATH=.env.test jest --forceExit --detectOpenHandles"
   },
   "keywords": [],
   "author": "",

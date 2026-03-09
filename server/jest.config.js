@@ -13,4 +13,10 @@ module.exports = {
 
   // Print each individual test name during the run
   verbose: true,
+
+  // Load test-specific environment variables before any test file runs.
+  // This ensures process.env.PEPPER_SECRET, JWT_SECRET, etc. are available
+  // without depending on the real .env file (which should not exist in CI).
+  setupFiles: ['dotenv/config'],
+  
 };

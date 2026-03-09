@@ -92,11 +92,66 @@ describe('GET /api/inventory/stats', () => {
   it('should return 500 when any stats query fails', async () => {
 
     pool.query.mockRejectedValueOnce(new Error('timeout'));
-    
+
     const response = await request(app).get('/api/inventory/stats');
 
     expect(response.status).toBe(500);
     expect(response.body.error).toBe('Server error');
 
   });
+});
+
+// ===================================================================
+// POST /api/inventory/add
+// ===================================================================
+describe('POST /api/inventory/add', () => {
+
+  // --- Happy path: add a book ---
+  it('should return 200 and the created book', async () => {
+
+    const newBook = {
+      isbn: '333',
+      title: 'New Book',
+      booktype: 'Paperback',
+      current_status: 'Available',
+      purchasedate: '2025-09-01',
+    };
+
+    // Mock: INSERT returns the new row
+    pool.query.mockResolvedValueOnce({ rows: [newBook] });
+    const response = await request(app)
+      .post('/api/inventory/add')
+      .send({
+        isbn: '333',
+        title: 'New Book',
+        booktype: 'Paperback',
+        status: 'Available',
+        date: '2025-09-01'
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.isbn).toBe('333');
+    expect(response.body.title).toBe('New Book');
+
+  });
+
+  // --- Database error ---
+  it('should return 500 when the insert fails', async () => {
+
+    pool.query.mockRejectedValueOnce(new Error('duplicate key'));
+    const response = await request(app)
+      .post('/api/inventory/add')
+      .send({
+        isbn: '333',
+        title: 'New Book',
+        booktype: 'Paperback',
+        status: 'Available',
+        date: '2025-09-01'
+      });
+
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe('Server error');
+
+  });
+  
 });

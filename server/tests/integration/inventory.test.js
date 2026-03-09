@@ -249,3 +249,69 @@ describe('DELETE /api/inventory/:isbn', () => {
   });
   
 });
+
+// ===================================================================
+// DELETE /api/inventory (delete all — transactional)
+// ===================================================================
+describe('DELETE /api/inventory', () => {
+
+  // --- Happy path: all books deleted ---
+  // This route uses pool.connect() to get a client for a transaction (BEGIN/COMMIT).
+  // The mock must return a client object with query() and release() methods.
+  it('should return 200 and the count of deleted books', async () => {
+    // Create a mock client that simulates the transactional flow:
+
+    //   client.query('BEGIN')  → resolves
+    //   client.query('DELETE...') → resolves with rowCount
+    //   client.query('COMMIT') → resolves
+    //   client.release() → no-op
+    const mockClient = {
+      query: jest.fn()
+        .mockResolvedValueOnce()                          // BEGIN
+        .mockResolvedValueOnce({ rowCount: 5 })           // DELETE FROM books RETURNING *
+        .mockResolvedValueOnce(),                          // COMMIT
+      release: jest.fn(),
+    };
+
+    // pool.connect() returns the mock client
+
+    pool.connect.mockResolvedValueOnce(mockClient);
+
+    const response = await request(app).delete('/api/inventory');
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('All books deleted successfully');
+    expect(response.body.deletedCount).toBe(5);
+
+    // Verify the transaction lifecycle was followed correctly.
+    expect(mockClient.query).toHaveBeenCalledTimes(3);
+    expect(mockClient.release).toHaveBeenCalledTimes(1);
+
+  });
+
+  // --- Transaction failure: should rollback ---
+  // If the DELETE query fails, the route must call ROLLBACK and return 500.
+  it('should return 500 and rollback when the transaction fails', async () => {
+
+    const mockClient = {
+      query: jest.fn()
+        .mockResolvedValueOnce()                          // BEGIN succeeds
+        .mockRejectedValueOnce(new Error('disk full'))    // DELETE fails
+        .mockResolvedValueOnce(),                          // ROLLBACK succeeds
+      release: jest.fn(),
+    };
+
+    pool.connect.mockResolvedValueOnce(mockClient);
+
+    const response = await request(app).delete('/api/inventory');
+
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe('Server error during wholesale deletion');
+
+    // Verify ROLLBACK was called (3rd query call) and client was released.
+    expect(mockClient.query).toHaveBeenCalledTimes(3);
+    expect(mockClient.release).toHaveBeenCalledTimes(1);
+
+  });
+  
+});

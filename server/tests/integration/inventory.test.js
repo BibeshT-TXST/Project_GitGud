@@ -155,3 +155,57 @@ describe('POST /api/inventory/add', () => {
   });
   
 });
+
+// ===================================================================
+// PUT /api/inventory/:isbn
+// ===================================================================
+describe('PUT /api/inventory/:isbn', () => {
+
+  // --- Happy path: book found and updated ---
+  it('should return 200 and the updated book', async () => {
+
+    const updatedBook = {
+      isbn: '111',
+      title: 'Updated Title',
+      booktype: 'Hardcover',
+      current_status: 'Checked Out',
+      purchasedate: '2025-01-01',
+    };
+
+    pool.query.mockResolvedValueOnce({ rows: [updatedBook] });
+
+    const response = await request(app)
+      .put('/api/inventory/111')
+      .send({
+        title: 'Updated Title',
+        booktype: 'Hardcover',
+        status: 'Checked Out',
+        purchasedate: '2025-01-01'
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.title).toBe('Updated Title');
+
+  });
+
+  // --- Book not found ---
+  it('should return 404 when the ISBN does not exist', async () => {
+
+    // Mock: UPDATE affected zero rows
+    pool.query.mockResolvedValueOnce({ rows: [] });
+
+    const response = await request(app)
+      .put('/api/inventory/999')
+      .send({
+        title: 'Ghost',
+        booktype: 'Paperback',
+        status: 'Available',
+        purchasedate: '2025-01-01'
+      });
+
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe('Book not found with the provided ISBN');
+
+  });
+  
+});

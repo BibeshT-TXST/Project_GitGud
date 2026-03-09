@@ -207,5 +207,45 @@ describe('PUT /api/inventory/:isbn', () => {
     expect(response.body.error).toBe('Book not found with the provided ISBN');
 
   });
+
+});
+
+// ===================================================================
+// DELETE /api/inventory/:isbn
+// ===================================================================
+describe('DELETE /api/inventory/:isbn', () => {
+
+  // --- Happy path: book found and deleted ---
+  it('should return 200 and the deleted book', async () => {
+
+    const deletedBook = {
+      isbn: '111',
+      title: 'Deleted Book',
+      booktype: 'Hardcover',
+      current_status: 'Available',
+      purchasedate: '2025-01-01',
+    };
+
+    pool.query.mockResolvedValueOnce({ rows: [deletedBook] });
+
+    const response = await request(app).delete('/api/inventory/111');
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Book deleted successfully');
+    expect(response.body.book.isbn).toBe('111');
+
+  });
+
+  // --- Book not found ---
+  it('should return 404 when the ISBN does not exist', async () => {
+
+    pool.query.mockResolvedValueOnce({ rows: [] });
+
+    const response = await request(app).delete('/api/inventory/999');
+
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe('Book not found with the provided ISBN');
+
+  });
   
 });

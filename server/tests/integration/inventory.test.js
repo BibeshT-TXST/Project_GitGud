@@ -63,3 +63,40 @@ describe('GET /api/inventory', () => {
   });
 
 });
+
+// ===================================================================
+// GET /api/inventory/stats
+// ===================================================================
+describe('GET /api/inventory/stats', () => {
+
+  // --- Happy path: stats returned ---
+  it('should return 200 with total, byStatus, and byType', async () => {
+
+    // The route makes three sequential pool.query calls.
+    // Mock them in order: statusCounts, typeCounts, totalCount.
+    pool.query
+      .mockResolvedValueOnce({ rows: [{ status: 'Available', count: 10 }] })    // statusCounts
+      .mockResolvedValueOnce({ rows: [{ booktype: 'Hardcover', count: 10 }] })  // typeCounts
+      .mockResolvedValueOnce({ rows: [{ count: 10 }] });                         // totalCount
+
+    const response = await request(app).get('/api/inventory/stats');
+
+    expect(response.status).toBe(200);
+    expect(response.body.total).toBe(10);
+    expect(response.body.byStatus).toEqual([{ status: 'Available', count: 10 }]);
+    expect(response.body.byType).toEqual([{ booktype: 'Hardcover', count: 10 }]);
+
+  });
+
+  // --- Database error ---
+  it('should return 500 when any stats query fails', async () => {
+
+    pool.query.mockRejectedValueOnce(new Error('timeout'));
+    
+    const response = await request(app).get('/api/inventory/stats');
+
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe('Server error');
+
+  });
+});

@@ -39,6 +39,7 @@ describe('isTokenExpired', () => {
     expect(isTokenExpired(token)).toBe(true);
 
   });
+
   it('returns TRUE for a completely malformed (non-JWT) string', () => {
 
     // Anything that can't be split and base64-decoded should be treated as expired
@@ -54,5 +55,37 @@ describe('isTokenExpired', () => {
     expect(isTokenExpired(null)).toBe(true);
 
   });
+
+// ═══════════════════════════════════════════════════════════
+// Test 2: getUsernameFromToken
+// ═══════════════════════════════════════════════════════════
+describe('getUsernameFromToken', () => {
+
+  it('returns the username when present in the payload', () => {
+
+    const token = makeFakeJWT({ username: 'abc123' });
+
+    expect(getUsernameFromToken(token)).toBe('abc123');
+
+  });
+
+  it('returns null when the payload has no username field', () => {
+
+    // A valid JWT but the backend didn't include `username`
+    const token = makeFakeJWT({ sub: 'some-id' });
+
+    expect(getUsernameFromToken(token)).toBeNull();
+
+  });
+
+  it('returns null for a malformed token string', () => {
+
+    expect(getUsernameFromToken('garbage')).toBeNull();
+
+    expect(getUsernameFromToken('')).toBeNull();
+
+  });
   
+});
+
 });

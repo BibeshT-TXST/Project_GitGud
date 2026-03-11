@@ -26,3 +26,30 @@ function renderAtPath(path) {
   );
 
 }
+
+describe('App routing', () => {
+
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+
+  it('renders the Login page at "/"', () => {
+    renderAtPath('/');
+    // The Login page renders a heading with "Login" text
+    expect(screen.getByText('Login')).toBeInTheDocument();
+  });
+
+  it('renders the Successful Logout page at "/successful-logout"', () => {
+    renderAtPath('/successful-logout');
+    // The logout page shows "Successfully Logged out"
+    expect(screen.getByText('Successfully Logged out')).toBeInTheDocument();
+  });
+
+  it('redirects to "/" when accessing "/landing" without a token', () => {
+    // sessionStorage is empty → token is null → ProtectedRoute should redirect
+    renderAtPath('/landing');
+    // We should see the Login page instead of the landing content
+    expect(screen.getByText('Login')).toBeInTheDocument();
+  });
+  
+});

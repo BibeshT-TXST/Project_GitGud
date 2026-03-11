@@ -11,7 +11,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import App from './App';
+import App from '../App';
 import { AuthProvider } from '../context/AuthContext';
 
 // Helper function: Renders App at a given URL path
@@ -51,5 +51,5 @@ describe('App routing', () => {
     // We should see the Login page instead of the landing content
     expect(screen.getByText('Login')).toBeInTheDocument();
   });
-  
+
 });

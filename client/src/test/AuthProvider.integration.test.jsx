@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider, useAuth } from '../context/AuthContext';
 
 // Demo consumer that exposes auth state to the test DOM 
 // We render token, user, and add buttons to trigger login/logout.
@@ -89,5 +89,5 @@ describe('AuthProvider integration', () => {
     expect(sessionStorage.getItem('site-token')).toBeNull();
 
   });
-  
+
 });

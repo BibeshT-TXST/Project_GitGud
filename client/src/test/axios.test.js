@@ -54,3 +54,81 @@ describe('Axios Request Interceptor', () => {
   });
 
 });
+
+describe('Axios Response Interceptor', () => {
+
+  beforeEach(() => {
+    sessionStorage.clear();
+    // Prevent actual navigation in tests
+    delete window.location;
+    window.location = { href: '' };
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('clears sessionStorage and redirects on 401 for a NON-auth route', async () => {
+
+    // Arrange
+    sessionStorage.setItem('site-token', 'some-token');
+
+    const { default: api } = await import('../api/axios.js');
+    const responseInterceptor = api.interceptors.response.handlers[0];
+
+    // Build a fake Axios error matching the shape the interceptor expects
+    const fakeError = {
+      config: { url: '/api/inventory' },       // NOT an auth route
+      response: { status: 401 },
+    };
+
+    // Act: call the rejection handler
+    await expect(responseInterceptor.rejected(fakeError)).rejects.toBeTruthy();
+
+    // Assert: token was removed + browser was redirected
+    expect(sessionStorage.getItem('site-token')).toBeNull();
+    expect(window.location.href).toBe('/');
+
+  });
+
+  it('does NOT clear sessionStorage on 401 for /auth/login route', async () => {
+
+    // Arrange
+    sessionStorage.setItem('site-token', 'some-token');
+
+    const { default: api } = await import('../api/axios.js');
+    const responseInterceptor = api.interceptors.response.handlers[0];
+
+    // Build a fake Axios error matching the shape the interceptor expects
+    const fakeError = {
+      config: { url: '/auth/login' },           // IS an auth route → skip wipe
+      response: { status: 401 },
+    };
+    
+    // Act
+    await expect(responseInterceptor.rejected(fakeError)).rejects.toBeTruthy();
+    
+    // Assert: token should still be there (not wiped)
+    
+    expect(sessionStorage.getItem('site-token')).toBe('some-token');
+    
+  });
+  
+  it('does NOT clear sessionStorage on 401 for /auth/signup route', async () => {
+
+    sessionStorage.setItem('site-token', 'some-token');
+
+    const { default: api } = await import('../api/axios.js');
+    const responseInterceptor = api.interceptors.response.handlers[0];
+    const fakeError = {
+      config: { url: '/auth/signup' },
+      response: { status: 401 },
+    };
+
+    await expect(responseInterceptor.rejected(fakeError)).rejects.toBeTruthy();
+
+    expect(sessionStorage.getItem('site-token')).toBe('some-token');
+
+  });
+  
+});

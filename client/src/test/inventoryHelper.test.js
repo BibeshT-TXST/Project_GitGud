@@ -60,5 +60,39 @@ describe('filterRows', () => {
     const result = filterRows(rowsWithNull, '', '', '');
     expect(result).toHaveLength(4); // the null-title row is excluded
   });
+
+});
+
+// ═══════════════════════════════════════════════════════════
+// parseSelectionModel tests:
+// ═══════════════════════════════════════════════════════════
+describe('parseSelectionModel', () => {
+
+  it('returns the first ID from a plain array', () => {
+    expect(parseSelectionModel(['isbn-001', 'isbn-002'])).toBe('isbn-001');
+  });
+
+  it('returns null from an empty array', () => {
+    expect(parseSelectionModel([])).toBeNull();
+  });
+
+  it('returns the first ID from an object with a Set of ids', () => {
+    const model = { ids: new Set(['isbn-003']) };
+    expect(parseSelectionModel(model)).toBe('isbn-003');
+  });
+
+  it('returns null from an object with an empty Set', () => {
+    expect(parseSelectionModel({ ids: new Set() })).toBeNull();
+  });
+
+  it('returns the first ID from an object with an ids array (fallback)', () => {
+    const model = { ids: ['isbn-004'] };
+    expect(parseSelectionModel(model)).toBe('isbn-004');
+  });
+
+  it('returns null from null/undefined input', () => {
+    expect(parseSelectionModel(null)).toBeNull();
+    expect(parseSelectionModel(undefined)).toBeNull();
+  });
   
 });

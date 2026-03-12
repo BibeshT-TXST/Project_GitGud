@@ -11,3 +11,54 @@ const SAMPLE_ROWS = [
   { isbn: '003', title: 'JavaScript Deep',  booktype: 'E-Book',    status: 'Archived',     purchasedate: '2024-03-10' },
   { isbn: '004', title: 'React Patterns',   booktype: 'Paperback', status: 'in-Repair',    purchasedate: '2024-04-20' },
 ];
+
+// ═══════════════════════════════════════════════════════════
+// filterRows tests:
+// ═══════════════════════════════════════════════════════════
+describe('filterRows', () => {
+
+  it('returns all rows when no filters are applied', () => {
+    // searchQuery = '', statusFilter = '', booktypeFilter = ''
+    const result = filterRows(SAMPLE_ROWS, '', '', '');
+    expect(result).toHaveLength(4);
+  });
+
+  it('filters by title search (case-insensitive)', () => {
+    // "react" should match "React Handbook" and "React Patterns"
+    const result = filterRows(SAMPLE_ROWS, 'react', '', '');
+    expect(result).toHaveLength(2);
+    expect(result.map(r => r.isbn)).toEqual(['001', '004']);
+  });
+
+  it('filters by status only', () => {
+    const result = filterRows(SAMPLE_ROWS, '', 'Reserved', '');
+    expect(result).toHaveLength(1);
+    expect(result[0].isbn).toBe('002');
+  });
+
+  it('filters by booktype only', () => {
+    const result = filterRows(SAMPLE_ROWS, '', '', 'E-Book');
+    expect(result).toHaveLength(1);
+    expect(result[0].isbn).toBe('003');
+  });
+
+  it('combines all three filters together', () => {
+    // Search "react" + status "" (no filter) + booktype "Paperback"
+    // Should match isbn 001 and 004 (title), then narrow to Paperback → both match
+    const result = filterRows(SAMPLE_ROWS, 'react', '', 'Paperback');
+    expect(result).toHaveLength(2);
+  });
+
+  it('returns empty array when search matches nothing', () => {
+    const result = filterRows(SAMPLE_ROWS, 'zzzzz', '', '');
+    expect(result).toHaveLength(0);
+  });
+
+  it('handles rows with missing/null title gracefully', () => {
+    // A row with no title should be filtered out by the title guard
+    const rowsWithNull = [...SAMPLE_ROWS, { isbn: '005', title: null, booktype: 'E-Book', status: 'Archived' }];
+    const result = filterRows(rowsWithNull, '', '', '');
+    expect(result).toHaveLength(4); // the null-title row is excluded
+  });
+  
+});

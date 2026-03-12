@@ -94,5 +94,46 @@ describe('parseSelectionModel', () => {
     expect(parseSelectionModel(null)).toBeNull();
     expect(parseSelectionModel(undefined)).toBeNull();
   });
-  
+
+});
+
+// ═══════════════════════════════════════════════════════════
+// buildCSVString tests
+// ═══════════════════════════════════════════════════════════
+describe('buildCSVString', () => {
+
+  it('produces a header row followed by data rows', () => {
+    const csv = buildCSVString(SAMPLE_ROWS);
+    const lines = csv.split('\n');
+    // First line is the header
+    expect(lines[0]).toBe('ISBN,Title,Book Type,Status,Purchase Date');
+    // Should have 1 header + 4 data rows = 5 lines total
+    expect(lines).toHaveLength(5);
+  });
+
+  it('wraps every cell in double-quotes', () => {
+    const csv = buildCSVString([SAMPLE_ROWS[0]]);
+    const dataLine = csv.split('\n')[1];
+    // Each cell should start and end with
+    dataLine.split(',').forEach((cell) => {
+      expect(cell.startsWith('"')).toBe(true);
+      expect(cell.endsWith('"')).toBe(true);
+    });
+  });
+
+  it('escapes double-quotes inside cell values', () => {
+    // Edge case: a title containing a " character
+    const rowWithQuote = [{ isbn: '099', title: 'The "Best" Book', booktype: 'E-Book', status: 'Archived', purchasedate: '2024-01-01' }];
+    const csv = buildCSVString(rowWithQuote);
+    // Escaped double-quote in CSV = ""
+    expect(csv).toContain('""Best""');
+  });
+
+  it('handles empty rows array → only header line', () => {
+    const csv = buildCSVString([]);
+    const lines = csv.split('\n');
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toBe('ISBN,Title,Book Type,Status,Purchase Date');
+  });
+
 });

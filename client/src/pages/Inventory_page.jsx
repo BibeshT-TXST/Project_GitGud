@@ -12,6 +12,7 @@ import { GridRowModes } from '@mui/x-data-grid';
 import BookStatus from '../components/status';
 import Booktype from '../components/booktype';
 import DownloadIcon from '@mui/icons-material/Download';
+import { filterRows, parseSelectionModel, buildCSVString } from '../test/inventoryHelper';
 
 /* Inventory Page Component
 */
@@ -93,23 +94,7 @@ function InventoryPage() {
 
     // Captures selected row from DataGrid
     const handleRowSelection = (selectionModel) => {
-        console.log("handleRowSelection called. Model:", selectionModel);
-        let selectedId = null;
-
-        // selectionModel can be an array [id] (standard) or an object { ids: Set } (some versions/configs)
-        if (Array.isArray(selectionModel)) {
-            if (selectionModel.length > 0) selectedId = selectionModel[0];
-        } else if (selectionModel && selectionModel.ids && selectionModel.ids instanceof Set) {
-            // Handle Set case
-            if (selectionModel.ids.size > 0) {
-                selectedId = Array.from(selectionModel.ids)[0];
-            }
-        } else if (selectionModel && typeof selectionModel === 'object' && selectionModel.ids) {
-            // Fallback for object with ids array/iterable
-            const ids = Array.from(selectionModel.ids);
-            if (ids.length > 0) selectedId = ids[0];
-        }
-
+        const selectedId = parseSelectionModel(selectionModel);
         setSelectedRowId(selectedId);
     };
 
@@ -135,20 +120,7 @@ function InventoryPage() {
     };
 
     const handleDownloadCSV = () => {
-        const headers = ['isbn', 'title', 'booktype', 'status', 'purchasedate'];
-        const headerLabels = ['ISBN', 'Title', 'Book Type', 'Status', 'Purchase Date'];   
-
-        const csvRows = [
-            headerLabels.join(','), //Top row: The top row will have header labels
-            ...filteredRows.map( row =>
-                headers.map( field =>{
-                    const val = row[field] ?? '';
-                    return `"${String(val).replace(/"/g, '""')}"`;
-                }).join(',')
-            )
-        ];
-
-        const csvString = csvRows.join('\n');
+        const csvString = buildCSVString(filteredRows);
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;'});
         const url = URL.createObjectURL(blob);
 
@@ -163,10 +135,8 @@ function InventoryPage() {
     }
 
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
-    const filteredRows = rows
-        .filter((row) => row.title && row.title.toLowerCase().includes(searchQuery.toLowerCase()))
-        .filter((row) => statusFilter === "" || row.status === statusFilter)
-        .filter((row) => booktypeFilter === "" || row.booktype === booktypeFilter);
+    const filteredRows = filterRows(rows, searchQuery, statusFilter, booktypeFilter);
+    
     //By defauly search options has all the materials in a scroll menu
     const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 

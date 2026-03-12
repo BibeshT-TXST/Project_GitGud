@@ -12,7 +12,7 @@ import { GridRowModes } from '@mui/x-data-grid';
 import BookStatus from '../components/status';
 import Booktype from '../components/booktype';
 import DownloadIcon from '@mui/icons-material/Download';
-import { filterRows, parseSelectionModel, buildCSVString } from '../test/inventoryHelper';
+import { filterRows, parseSelectionModel, buildCSVString } from '../utils/inventoryHelper';
 
 /* Inventory Page Component
 */
@@ -136,7 +136,7 @@ function InventoryPage() {
 
     //This constant takes rows extracted from the databaase and filters it using the text input in search bar
     const filteredRows = filterRows(rows, searchQuery, statusFilter, booktypeFilter);
-    
+
     //By defauly search options has all the materials in a scroll menu
     const searchOptions = rows.map((row) => ({ title: row.title || '' }));
 

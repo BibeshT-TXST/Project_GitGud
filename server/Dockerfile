@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN npm ci --omit=dev
+RUN npm ci 
 
 # Runtime
 FROM node:22-bookworm-slim
@@ -23,4 +23,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the server
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]

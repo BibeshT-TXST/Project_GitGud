@@ -1,3 +1,8 @@
+// ----- app.js -----
+// This file creates and configures the Express application.
+// It is separated from server.js so that test runners (Supertest)
+// can import the app without binding to a port.
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -7,7 +12,6 @@ const argon2 = require('argon2');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 //----- Token Blacklist---------
 // In-memory set of revoked JWT tokens
@@ -303,6 +307,6 @@ app.delete('/api/inventory', async (req, res) => {
 
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Export the app so that server.js can call listen()
+// test files can import it without starting the server
+module.exports = app;

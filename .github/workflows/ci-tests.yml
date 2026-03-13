@@ -24,6 +24,8 @@ on:
     branches: [main]
 
 jobs:
+
+  # --- Frontend (Vitest) ---
   frontend-tests:
     runs-on: ubuntu-latest
     defaults:
@@ -49,4 +51,32 @@ jobs:
 
       # ── run the test suite ──
       - name: Run frontend tests
+        run: npm test
+  
+  # --- Backend (Jest) ---
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server   # all commands run inside server
+    
+    steps:
+      # ── check out the repository ──
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── setup Node.js  ──
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+      
+      # ── install dependencies from lock file ──
+      - name: Install dependencies
+        run: npm ci
+      
+      # ── run the test suite ──
+      - name: Run backend tests
         run: npm test

@@ -141,4 +141,3 @@ book-inventory-app/
 - [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 - [Docker Compose Docs](https://docs.docker.com/compose/intro/compose-application-model/)
 
-## Test User details username: "OrcaO7", password: "Alkek"

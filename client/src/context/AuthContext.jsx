@@ -60,3 +60,6 @@ export const AuthProvider = ({ children }) => {
 }
 
 export const useAuth = () => useContext(AuthContext);
+
+// --- Export for Unit testing ---
+export { isTokenExpired, getUsernameFromToken};

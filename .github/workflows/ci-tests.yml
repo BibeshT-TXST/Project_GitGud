@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────
+# CI Workflow — Frontend Unit & Integration Tests
+#
+# Trigger: every push and every pull_request to the main branch.
+# Steps:
+#   1. Check out the repo
+#   2. Set up Node.js
+#   3. Install client dependencies
+#   4. Run the Vitest test suite
+#
+# Why these choices:
+#   - ubuntu-latest: fast, cheap, consistent
+#   - Node 20: current LTS, matches typical dev machines
+#   - 'npm ci' instead of 'npm install': reproducible builds
+#     from the lock file ### no surprise version bumps ###
+# ─────────────────────────────────────────────────────────
+
+name: Frontend Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  # --- Frontend (Vitest) ---
+  frontend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client   # all commands run inside client/
+
+    steps:
+      # ── check out the repository ──
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── set up Node.js ──
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      # ── install dependencies from lock file ──
+      - name: Install dependencies
+        run: npm ci
+
+      # ── run the test suite ──
+      - name: Run frontend tests
+        run: npm test
+  
+  # --- Backend (Jest) ---
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server   # all commands run inside server
+    
+    steps:
+      # ── check out the repository ──
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── setup Node.js  ──
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+      
+      # ── install dependencies from lock file ──
+      - name: Install dependencies
+        run: npm ci
+      
+      # ── run the test suite ──
+      - name: Run backend tests
+        run: npm test

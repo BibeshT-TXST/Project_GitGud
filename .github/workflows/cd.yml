@@ -77,5 +77,6 @@ jobs:
            JWT_SECRET: ${{ secrets.JWT_SECRET }}
            PEPPER_SECRET: ${{ secrets.PEPPER_SECRET }}
           
-          run: docker compose up -d --build
+          run: docker compose build && docker compose up -d 
+          
 

@@ -1,7 +1,7 @@
 # ============================================
 # Build the Vite/React application
 # ============================================
-FROM node:22-bookworm-slim AS builder
+FROM node:24-bookworm-slim AS builder
 
 WORKDIR /app
 

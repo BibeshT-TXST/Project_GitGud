@@ -16,15 +16,15 @@ services:
     container_name: server-container
     ports:
       - "5000:5000"
-      
+
     environment:
-      - DB_USER : ${{ secrets.DB_USER}}
-      - DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      - DB_HOST: ${{ secrets.DB_HOST }}
-      - DB_PORT: ${{ secrets.DB_PORT }}
-      - DB_NAME: ${{ secrets.DB_NAME }}
-      - JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      - PEPPER_SECRET: ${{ secrets.PEPPER_SECRET }}
+      - DB_USER : ${{DB_USER}}
+      - DB_PASSWORD: ${{DB_PASSWORD }}
+      - DB_HOST: ${{DB_HOST }}
+      - DB_PORT: ${{DB_PORT }}
+      - DB_NAME: ${{DB_NAME }}
+      - JWT_SECRET: ${{JWT_SECRET }}
+      - PEPPER_SECRET: ${{PEPPER_SECRET }}
 
     depends_on:
       - inventory-db            # Ensures DB starts before the server

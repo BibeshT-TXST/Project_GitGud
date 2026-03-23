@@ -69,7 +69,7 @@ jobs:
     steps:
         - name: Deploy
           env:
-           DB_USER : ${{ secrets.DB_USER}}
+           DB_USER: ${{ secrets.DB_USER}}
            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
            DB_HOST: ${{ secrets.DB_HOST }}
            DB_PORT: ${{ secrets.DB_PORT }}
@@ -78,5 +78,3 @@ jobs:
            PEPPER_SECRET: ${{ secrets.PEPPER_SECRET }}
           
           run: docker compose build && docker compose up -d 
-          
-

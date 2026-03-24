@@ -36,7 +36,7 @@ services:
     image: frontend-client
     container_name: client-container
     ports:
-      - "3000:80"                # Maps host port 3000 → Nginx port 80
+      - "80:3000"                # Maps host port 3000 → Nginx port 80
     depends_on:
       - backend-server           # Ensures backend starts before the frontend
     restart: on-failure

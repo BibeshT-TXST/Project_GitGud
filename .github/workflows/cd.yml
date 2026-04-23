@@ -1,21 +1,4 @@
-# ─────────────────────────────────────────────────────────
-# CI Workflow — Frontend Unit & Integration Tests
-#
-# Trigger: every push and every pull_request to the main branch.
-# Steps:
-#   1. Check out the repo
-#   2. Set up Node.js
-#   3. Install client dependencies
-#   4. Run the Vitest test suite
-#
-# Why these choices:
-#   - ubuntu-latest: fast, cheap, consistent
-#   - Node 20: current LTS, matches typical dev machines
-#   - 'npm ci' instead of 'npm install': reproducible builds
-#     from the lock file ### no surprise version bumps ###
-# ─────────────────────────────────────────────────────────
-
-name: Frontend Tests
+name: production
 
 on:
   push:
@@ -24,8 +7,7 @@ on:
     branches: [main]
 
 jobs:
-
-  # --- Frontend (Vitest) ---
+     # --- Frontend (Vitest) ---
   frontend-tests:
     runs-on: self-hosted
     defaults:
@@ -80,3 +62,19 @@ jobs:
       # ── run the test suite ──
       - name: Run backend tests
         run: npm test
+
+  deploy:
+    runs-on: self-hosted
+    needs: [frontend-tests, backend-tests]
+    steps:
+        - name: Deploy
+          env:
+           DB_USER: ${{ secrets.DB_USER }}
+           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+           DB_HOST: ${{ secrets.DB_HOST }}
+           DB_PORT: ${{ secrets.DB_PORT }}
+           DB_NAME: ${{ secrets.DB_NAME }}
+           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+           PEPPER_SECRET: ${{ secrets.PEPPER_SECRET }}
+          
+          run: docker compose build --no-cache && docker compose up -d 

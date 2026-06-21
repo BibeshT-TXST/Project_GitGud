@@ -9,7 +9,7 @@ on:
 jobs:
      # --- Frontend (Vitest) ---
   frontend-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client   # all commands run inside client/
@@ -37,7 +37,7 @@ jobs:
   
   # --- Backend (Jest) ---
   backend-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./server   # all commands run inside server
@@ -64,7 +64,7 @@ jobs:
         run: npm test
 
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [frontend-tests, backend-tests]
     steps:
         - name: Deploy

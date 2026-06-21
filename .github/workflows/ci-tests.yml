@@ -27,7 +27,7 @@ jobs:
 
   # --- Frontend (Vitest) ---
   frontend-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client   # all commands run inside client/
@@ -55,7 +55,7 @@ jobs:
   
   # --- Backend (Jest) ---
   backend-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./server   # all commands run inside server

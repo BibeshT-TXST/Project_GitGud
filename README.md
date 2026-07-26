@@ -1,49 +1,51 @@
 # Book Inventory Application
 
-A containerized full-stack application for managing book inventory with user authentication and CRUD operations.
+A containerized full-stack web application designed for tracking and managing book inventory. Features a secure user authentication system, interactive data grids with search and filtering, analytical dashboards, and complete CRUD operations.
 
 ## System Architecture
 
 ![System Architecture](./docs/bookinv-diagram.png)
 
-The application consists of three main components orchestrated with Docker Compose:
+The application is structured into three decoupled layers and orchestrated using Docker Compose:
 
-- **React Frontend** - User interface for authentication and book management
-- **Express.js Backend** - REST API handling business logic and authentication
-- **PostgreSQL Database** - Persistent storage for users and book data
+- **React Frontend (Nginx)** - Modern single-page application (SPA) built with React and Vite, styled with Tailwind CSS and Material-UI (MUI), and served in production via Nginx reverse proxy.
+- **Express.js Backend API** - RESTful API server handling business logic, PostgreSQL database transactions, and secure JWT-based user authentication.
+- **PostgreSQL Database** - Persistent relational storage initialized with custom schemas and seed data.
 
 ## Features
 
-- 🔐 **User Authentication & Authorization** - Secure login system with JWT tokens
-- 📚 **Book Inventory Management** - Complete CRUD operations for books
-- 🗄️ **Metadata Tracking** - Store and manage detailed book information
-- 🐋 **Containerized Deployment** - Easy setup and deployment with Docker Compose
+- 🔐 **User Security** - Secure authentication utilizing **Argon2** password hashing combined with server-side peppering and stateless **JSON Web Tokens (JWT)**. Includes an in-memory token blacklist middleware to immediately revoke credentials upon logout.
+- 📚 **Complete Inventory CRUD** - Create, read, update, and delete book records with rich metadata tracking (ISBN, Title, Book Type, Current Status, and Purchase Date). Includes transactional support for wholesale inventory clearing.
+- 🔍 **Interactive Filtering & Export** - Search books by title or ISBN, filter records by status (`Available`, `Checked Out`, etc.) or format (`Hardcover`, `Paperback`, etc.), and export selected inventory rows directly to CSV.
+- 📊 **Real-Time Analytics Dashboard** - Overview metrics presenting total collection counts alongside breakdowns by book status and binding format.
+- 🐋 **Production-Ready Containerization** - Multi-stage Docker builds with Nginx reverse-proxying API calls directly to the Express backend container.
 
 ## Tech Stack
 
 ### Frontend
-- React / Vite
-- Modern CSS/Tailwind CSS
+- **React 18** / **Vite**
+- **Material-UI (MUI) & X-Data-Grid** for responsive data tables and UI components
+- **Tailwind CSS** for modern utility styling
+- **React Router DOM** for client-side routing and protected routes
+- **Axios** with request/response interceptors for token handling
 
 ### Backend
-- Node.js
-- Express.js
-- JWT for authentication
-- bcrypt for password hashing (or other encryption technique)
+- **Node.js** & **Express.js**
+- **Argon2** & **Crypto** for password hashing and peppering
+- **JSON Web Tokens (JWT)** for stateless authentication
+- **pg (node-postgres)** connection pool for database queries
+- **Jest** & **Supertest** for automated API integration testing
 
-### Database
-- PostgreSQL
-
-### DevOps
-- Docker & Docker Compose
-- GitHub (Version Control)
+### Database & DevOps
+- **PostgreSQL 16 (Alpine)**
+- **Docker & Docker Compose**
+- **Nginx** (SPA routing and API reverse-proxy)
 
 ## Prerequisites
 
-- Docker 
-- Docker Compose 
-- Git
-- Node.js  - for local development
+- **Docker** and **Docker Compose** installed on your system
+- **Git** for cloning the repository
+- **Node.js** (v18+) and **npm** (optional, only required for local development outside Docker)
 
 ## Getting Started
 
@@ -56,88 +58,99 @@ cd Project_GitGud
 
 ### 2. Environment Configuration
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the project root directory. The values below match the default credentials used in the database Dockerfile:
 
 ```env
-# Database
-POSTGRES_USER=bookuser
-POSTGRES_PASSWORD=your_secure_password
-POSTGRES_DB=bookstore
-DATABASE_URL=postgresql://bookuser:your_secure_password@db:5432/bookstore
+# Database Credentials
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=inventory-db
+DB_PORT=5432
+DB_NAME=books
 
-# Backend
-PORT=8080
-JWT_SECRET=your_jwt_secret_key
-NODE_ENV=production
-
-# Frontend
-REACT_APP_API_URL=http://localhost:8080
+# Security Secrets
+JWT_SECRET=your_super_secret_jwt_key_here
+PEPPER_SECRET=your_super_secret_pepper_string_here
 ```
 
 ### 3. Run with Docker Compose
 
+Build and launch all services in detached mode:
+
 ```bash
-# Build and start all containers
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop all containers
-docker-compose down
+docker-compose up --build -d
 ```
 
-The application will be available at:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8080
-- **Database**: localhost:5432
+Check logs to verify all containers started successfully:
+
+```bash
+docker-compose logs -f
+```
+
+Once running, access the services at:
+- **Frontend Application**: [http://localhost](http://localhost) (or `http://localhost:80`)
+- **Backend API Server**: [http://localhost:5000](http://localhost:5000)
+- **PostgreSQL Database**: `localhost:5432`
+
+To shut down and remove all containers:
+
+```bash
+docker-compose down
+```
 
 ## Project Structure
 
 ```
-book-inventory-app/
-├── frontend/              # React application
+Project_GitGud/
+├── client/                  # React frontend application
 │   ├── src/
-│   │   ├── components/   # Reusable components
-│   │   ├── pages/        # Page components
-│   │   ├── services/     # API service layer
-│   │   └── App.js
-│   ├── Dockerfile
-│   └── package.json
-├── backend/              # Express API
-│   ├── src/
-│   │   ├── controllers/  # Request handlers
-│   │   ├── models/       # Database models
-│   │   ├── routes/       # API routes
-│   │   ├── middleware/   # Auth & validation
-│   │   └── server.js
-│   ├── Dockerfile
-│   └── package.json
-├── database/             # Database scripts
-│   └── init.sql         # Initial schema
-├── docker-compose.yml
-├── .env.example
-└── README.md
+│   │   ├── api/             # Axios instance & token interceptors
+│   │   ├── components/      # UI components (Navbar, Searchbar, Tables, Modals)
+│   │   ├── context/         # AuthContext for managing user state & JWT
+│   │   ├── pages/           # Page views (Login, Landing, Dashboard, Inventory)
+│   │   └── utils/           # Helper utilities (CSV export, table filtering)
+│   ├── Dockerfile           # Multi-stage Docker build with Nginx
+│   └── nginx.conf           # Nginx reverse proxy & SPA routing config
+├── server/                  # Express.js REST API backend
+│   ├── app.js               # Express application, middleware, & routes
+│   ├── server.js            # Server HTTP port binding
+│   ├── db.js                # PostgreSQL connection pool setup
+│   ├── tests/               # Jest & Supertest integration tests
+│   └── Dockerfile           # Node.js backend container config
+├── database/                # Database configuration & initialization
+│   ├── init.sql             # Schema definitions (books & users tables)
+│   ├── seed.sql             # Initial sample inventory data
+│   └── Dockerfile           # Custom PostgreSQL database image
+├── docs/                    # Architecture diagrams & documentation
+└── docker-compose.yml       # Multi-container service orchestration
 ```
 
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - User login
-- `GET /api/auth/profile` - Get user profile (protected)
+- `POST /auth/signup` - Register a new user account (hashed with Argon2 + pepper)
+- `POST /auth/login` - Authenticate user and receive JWT bearer token
+- `POST /auth/logout` - Revoke current JWT token (added to in-memory blacklist)
 
-### Books
-- `GET /api/books` - Get all books (protected)
-- `GET /api/books/:id` - Get book by ID (protected)
-- `POST /api/books` - Create new book (protected)
-- `PUT /api/books/:id` - Update book (protected)
-- `DELETE /api/books/:id` - Delete book (protected)
+### Inventory Management
+- `GET /api/inventory/stats` - Retrieve inventory statistics (total count and category breakdowns)
+- `GET /api/inventory` - Fetch all books in the database
+- `POST /api/inventory/add` - Create and add a new book record
+- `PUT /api/inventory/:isbn` - Update an existing book's details by ISBN
+- `DELETE /api/inventory/:isbn` - Delete a specific book by ISBN
+- `DELETE /api/inventory` - Delete all books (protected by an atomic database transaction)
 
-## Acknowledgments
+## Running Tests
 
-- [React documentation](https://react.dev)
-- [Express.js guides](https://expressjs.com)
-- [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
-- [Docker Compose Docs](https://docs.docker.com/compose/intro/compose-application-model/)
+To run automated backend API tests locally:
+
+```bash
+cd server
+npm install
+npm test
+```
+
+## License
+
+This project is open-source and available under standard terms.
 
